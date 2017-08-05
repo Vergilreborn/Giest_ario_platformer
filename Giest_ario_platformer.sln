@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giest_ario_platformer", "Giest_ario_platformer\Giest_ario_platformer.csproj", "{0148E24E-ADF4-4452-999A-ED07E990D48F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapEditor", "MapEditor\MapEditor.csproj", "{2D851FA2-4F27-4686-8280-E9AF9F6DB9C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{339D2388-538D-4E63-B3CF-E1FF00A078F6}"
+	ProjectSection(SolutionItems) = preProject
+		ToDoList.txt = ToDoList.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0148E24E-ADF4-4452-999A-ED07E990D48F}.Debug|x86.ActiveCfg = Debug|x86
+		{0148E24E-ADF4-4452-999A-ED07E990D48F}.Debug|x86.Build.0 = Debug|x86
+		{0148E24E-ADF4-4452-999A-ED07E990D48F}.Release|x86.ActiveCfg = Release|x86
+		{0148E24E-ADF4-4452-999A-ED07E990D48F}.Release|x86.Build.0 = Release|x86
+		{2D851FA2-4F27-4686-8280-E9AF9F6DB9C4}.Debug|x86.ActiveCfg = Debug|x86
+		{2D851FA2-4F27-4686-8280-E9AF9F6DB9C4}.Debug|x86.Build.0 = Debug|x86
+		{2D851FA2-4F27-4686-8280-E9AF9F6DB9C4}.Release|x86.ActiveCfg = Release|x86
+		{2D851FA2-4F27-4686-8280-E9AF9F6DB9C4}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

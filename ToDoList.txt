@@ -1,0 +1,2 @@
+Remove all hardcoded values and move to a configuration
+Or let it be more dynamic
