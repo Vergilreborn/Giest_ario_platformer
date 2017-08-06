@@ -40,6 +40,7 @@ namespace MapEditor.Manager
         private MouseState prev;
 
 
+
         public MouseManager()
         {
             curr = Mouse.GetState();
@@ -64,8 +65,8 @@ namespace MapEditor.Manager
                 case KeyActivity.Up:
                     return _left ? curr.LeftButton == ButtonState.Released: curr.RightButton == ButtonState.Released;
                 case KeyActivity.Pressed:
-                    return _left ? curr.LeftButton == ButtonState.Released && prev.LeftButton == ButtonState.Pressed: 
-                                   curr.RightButton == ButtonState.Released && curr.RightButton == ButtonState.Pressed;
+                    return _left ? curr.LeftButton == ButtonState.Pressed && prev.LeftButton == ButtonState.Released: 
+                                   curr.RightButton == ButtonState.Pressed && curr.RightButton == ButtonState.Released;
                 case KeyActivity.Hold:
                     return _left ? curr.LeftButton == ButtonState.Pressed && prev.LeftButton == ButtonState.Pressed :
                                    curr.RightButton == ButtonState.Pressed && curr.RightButton == ButtonState.Pressed;

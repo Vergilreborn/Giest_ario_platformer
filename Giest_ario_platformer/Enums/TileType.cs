@@ -8,6 +8,7 @@ namespace Giest_ario_platformer.Enums
 {
     enum TileType
     {
-        Block
+        Block,
+        None
     }
 }

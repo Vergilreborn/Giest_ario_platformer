@@ -23,6 +23,7 @@ namespace MapEditor.Objects
         private Texture2D emptyBlockTexture;
         private Vector2 Position;
         private Cursor cursor;
+        private bool inScreen;
 
         private Tile[,] tiles;
 
@@ -57,6 +58,12 @@ namespace MapEditor.Objects
             cursor.SetCursor("MapCursor");
         }
 
+        public void SaveMap()
+        {
+            FileManager<Tile[,]>.SaveFile("Testing", tiles);
+        }
+
+
         public void Load()
         {
             cursor.Load();
@@ -69,32 +76,37 @@ namespace MapEditor.Objects
         {
             Point mousePosition = MouseManager.Instance.Position;
             Vector2 tilePositionCursor = mousePosition.ToVector2() - this.Position;
-            int tileX = mousePosition.X == 0 ? 0 : (int)(tilePositionCursor.X / tileWidth);
-            int tileY = mousePosition.Y == 0 ? 0 : (int)(tilePositionCursor.Y / tileHeight);
-            if (tileX >= defaultWidth)
-                tileX = defaultWidth - 1;
-            else if (tileX < 0)
-                tileX = 0;
-            if (tileY >= defaultHeight)
-                tileY = defaultHeight - 1;
-            else if (tileY < 0)
-                tileY = 0;
+            int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / tileWidth);
+            int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / tileHeight);
 
-            cursor.SetPosition(tiles[tileX, tileY], Position);
+            inScreen = true;
+            if (tileX >= defaultWidth || tileX < 0)
+                inScreen = false;
+            if (tileY >= defaultHeight || tileY < 0)
+                inScreen = false;
+
+            if(inScreen)
+                cursor.SetPosition(tiles[tileX, tileY], Position);
             debugString =$"X:{mousePosition.X} Y:{mousePosition.Y}{Environment.NewLine}Tpx:{tilePositionCursor.X} Tpy:{tilePositionCursor.Y}{Environment.NewLine}Tx:{tileX} Ty:{tileY}";
 
         }
 
         internal void ClearTile()
         {
-            cursor.Selected.SetTileType(TileType.None);
-            cursor.Selected.ClearSource();
+            if (inScreen)
+            {
+                cursor.Selected.SetTileType(TileType.None);
+                cursor.Selected.ClearSource();
+            }
         }
 
         internal void SetTile(Tile selected)
         {
-            cursor.Selected.SetTileType(selected.Type);
-            cursor.Selected.SetSource(selected.Source);
+            if (inScreen)
+            {
+                cursor.Selected.SetTileType(selected.Type);
+                cursor.Selected.SetSource(selected.Source);
+            }
         }
 
         public void Draw(SpriteBatch _spriteBatch)

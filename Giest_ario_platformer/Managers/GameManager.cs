@@ -25,16 +25,19 @@ namespace Giest_ario_platformer.Managers
                 return instance;
             }
         }
+
         private static GameManager instance;
         #endregion
+
 
         public ContentManager Content;
         public Viewport ViewPort;
         public GraphicsDevice Graphics;
         public SpriteFont DebugFont;
+        public Camera Cam;
 
         private AGameScreen currentScreen;
-        public Camera Cam;
+        
       
 
         public GameManager()
@@ -45,8 +48,6 @@ namespace Giest_ario_platformer.Managers
         public void Init()
         {
             currentScreen.Init();
-           
-           
         }
 
         public void Load()
@@ -92,7 +93,6 @@ namespace Giest_ario_platformer.Managers
         public void Draw(SpriteBatch _spriteBatch)
         { 
             currentScreen.Draw(_spriteBatch); 
-           // throw new NotImplementedException();
         }
     }
 }

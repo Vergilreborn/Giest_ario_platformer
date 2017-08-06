@@ -1,4 +1,5 @@
-﻿using Giest_ario_platformer.GameObjects;
+﻿using Giest_ario_platformer.Enums;
+using Giest_ario_platformer.GameObjects;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Giest_ario_platformer.Helpers
                 for (int y = playerStartPosY; y <= playerEndPosY; y++)
                 {
                     Tile tile = _map.GetTile(x, y);
-                    if (tile != null)
+                    if (tile != null && tile.Type != TileType.None)
                     {
                         if (tile.Destination.Intersects(CollisionBox))
                         {

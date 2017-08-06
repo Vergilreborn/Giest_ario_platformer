@@ -114,6 +114,11 @@ namespace MapEditor.Manager
                 map.ClearTile();
             }
 
+            if (KeyboardManager.Instance.IsKeyActivity(Keys.S.ToString(), KeyActivity.Pressed))
+            {
+                map.SaveMap();
+            }
+
             map.Update(_gameTime);
             objectSourceManager.Update(_gameTime);
         }

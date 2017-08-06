@@ -47,8 +47,6 @@ namespace MapEditor.Objects
         private Rectangle source;
         private Rectangle destination;
         private TileType type;
-        private int tileSizeX;
-        private int tileSizeY;
         private Vector2 position;
 
         public Tile(Rectangle _source, Rectangle _destination, TileType _type = TileType.Block)
@@ -56,8 +54,6 @@ namespace MapEditor.Objects
             this.position = new Vector2(_destination.X, _destination.Y);
             this.source = _source;
             this.destination = _destination;
-            this.tileSizeX = _destination.Width;
-            this.tileSizeY = _destination.Height;
             this.type = _type;
         }
         
@@ -65,8 +61,6 @@ namespace MapEditor.Objects
         {
             this.position = new Vector2(_destination.X, _destination.Y);
             this.destination = _destination;
-            this.tileSizeX = _tileSizeX;
-            this.tileSizeY = _tileSizeY;
             this.type = TileType.None;
         }
         

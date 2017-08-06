@@ -98,8 +98,8 @@ namespace MapEditor.Manager
                 Point mousePosition = MouseManager.Instance.Position;
                 Vector2 tilePositionCursor = mousePosition.ToVector2() - Position;
 
-                int tileX = mousePosition.X == 0 ? 0 : (int)(tilePositionCursor.X / tileDistanceX);
-                int tileY = mousePosition.Y == 0 ? 0 : (int)(tilePositionCursor.Y / tileDistanceY);
+                int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / tileDistanceX);
+                int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / tileDistanceY);
                 bool valid = true;
                 if (tileX >= xTiles || tileX < 0)
                     valid = false;

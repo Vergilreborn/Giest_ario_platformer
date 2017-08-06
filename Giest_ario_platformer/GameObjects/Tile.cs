@@ -8,37 +8,84 @@ using System.Threading.Tasks;
 
 namespace Giest_ario_platformer.GameObjects
 {
-    class Tile 
+    class Tile
     {
-
+        #region Getters
         public TileType Type
         {
             get
             {
                 return type;
             }
+            set
+            {
+                type= value;
+            }
         }
 
-        public Rectangle Destination;
-        public Rectangle Source;
-
-        private TileType type;
-
-        private Vector2 position;
-        private Vector2 tilePosition;
-
-
-        public Tile(int x, int y, int tileWidth, int tileHeight = -1, TileType tileType = TileType.Block)
+        public Rectangle Source
         {
-            int tHeight = tileHeight == -1 ? tileWidth : tileHeight;
-            position = new Vector2(x * tileWidth, y * tHeight );
-            tilePosition = new Vector2(x, y);
+            get
+            {
+                return source;
+            }
+            set
+            {
+                source = value;
+            }
+        }
 
-            this.type = tileType;
-            Source = new Rectangle(0, 0, tileWidth, tHeight);
-            Destination = new Rectangle((int)position.X, (int)position.Y, tileWidth, tHeight);
+        public Rectangle Destination
+        {
+            get
+            {
+                return destination;
+            }
+
+            set
+            {
+                destination = value;
+            }
+        }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+
+            set
+            {
+                position = value;
+            }
+        }
+        #endregion
+
+        private Rectangle source;
+        private Rectangle destination;
+        private TileType type;
+        private Vector2 position;
+
+        public Tile()
+        {
 
         }
-        
+
+        public Tile(Rectangle _source, Rectangle _destination, TileType _type = TileType.Block)
+        {
+            this.position = new Vector2(_destination.X, _destination.Y);
+            this.source = _source;
+            this.destination = _destination;
+            this.type = _type;
+        }
+
+        public Tile(Rectangle _destination, int _tileSizeX, int _tileSizeY)
+        {
+            this.position = new Vector2(_destination.X, _destination.Y);
+            this.destination = _destination;
+            this.type = TileType.None;
+        }
+
     }
 }

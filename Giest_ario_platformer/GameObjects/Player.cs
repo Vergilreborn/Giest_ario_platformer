@@ -87,15 +87,9 @@ namespace Giest_ario_platformer.GameObjects
             if (collision)
             {
                 Position.X = newPosition;
-                if(moving != Direction.None && !isJumping)
-                {
-                    horSpeed = 0f;
-                }else if (isJumping)
-                {
-                    horSpeed = horSpeedBackup;
-                }
-                    
+                horSpeed = 0f;
             }
+
             debugStr = $"Hor:({collision},{horSpeed})";
             Position.Y += fallSpeed;
 
