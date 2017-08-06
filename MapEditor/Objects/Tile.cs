@@ -10,12 +10,28 @@ namespace MapEditor.Objects
 {
     class Tile 
     {
-
+        #region Getters
         public TileType Type
         {
             get
             {
-                return type;
+                return type; 
+            }
+        }
+
+        public Rectangle Source
+        {
+            get
+            {
+                return source;
+            }
+        }
+
+        public Rectangle Destination
+        {
+            get
+            {
+                return destination;
             }
         }
 
@@ -26,41 +42,47 @@ namespace MapEditor.Objects
                 return position;
             }
         }
+        #endregion
 
-        public Rectangle Destination;
-        public Rectangle Source;
-
+        private Rectangle source;
+        private Rectangle destination;
         private TileType type;
-
+        private int tileSizeX;
+        private int tileSizeY;
         private Vector2 position;
-        private Vector2 tilePosition;
 
-        public Tile(int _posX, int _posY, int _tileWidth, int _tileHeight)
+        public Tile(Rectangle _source, Rectangle _destination, TileType _type = TileType.Block)
         {
-            position = new Vector2(_posX, _posY);
-            Destination = new Rectangle(_posX, _posY, _tileWidth, _tileHeight);
+            this.position = new Vector2(_destination.X, _destination.Y);
+            this.source = _source;
+            this.destination = _destination;
+            this.tileSizeX = _destination.Width;
+            this.tileSizeY = _destination.Height;
+            this.type = _type;
+        }
+        
+        public Tile(Rectangle _destination, int _tileSizeX, int _tileSizeY)
+        {
+            this.position = new Vector2(_destination.X, _destination.Y);
+            this.destination = _destination;
+            this.tileSizeX = _tileSizeX;
+            this.tileSizeY = _tileSizeY;
+            this.type = TileType.None;
+        }
+        
+        public void SetSource(Rectangle _source)
+        {
+            this.source = _source;
+        }
+        
+        public void SetTileType(TileType _type)
+        {
+            this.type = _type;
         }
 
-        public void SetTileType(TileType _tileType)
+        public void ClearSource()
         {
-            this.type = _tileType;
-        }
-
-        public Tile(int x, int y, int tileWidth, int tileHeight = -1, TileType tileType = TileType.Block)
-        {
-            int tHeight = tileHeight == -1 ? tileWidth : tileHeight;
-            position = new Vector2(x * tileWidth, y * tHeight );
-            tilePosition = new Vector2(x, y);
-
-            this.type = tileType;
-            Source = new Rectangle(0, 0, tileWidth, tHeight);
-            Destination = new Rectangle((int)position.X, (int)position.Y, tileWidth, tHeight);
-
-        }
-
-        internal void SetSource(int x, int y, int moveDistanceX, int moveDistanceY)
-        {
-            Source = new Rectangle(x, y , moveDistanceX, moveDistanceY);
+            source = new Rectangle();
         }
     }
 }

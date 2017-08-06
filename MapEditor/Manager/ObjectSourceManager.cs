@@ -8,22 +8,39 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MapEditor.Objects;
 using MapEditor.Helpers;
+using MapEditor.Enums;
 
 namespace MapEditor.Manager
 {
     class ObjectSourceManager : IGameObject
     {
 
+        public Cursor Cursor
+        {
+            get
+            {
+                return cursor;
+            }
+        }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+        }
+
         private Texture2D texture;
         private int tileWidth;
         private int tileHeight;
-        private int moveDistanceX;
-        private int moveDistanceY;
+
     
 
         private Cursor cursor;
         private Tile[,] tiles;
         private Vector2 position;
+
         private int xTiles;
         private int yTiles;
         private int tileDistanceX;
@@ -62,8 +79,9 @@ namespace MapEditor.Manager
             {
                 for (int y = 0; y < yTiles; y++)
                 {
-                    tiles[x, y] = new Tile(x * tileDistanceX, y * tileDistanceY, tileWidth,tileHeight);
-                    tiles[x, y].SetSource(x * tileDistanceX + tilePadding, y * tileDistanceY + tilePadding, tileWidth,tileHeight);
+                    Rectangle source = new Rectangle((x * tileDistanceX) + tilePadding, (y * tileDistanceY )+ tilePadding, tileWidth, tileHeight);
+                    Rectangle destination= new Rectangle(x * tileDistanceX + tilePadding, y * tileDistanceY + tilePadding, tileWidth, tileHeight);
+                    tiles[x, y] = new Tile(source, destination);
                 }
             }
 
@@ -74,7 +92,25 @@ namespace MapEditor.Manager
 
         public void Update(GameTime _gameTime)
         {
-            
+
+            if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Pressed))
+            {
+                Point mousePosition = MouseManager.Instance.Position;
+                Vector2 tilePositionCursor = mousePosition.ToVector2() - Position;
+
+                int tileX = mousePosition.X == 0 ? 0 : (int)(tilePositionCursor.X / tileDistanceX);
+                int tileY = mousePosition.Y == 0 ? 0 : (int)(tilePositionCursor.Y / tileDistanceY);
+                bool valid = true;
+                if (tileX >= xTiles || tileX < 0)
+                    valid = false;
+                if (tileY >= yTiles || tileY < 0)
+                    valid = false;
+
+                if (valid)
+                {
+                    cursor.SetPosition(tiles[tileX, tileY], Position);
+                }
+            }
         }
 
         public void Draw(SpriteBatch _spriteBatch)
@@ -92,16 +128,20 @@ namespace MapEditor.Manager
                     }
                 }
             }
-            for (int x = 0; x < xTiles; x++)
+
+            if (MapManager.Instance.IsDebug)
             {
-                for (int y = 0; y < yTiles; y++)
+                for (int x = 0; x < xTiles; x++)
                 {
-                    Tile tile = tiles[x, y];
-                    if (tile != null)
+                    for (int y = 0; y < yTiles; y++)
                     {
-                        Vector2 tilePosition = new Vector2(position.X + tile.Destination.X, position.Y + tile.Destination.Y);
-                        Rectangle draw = new Rectangle((int)tilePosition.X, (int)tilePosition.Y, tile.Source.Width, tile.Source.Height);
-                        SpriteBatchAssist.DrawBox(_spriteBatch, debugTexture, draw);
+                        Tile tile = tiles[x, y];
+                        if (tile != null)
+                        {
+                            Vector2 tilePosition = new Vector2(position.X + tile.Destination.X, position.Y + tile.Destination.Y);
+                            Rectangle draw = new Rectangle((int)tilePosition.X, (int)tilePosition.Y, tile.Source.Width, tile.Source.Height);
+                            SpriteBatchAssist.DrawBox(_spriteBatch, debugTexture, draw);
+                        }
                     }
                 }
             }

@@ -12,8 +12,8 @@ namespace MapEditor
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        const int TargetWidth = 600;
-        const int TargetHeight = 480;
+        const int TargetHeight = 960;
+        const int TargetWidth =1200;
         Matrix Scale;
 
         public Game1()
@@ -22,6 +22,7 @@ namespace MapEditor
 
             graphics.PreferredBackBufferHeight = 960;
             graphics.PreferredBackBufferWidth = 1200;
+            IsMouseVisible = true;
 
             float scaleX = graphics.PreferredBackBufferWidth / TargetWidth;
             float scaleY = graphics.PreferredBackBufferHeight / TargetHeight;
@@ -39,11 +40,10 @@ namespace MapEditor
         /// </summary>
         protected override void Initialize()
         {
-          
-         
 
-
+            MouseManager.Instance.Init();
             MapManager.Instance.Init();
+            KeyboardManager.Instance.Init();
             base.Initialize();
         }
 
@@ -58,9 +58,10 @@ namespace MapEditor
             MapManager.Instance.SetGraphicsDevice(GraphicsDevice);
             MapManager.Instance.SetViewport(GraphicsDevice.Viewport);
             MapManager.Instance.SetContentManager(Content);
+            MapManager.Instance.SetScale(new Vector2(Scale.M11, Scale.M22));
             MapManager.Instance.Load();
+            MouseManager.Instance.Load();
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -69,7 +70,6 @@ namespace MapEditor
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -79,10 +79,14 @@ namespace MapEditor
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            MouseManager.Instance.Update(gameTime);
+            KeyboardManager.Instance.Update(gameTime);
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            
+            MapManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -96,13 +100,13 @@ namespace MapEditor
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, MapManager.Instance.Cam.GetTransform(Scale));
-
+            MouseManager.Instance.Draw(spriteBatch);
+            KeyboardManager.Instance.Draw(spriteBatch);
             MapManager.Instance.Draw(spriteBatch);
 
+
             spriteBatch.End();
-
-
-            // TODO: Add your drawing code here
+            
 
             base.Draw(gameTime);
         }

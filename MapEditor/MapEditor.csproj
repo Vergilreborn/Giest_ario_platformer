@@ -47,7 +47,9 @@
     <Compile Include="Handlers\Camera.cs" />
     <Compile Include="Helpers\SpriteBatchAssist.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
+    <Compile Include="Manager\KeyboardManager.cs" />
     <Compile Include="Manager\MapManager.cs" />
+    <Compile Include="Manager\MouseManager.cs" />
     <Compile Include="Manager\ObjectSourceManager.cs" />
     <Compile Include="Objects\Cursor.cs" />
     <Compile Include="Objects\Map.cs" />

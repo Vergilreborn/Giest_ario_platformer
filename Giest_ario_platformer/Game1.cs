@@ -14,12 +14,9 @@ namespace Giest_ario_platformer
         SpriteBatch spriteBatch;
         const int TargetWidth = 600;
         const int TargetHeight = 480;
+
         Matrix Scale;
-
-
-       
         
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -47,7 +44,6 @@ namespace Giest_ario_platformer
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             GameManager.Instance.Init();
             GameManager.Instance.SetContentManager(Content);
             KeyboardManager.Instance.Init();
@@ -67,7 +63,6 @@ namespace Giest_ario_platformer
             GameManager.Instance.SetGraphics(GraphicsDevice);
             GameManager.Instance.Load();
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -76,7 +71,6 @@ namespace Giest_ario_platformer
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -91,9 +85,6 @@ namespace Giest_ario_platformer
 
             KeyboardManager.Instance.Update(gameTime);
             GameManager.Instance.Update(gameTime);
-
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 

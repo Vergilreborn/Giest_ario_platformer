@@ -13,16 +13,27 @@ namespace MapEditor.Objects
     class Cursor : IGameObject
     {
 
+        public Tile Selected
+        {
+            get
+            {
+                return selected;
+            }
+        }
 
         private Vector2 Position;
-        Texture2D texture;
+        private Texture2D texture;
         private Tile selected;
-
-        //Rectangle selected= "";
+        private String cursor;
 
         public Cursor()
         {
+            this.cursor = "Cursor2";
+        }
 
+        public void SetCursor(String _cursor)
+        {
+            this.cursor = _cursor;
         }
         
         public void Init()
@@ -32,7 +43,7 @@ namespace MapEditor.Objects
 
         public void Load()
         {
-            texture = MapManager.Instance.Content.Load<Texture2D>("Cursor2");
+            texture = MapManager.Instance.Content.Load<Texture2D>(cursor);
         }
 
         public void Update(GameTime _gameTime)

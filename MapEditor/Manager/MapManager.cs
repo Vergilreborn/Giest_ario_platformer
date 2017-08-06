@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using MapEditor.Handlers;
 using MapEditor.Objects;
+using MapEditor.Manager;
+using Microsoft.Xna.Framework.Input;
+using MapEditor.Enums;
 
 namespace MapEditor.Manager
 {
@@ -25,6 +28,36 @@ namespace MapEditor.Manager
             }
         }
         
+        public Boolean IsDebug
+        {
+            get
+            {
+                return debugMode;
+            }
+        }
+
+        public SpriteFont DebugFont
+        {
+            get
+            {
+                return debugFont;
+            }
+        }
+
+        public Vector2 Scale
+        {
+            get
+            {
+                return scale;
+            }
+        }
+
+        private Vector2 scale;
+
+        private SpriteFont debugFont;
+
+        private bool debugMode;
+
         private static MapManager instance;
         public ContentManager Content;
         public GraphicsDevice Graphics;
@@ -40,19 +73,47 @@ namespace MapEditor.Manager
 
         public void Init()
         {
-            map = new Map();
+            scale = new Vector2(1,1);
             objectSourceManager = new ObjectSourceManager();
             objectSourceManager.Init();
+            map = new Map();
+            map.Init();
+            debugMode = false;
         }
+
+        public void SetScale(Vector2 _scale)
+        {
+            this.scale = _scale;
+        }
+        
 
         public void Load()
         {
+            debugFont = Content.Load<SpriteFont>("debugFont");
             map.Load();
             objectSourceManager.Load();
+            
         }
 
         public void Update(GameTime _gameTime)
         {
+            //enabling disabling debugmode
+            if (KeyboardManager.Instance.IsKeyActivity(Keys.O.ToString(), KeyActivity.Pressed))
+            {
+                debugMode = !debugMode;
+            }
+
+
+            if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Hold))
+            {
+                map.SetTile(objectSourceManager.Cursor.Selected);
+            }
+
+            if (MouseManager.Instance.IsKeyActivity(false, KeyActivity.Hold))
+            {
+                map.ClearTile();
+            }
+
             map.Update(_gameTime);
             objectSourceManager.Update(_gameTime);
         }

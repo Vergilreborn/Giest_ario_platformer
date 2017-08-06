@@ -8,6 +8,7 @@ namespace MapEditor.Enums
 {
     enum TileType
     {
-        Block
+        Block,
+        None
     }
 }
