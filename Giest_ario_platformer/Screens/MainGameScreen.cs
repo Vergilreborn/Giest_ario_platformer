@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Giest_ario_platformer.Managers;
 using Giest_ario_platformer.GameObjects;
 using Giest_ario_platformer.Handlers;
+using Microsoft.Xna.Framework.Input;
+using Giest_ario_platformer.Enums;
 
 namespace Giest_ario_platformer.Screens
 {
@@ -24,7 +26,7 @@ namespace Giest_ario_platformer.Screens
             }
         }
         private Player player;
-       
+        private bool isPause;
 
         public MainGameScreen()
         {
@@ -33,6 +35,7 @@ namespace Giest_ario_platformer.Screens
 
         public override void Init()
         {
+            isPause = false;
             map = new Map();
             map.Init();
             player.Init();
@@ -48,9 +51,21 @@ namespace Giest_ario_platformer.Screens
 
         public override void Update(GameTime _gameTime)
         {
-            map.Update(_gameTime);
-            player.Update(_gameTime, map);
-            GameManager.Instance.Cam.Update(_gameTime, player.Center);
+            if(KeyboardManager.Instance.IsKeyActivity(Keys.Enter.ToString(), KeyActivity.Pressed))
+            {
+                isPause = !isPause;
+            }
+
+
+            if (isPause)
+            {
+
+            }
+            else { 
+                map.Update(_gameTime);
+                player.Update(_gameTime, map);
+                GameManager.Instance.Cam.Update(_gameTime, player.Center);
+            }
         }
 
         public override void Draw(SpriteBatch _spriteBatch)
