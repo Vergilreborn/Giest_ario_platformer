@@ -13,14 +13,14 @@ namespace MapEditor.Handlers
     {
 
         public Viewport view;
-        public Vector2 savedPosition;
+        //public Vector2 savedPosition;
         public Vector2 focusPoint;
-        public float positionShakeAmount;
-        public float maxShakeTime;
+        //public float positionShakeAmount;
+        //public float maxShakeTime;
         public float zoom;
-        public Matrix transform;
-        public Vector2 source;
-        TimeSpan shaketimer;
+        //public Matrix transform;
+        public Vector2 source; 
+        //TimeSpan shaketimer;
         Random random;
 
         public Camera(Viewport view)
@@ -34,18 +34,18 @@ namespace MapEditor.Handlers
 
         public void Update(GameTime gametime, Vector2 source)
         {
-            if (shaketimer.TotalSeconds > 0)
-            {
-                focusPoint = savedPosition;
+            //if (shaketimer.TotalSeconds > 0)
+            //{
+            //    focusPoint = savedPosition;
               
-                shaketimer = shaketimer.Subtract(gametime.ElapsedGameTime);
-                if (shaketimer.TotalSeconds > 0)
-                {
-                    focusPoint += new Vector2((float)((random.NextDouble() * 2) - 1) * positionShakeAmount,
-                        (float)((random.NextDouble() * 2) - 1) * positionShakeAmount);
-                    ;
-                }
-            }
+            //    shaketimer = shaketimer.Subtract(gametime.ElapsedGameTime);
+            //    if (shaketimer.TotalSeconds > 0)
+            //    {
+            //        focusPoint += new Vector2((float)((random.NextDouble() * 2) - 1) * positionShakeAmount,
+            //            (float)((random.NextDouble() * 2) - 1) * positionShakeAmount);
+            //        ;
+            //    }
+            //}
 
             this.source = source;
             

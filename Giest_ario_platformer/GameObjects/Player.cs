@@ -71,6 +71,11 @@ namespace Giest_ario_platformer.GameObjects
             this.Height = 36;
         }
 
+        internal void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
         //handle collision
         internal void Update(GameTime _gameTime, Map _map)
         {

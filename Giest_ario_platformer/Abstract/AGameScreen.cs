@@ -14,6 +14,7 @@ namespace Giest_ario_platformer.Abstract
         
         public abstract void Draw(SpriteBatch _spriteBatch);
         public abstract void Init();
+        public abstract void UnLoad();
         public abstract void Load();
         public abstract void Update(GameTime _gameTime);
     }

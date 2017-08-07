@@ -33,6 +33,11 @@ namespace Giest_ario_platformer.Handlers
 
         }
 
+        public void SetObjectCenter()
+        {
+            source = new Vector2(focusPoint.X/2, focusPoint.Y/2);
+        }
+
         public void Update(GameTime gametime, Vector2 source)
         {
             if (shaketimer.TotalSeconds > 0)

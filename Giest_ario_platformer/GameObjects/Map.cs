@@ -58,7 +58,12 @@ namespace Giest_ario_platformer.GameObjects
             //tiles[14, 9] = new Tile(14, 9, tileSize);
             //tiles[20, 9] = new Tile(20, 9, tileSize);
         }
-        
+
+        internal void Dispose()
+        {
+            texture.Dispose();
+        }
+
         public void Init()
         {
             LoadTestMap("Content/Map/Testing.lvl");

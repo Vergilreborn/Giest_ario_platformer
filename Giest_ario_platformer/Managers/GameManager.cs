@@ -35,18 +35,31 @@ namespace Giest_ario_platformer.Managers
         public GraphicsDevice Graphics;
         public SpriteFont DebugFont;
         public Camera Cam;
+        
+        public bool ExitGame
+        {
+            get
+            {
+                return exitGame;
+            }
+        }
 
+        private bool exitGame;
         private AGameScreen currentScreen;
         
       
 
         public GameManager()
         {
-            currentScreen = new MainGameScreen();
+            //GameScreen
+            //currentScreen = new MainGameScreen();
+            //StartScreen
+            currentScreen = new StartScreen();
         }
        
         public void Init()
         {
+            exitGame = false;
             currentScreen.Init();
         }
 
@@ -93,6 +106,22 @@ namespace Giest_ario_platformer.Managers
         public void Draw(SpriteBatch _spriteBatch)
         { 
             currentScreen.Draw(_spriteBatch); 
+        }
+
+        public void ChangeScreen(string screenName)
+        {
+            currentScreen.UnLoad();
+            switch (screenName)
+            {
+                case "MainGameScreen":
+                    currentScreen = new MainGameScreen();
+                    break;
+                case "Exit": exitGame = true;
+                    return;
+            }
+
+            currentScreen.Init();
+            currentScreen.Load();
         }
     }
 }

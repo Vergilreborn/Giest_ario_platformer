@@ -59,5 +59,11 @@ namespace Giest_ario_platformer.Screens
             player.Draw(_spriteBatch);
         }
 
+        public override void UnLoad()
+        {
+            map.Dispose();
+            player.Dispose();
+        }
+
     }
 }
