@@ -73,7 +73,7 @@ namespace Giest_ario_platformer.GameObjects
 
         internal void Dispose()
         {
-            throw new NotImplementedException();
+            animations.Dispose();
         }
 
         //handle collision
@@ -126,6 +126,14 @@ namespace Giest_ario_platformer.GameObjects
             debugStr += Environment.NewLine + $"Ver:({collision},{fallSpeed})";
             debugStr += Environment.NewLine + $"Action:{action}";
             setAnimation(_gameTime);
+
+            //TODO: set death = true and play death animation
+            if(Position.Y > _map.MapHeight)
+            {
+                Position.X = 64;
+                Position.Y = 64;
+            }
+
         }
 
         

@@ -60,7 +60,7 @@ namespace MapEditor.Objects
 
         public void SaveMap()
         {
-            FileManager<Tile[,]>.SaveFile("Testing", tiles);
+            FileManager<Tile[,]>.SaveFile("lvl","Giestario Levels", tiles);
         }
 
 

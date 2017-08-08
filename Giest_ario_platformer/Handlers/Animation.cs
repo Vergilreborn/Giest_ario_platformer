@@ -43,6 +43,11 @@ namespace Giest_ario_platformer.Handlers
             this.height = this.texture.Height;
         }
 
+        internal void Dispose()
+        {
+            this.texture.Dispose();
+        }
+
         public void Update(GameTime _gameTime)
         {
             timer += _gameTime.ElapsedGameTime.Milliseconds;

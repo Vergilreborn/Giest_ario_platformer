@@ -18,7 +18,23 @@ namespace Giest_ario_platformer.GameObjects
         private int tileSize;
         private Texture2D texture;
         private Vector2 widthHeight;
-        
+
+        public int MapHeight
+        {
+            get
+            {
+                return (int)(widthHeight.Y * tileSize);
+            }
+        }
+
+        public int MapWidth
+        {
+            get
+            {
+                return (int)(widthHeight.X * tileSize);
+            }
+        }
+
         public Map()
         {
 

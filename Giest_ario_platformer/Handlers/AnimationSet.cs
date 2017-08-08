@@ -24,5 +24,13 @@ namespace Giest_ario_platformer.Handlers
         {
             return animations[_animationName];
         }
+
+        internal void Dispose()
+        {
+            foreach(Animation animation in animations.Values)
+            {
+                animation.Dispose();
+            }
+        }
     }
 }
