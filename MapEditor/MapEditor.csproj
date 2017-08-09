@@ -46,6 +46,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Handlers\Camera.cs" />
     <Compile Include="Helpers\FileManager.cs" />
+    <Compile Include="Exceptions\NoFileSelectedException.cs" />
     <Compile Include="Helpers\SpriteBatchAssist.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Manager\KeyboardManager.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Manager\ObjectSourceManager.cs" />
     <Compile Include="Objects\Cursor.cs" />
     <Compile Include="Objects\Map.cs" />
+    <Compile Include="Abstract\AMapButton.cs" />
     <Compile Include="Objects\Tile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

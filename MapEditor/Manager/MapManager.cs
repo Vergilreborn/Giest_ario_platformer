@@ -65,6 +65,8 @@ namespace MapEditor.Manager
         public Camera Cam;
         private ObjectSourceManager objectSourceManager;
         private Map map;
+        private MapButton saveFile;
+        private MapButton loadFile;
 
         public MapManager()
         {
