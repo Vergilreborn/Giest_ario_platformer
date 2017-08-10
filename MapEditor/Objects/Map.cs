@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MapEditor.Manager;
 using MapEditor.Enums;
 using MapEditor.Helpers;
+using MapEditor.Exceptions;
 
 namespace MapEditor.Objects
 {
@@ -37,11 +38,11 @@ namespace MapEditor.Objects
 
         public void Init()
         {
-            defaultWidth = 32;
+            defaultWidth = 30;
             defaultHeight = 26;
             tileWidth = 32;
             tileHeight = 32;
-            Position = new Vector2(100, 25);
+            Position = new Vector2(200, 25);
             tiles = new Tile[defaultWidth,defaultHeight];
 
             for(int x = 0; x < defaultWidth; x++)
@@ -63,6 +64,16 @@ namespace MapEditor.Objects
             FileManager<Tile[,]>.SaveFile("lvl","Giestario Levels", tiles);
         }
 
+        public void LoadMap()
+        {
+            try
+            {
+                tiles = FileManager<Tile[,]>.LoadFile("lvl", "Giestario Levels");
+            }catch(NoFileSelectedException e)
+            {
+
+            }
+        }
 
         public void Load()
         {
@@ -100,7 +111,7 @@ namespace MapEditor.Objects
             }
         }
 
-        internal void SetTile(Tile selected)
+        public void SetTile(Tile selected)
         {
             if (inScreen)
             {

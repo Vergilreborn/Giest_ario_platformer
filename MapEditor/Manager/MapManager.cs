@@ -1,17 +1,13 @@
-﻿using MapEditor.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using MapEditor.Handlers;
-using MapEditor.Objects;
-using MapEditor.Manager;
-using Microsoft.Xna.Framework.Input;
+﻿using MapEditor.Abstract;
 using MapEditor.Enums;
+using MapEditor.Handlers;
+using MapEditor.Interfaces;
+using MapEditor.Objects;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace MapEditor.Manager
 {
@@ -65,12 +61,11 @@ namespace MapEditor.Manager
         public Camera Cam;
         private ObjectSourceManager objectSourceManager;
         private Map map;
-        private MapButton saveFile;
-        private MapButton loadFile;
+        private AMapButton saveFile;
+        private AMapButton loadFile;
 
         public MapManager()
         {
-
         }
 
         public void Init()
@@ -81,6 +76,8 @@ namespace MapEditor.Manager
             map = new Map();
             map.Init();
             debugMode = false;
+            saveFile = new AMapButton(new Vector2(25, 200), "Save Map");
+            loadFile = new AMapButton(new Vector2(25, 240), "Load Map");
         }
 
         public void SetScale(Vector2 _scale)
@@ -94,7 +91,8 @@ namespace MapEditor.Manager
             debugFont = Content.Load<SpriteFont>("debugFont");
             map.Load();
             objectSourceManager.Load();
-            
+            saveFile.Load();
+            loadFile.Load();
         }
 
         public void Update(GameTime _gameTime)
@@ -104,6 +102,8 @@ namespace MapEditor.Manager
             {
                 debugMode = !debugMode;
             }
+
+
 
 
             if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Hold))
@@ -116,9 +116,17 @@ namespace MapEditor.Manager
                 map.ClearTile();
             }
 
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.S.ToString(), KeyActivity.Pressed))
+            if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Pressed))
             {
-                map.SaveMap();
+                if (saveFile.Intersects(MouseManager.Instance.Position))
+                {
+                    map.SaveMap();
+                }
+
+                if (loadFile.Intersects(MouseManager.Instance.Position))
+                {
+                    map.LoadMap();
+                }
             }
 
             map.Update(_gameTime);
@@ -130,6 +138,8 @@ namespace MapEditor.Manager
             
             objectSourceManager.Draw(_spriteBatch);
             map.Draw(_spriteBatch);
+            saveFile.Draw(_spriteBatch);
+            loadFile.Draw(_spriteBatch);
         }
 
         public void SetGraphicsDevice(GraphicsDevice _graphicsDevice)

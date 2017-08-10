@@ -6,18 +6,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MapEditor.Manager;
 
 namespace MapEditor.Abstract
 {
-    abstract class AMapButton : IGameObject
+    //TODO: make abstract
+    class AMapButton : IGameObject
     {
+        private Rectangle collisionBox;
+        private Vector2 position;
+        private Vector2 center;
+        private String text;
+        private Texture2D texture;
+        private Vector2 textPosition;
+        private SpriteFont font;
 
-        private Rectangle destination;
-
-        public AMapButton(Rectangle _destination)
+        public AMapButton(Vector2 _position, String _text)
         {
-            this.destination = _destination;
-            
+            this.position = _position;
+            this.text = _text;
         }
 
         public void Init()
@@ -27,18 +34,26 @@ namespace MapEditor.Abstract
 
         public void Load()
         {
-            throw new NotImplementedException();
+            this.texture = MapManager.Instance.Content.Load<Texture2D>("Button_Up");
+            this.center = new Vector2(position.X + texture.Width / 2, position.Y + texture.Height / 2);
+            this.collisionBox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            this.font = MapManager.Instance.DebugFont;
+            this.textPosition = new Vector2(font.MeasureString(this.text).X/2, font.MeasureString(this.text).Y / 2);
         }
 
         public void Update(GameTime _gameTime)
         {
-            throw new NotImplementedException();
         }
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            throw new NotImplementedException();
+            _spriteBatch.Draw(texture, position, Color.White);
+            _spriteBatch.DrawString(font, text, center - textPosition, Color.Black);
         }
 
+        public bool Intersects(Point position)
+        {
+            return collisionBox.Contains(position);
+        }
     }
 }

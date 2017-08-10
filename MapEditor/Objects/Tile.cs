@@ -15,7 +15,11 @@ namespace MapEditor.Objects
         {
             get
             {
-                return type; 
+                return type;
+            }
+            set
+            {
+                type = value;
             }
         }
 
@@ -25,6 +29,10 @@ namespace MapEditor.Objects
             {
                 return source;
             }
+            set
+            {
+                source = value;
+            }
         }
 
         public Rectangle Destination
@@ -32,6 +40,11 @@ namespace MapEditor.Objects
             get
             {
                 return destination;
+            }
+
+            set
+            {
+                destination = value;
             }
         }
 
@@ -41,6 +54,11 @@ namespace MapEditor.Objects
             {
                 return position;
             }
+
+            set
+            {
+                position = value;
+            }
         }
         #endregion
 
@@ -48,6 +66,11 @@ namespace MapEditor.Objects
         private Rectangle destination;
         private TileType type;
         private Vector2 position;
+
+        public Tile()
+        {
+
+        }
 
         public Tile(Rectangle _source, Rectangle _destination, TileType _type = TileType.Block)
         {
