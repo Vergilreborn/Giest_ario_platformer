@@ -181,13 +181,6 @@
 /processorParam:TextureFormat=Color
 /build:Player/Mario_RunJump_Right.png
 
-#begin Debug.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Debug.spritefont
-
 #begin testTiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -199,4 +192,46 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:testTiles.png
+
+#begin Fonts/GameFont_l.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/GameFont_l.spritefont
+
+#begin Fonts/GameFont_m.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/GameFont_m.spritefont
+
+#begin Fonts/GameFont_s.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/GameFont_s.spritefont
+
+#begin Fonts/GameFont_xl.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/GameFont_xl.spritefont
+
+#begin Fonts/GameFont_xs.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/GameFont_xs.spritefont
+
+#begin Fonts/Debug.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Debug.spritefont
 

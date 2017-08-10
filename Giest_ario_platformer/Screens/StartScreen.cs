@@ -40,7 +40,7 @@ namespace Giest_ario_platformer.Screens
         public override void Load()
         {
             //TODO: Use real Font 
-            font = GameManager.Instance.DebugFont;
+            font = GameManager.Instance.Fonts["XLarge"];
             String longestString = screenOptions.Aggregate("", (max, cur) => max.Length > cur.Length ? max : cur);
             maxOptionHeight = (int)font.MeasureString(longestString).Y;
             maxOptionWidth = (int)font.MeasureString(longestString).X;

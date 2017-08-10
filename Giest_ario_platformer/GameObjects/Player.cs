@@ -254,7 +254,7 @@ namespace Giest_ario_platformer.GameObjects
             currentAnimation.Draw(_spriteBatch,CollisionBox);
 
             _spriteBatch.Draw(debugtexture, CollisionBox, Color.White * Constants.DEBUG_OPACITY);
-            _spriteBatch.DrawString(GameManager.Instance.DebugFont, debugStr, Position - new Vector2(100, 20), Color.Turquoise);
+            _spriteBatch.DrawString(GameManager.Instance.Fonts["Debug"], debugStr, Position - new Vector2(100, 20), Color.Turquoise);
 
         }
 

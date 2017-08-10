@@ -63,6 +63,7 @@ namespace MapEditor.Manager
         private Map map;
         private AMapButton saveFile;
         private AMapButton loadFile;
+        private AMapButton clearMap;
 
         public MapManager()
         {
@@ -76,8 +77,10 @@ namespace MapEditor.Manager
             map = new Map();
             map.Init();
             debugMode = false;
-            saveFile = new AMapButton(new Vector2(25, 200), "Save Map");
-            loadFile = new AMapButton(new Vector2(25, 240), "Load Map");
+
+            clearMap = new AMapButton(new Vector2(900, 880), "Clear Map");
+            saveFile = new AMapButton(new Vector2(1050, 920), "Save Map");
+            loadFile = new AMapButton(new Vector2(1050, 880), "Load Map");
         }
 
         public void SetScale(Vector2 _scale)
@@ -91,6 +94,7 @@ namespace MapEditor.Manager
             debugFont = Content.Load<SpriteFont>("debugFont");
             map.Load();
             objectSourceManager.Load();
+            clearMap.Load();
             saveFile.Load();
             loadFile.Load();
         }
@@ -102,9 +106,6 @@ namespace MapEditor.Manager
             {
                 debugMode = !debugMode;
             }
-
-
-
 
             if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Hold))
             {
@@ -118,21 +119,13 @@ namespace MapEditor.Manager
 
             if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Pressed))
             {
-                if (saveFile.Intersects(MouseManager.Instance.Position))
-                {
-                    map.SaveMap();
-                }
-
-                if (loadFile.Intersects(MouseManager.Instance.Position))
-                {
-                    map.LoadMap();
-                }
+                checkMouseFunctionality();
             }
 
             map.Update(_gameTime);
             objectSourceManager.Update(_gameTime);
         }
-
+        
         public void Draw(SpriteBatch _spriteBatch)
         {
             
@@ -140,6 +133,7 @@ namespace MapEditor.Manager
             map.Draw(_spriteBatch);
             saveFile.Draw(_spriteBatch);
             loadFile.Draw(_spriteBatch);
+            clearMap.Draw(_spriteBatch);
         }
 
         public void SetGraphicsDevice(GraphicsDevice _graphicsDevice)
@@ -170,6 +164,24 @@ namespace MapEditor.Manager
 
             return rect;
 
+        }
+
+        private void checkMouseFunctionality()
+        {
+            if (saveFile.Intersects(MouseManager.Instance.Position))
+            {
+                map.SaveMap();
+            }
+
+            if (loadFile.Intersects(MouseManager.Instance.Position))
+            {
+                map.LoadMap();
+            }
+
+            if (clearMap.Intersects(MouseManager.Instance.Position))
+            {
+                map.Reset();
+            }
         }
     }
 }

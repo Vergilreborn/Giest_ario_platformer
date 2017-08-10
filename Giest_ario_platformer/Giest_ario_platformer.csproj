@@ -76,7 +76,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Mario.png" />
     <Content Include="Content\Player\Mario.png" />
     <Content Include="Content\Player\Mario_Still_Left.png" />
     <Content Include="Content\Player\Mario_Still_Right.png" />
@@ -92,6 +91,14 @@
     <Content Include="Content\Map\Testing.lvl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Content\lunchds.ttf" />
+    <EmbeddedResource Include="Content\manaspc.ttf" />
+    <None Include="Content\Debug.spritefont" />
+    <None Include="Content\GameFont_l.spritefont" />
+    <None Include="Content\GameFont_m.spritefont" />
+    <None Include="Content\GameFont_s.spritefont" />
+    <None Include="Content\GameFont_xl.spritefont" />
+    <None Include="Content\GameFont_xs.spritefont" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

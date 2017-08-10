@@ -120,6 +120,21 @@ namespace MapEditor.Objects
             }
         }
 
+        public void Reset()
+        {
+            tiles = new Tile[defaultWidth, defaultHeight];
+
+            for (int x = 0; x < defaultWidth; x++)
+            {
+                for (int y = 0; y < defaultHeight; y++)
+                {
+                    //Initializing an empty array of screen width and height
+                    Rectangle destination = new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+                    tiles[x, y] = new Tile(destination, tileWidth, tileHeight);
+                }
+            }
+        }
+
         public void Draw(SpriteBatch _spriteBatch)
         {
             for (int x = 0; x < defaultWidth; x++)

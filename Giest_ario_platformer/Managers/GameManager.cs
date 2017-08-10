@@ -33,9 +33,17 @@ namespace Giest_ario_platformer.Managers
         public ContentManager Content;
         public Viewport ViewPort;
         public GraphicsDevice Graphics;
-        public SpriteFont DebugFont;
+      //  public SpriteFont DebugFont;
         public Camera Cam;
-        
+        public Dictionary<String, SpriteFont> Fonts
+        {
+            get
+            {
+                return fonts;
+            }
+        }
+
+      
         public bool ExitGame
         {
             get
@@ -43,6 +51,8 @@ namespace Giest_ario_platformer.Managers
                 return exitGame;
             }
         }
+
+        private Dictionary<String, SpriteFont> fonts;
 
         private bool exitGame;
         private AGameScreen currentScreen;
@@ -59,13 +69,21 @@ namespace Giest_ario_platformer.Managers
        
         public void Init()
         {
+            fonts = new Dictionary<string, SpriteFont>();
             exitGame = false;
             currentScreen.Init();
         }
 
         public void Load()
         {
-            DebugFont = Content.Load<SpriteFont>("Debug");
+            // DebugFont = Content.Load<SpriteFont>("Debug");
+            fonts.Add("Debug", Content.Load<SpriteFont>("Fonts/Debug"));
+
+            fonts.Add("XSmall", Content.Load<SpriteFont>("Fonts/GameFont_xs"));
+            fonts.Add("Small", Content.Load<SpriteFont>("Fonts/GameFont_s"));
+            fonts.Add("Medium", Content.Load<SpriteFont>("Fonts/GameFont_m"));
+            fonts.Add("Large", Content.Load<SpriteFont>("Fonts/GameFont_l"));
+            fonts.Add("XLarge", Content.Load<SpriteFont>("Fonts/GameFont_xl"));
             currentScreen.Load();
         }
 

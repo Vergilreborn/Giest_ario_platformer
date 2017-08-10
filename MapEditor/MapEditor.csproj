@@ -73,11 +73,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Button_Up.png" />
+    <Content Include="Content\Cursor2.png" />
+    <Content Include="Content\MapCursor.png" />
+    <Content Include="Content\MapTiles.png" />
+    <Content Include="Content\testTiles.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="Content\debugFont.spritefont" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
