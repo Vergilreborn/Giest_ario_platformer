@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapEditor.Objects
+namespace MapEditor.Objects.MapObjects
 {
     class Tile 
     {

@@ -56,7 +56,8 @@
     <Compile Include="Objects\Cursor.cs" />
     <Compile Include="Objects\Map.cs" />
     <Compile Include="Abstract\AMapButton.cs" />
-    <Compile Include="Objects\Tile.cs" />
+    <Compile Include="Objects\MapObjects\MapInformation.cs" />
+    <Compile Include="Objects\MapObjects\Tile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

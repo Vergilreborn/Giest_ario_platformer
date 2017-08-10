@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MapEditor.Objects;
 using MapEditor.Helpers;
 using MapEditor.Enums;
+using MapEditor.Objects.MapObjects;
 
 namespace MapEditor.Manager
 {

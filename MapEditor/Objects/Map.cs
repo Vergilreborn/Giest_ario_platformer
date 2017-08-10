@@ -10,23 +10,22 @@ using MapEditor.Manager;
 using MapEditor.Enums;
 using MapEditor.Helpers;
 using MapEditor.Exceptions;
+using MapEditor.Objects.MapObjects;
 
 namespace MapEditor.Objects
 {
     class Map : IGameObject
     {
 
-        private int defaultWidth;
-        private int defaultHeight;
-        private int tileWidth;
-        private int tileHeight;
+    
         private Texture2D texture;
         private Texture2D emptyBlockTexture;
         private Vector2 Position;
         private Cursor cursor;
         private bool inScreen;
 
-        private Tile[,] tiles;
+        //private Tile[,] tiles;
+        private MapInformation mapInfo;
 
         private String debugString;
         
@@ -38,37 +37,24 @@ namespace MapEditor.Objects
 
         public void Init()
         {
-            defaultWidth = 30;
-            defaultHeight = 26;
-            tileWidth = 32;
-            tileHeight = 32;
+            mapInfo = new MapInformation();
+            mapInfo.Init();
+
             Position = new Vector2(200, 25);
-            tiles = new Tile[defaultWidth,defaultHeight];
-
-            for(int x = 0; x < defaultWidth; x++)
-            {
-                for(int y = 0; y < defaultHeight; y++)
-                {
-                    //Initializing an empty array of screen width and height
-                    Rectangle destination = new Rectangle(x * tileWidth,y * tileHeight, tileWidth, tileHeight);
-                    tiles[x, y] = new Tile(destination, tileWidth, tileHeight);                    
-                }
-            }
-
             cursor = new Cursor();
             cursor.SetCursor("MapCursor");
         }
 
         public void SaveMap()
         {
-            FileManager<Tile[,]>.SaveFile("lvl","Giestario Levels", tiles);
+            FileManager<MapInformation>.SaveFile("lvl","Giestario Levels", mapInfo);
         }
 
         public void LoadMap()
         {
             try
             {
-                tiles = FileManager<Tile[,]>.LoadFile("lvl", "Giestario Levels");
+                mapInfo = FileManager<MapInformation>.LoadFile("map", "Giestario Map");
             }catch(NoFileSelectedException e)
             {
 
@@ -87,17 +73,17 @@ namespace MapEditor.Objects
         {
             Point mousePosition = MouseManager.Instance.Position;
             Vector2 tilePositionCursor = mousePosition.ToVector2() - this.Position;
-            int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / tileWidth);
-            int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / tileHeight);
+            int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / mapInfo.TileWidth);
+            int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / mapInfo.TileHeight);
 
             inScreen = true;
-            if (tileX >= defaultWidth || tileX < 0)
+            if (tileX >= mapInfo.DefaultWidth || tileX < 0)
                 inScreen = false;
-            if (tileY >= defaultHeight || tileY < 0)
+            if (tileY >= mapInfo.DefaultHeight || tileY < 0)
                 inScreen = false;
 
             if(inScreen)
-                cursor.SetPosition(tiles[tileX, tileY], Position);
+                cursor.SetPosition(mapInfo.Tiles[tileX, tileY], Position);
             debugString =$"X:{mousePosition.X} Y:{mousePosition.Y}{Environment.NewLine}Tpx:{tilePositionCursor.X} Tpy:{tilePositionCursor.Y}{Environment.NewLine}Tx:{tileX} Ty:{tileY}";
 
         }
@@ -122,37 +108,28 @@ namespace MapEditor.Objects
 
         public void Reset()
         {
-            tiles = new Tile[defaultWidth, defaultHeight];
-
-            for (int x = 0; x < defaultWidth; x++)
-            {
-                for (int y = 0; y < defaultHeight; y++)
-                {
-                    //Initializing an empty array of screen width and height
-                    Rectangle destination = new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-                    tiles[x, y] = new Tile(destination, tileWidth, tileHeight);
-                }
-            }
+            mapInfo.Reset();
+           
         }
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            for (int x = 0; x < defaultWidth; x++)
+            for (int x = 0; x < mapInfo.DefaultWidth; x++)
             {
-                for (int y = 0; y < defaultHeight; y++)
+                for (int y = 0; y < mapInfo.DefaultHeight; y++)
                 {
                     //Initializing an empty array of screen width and height
                     Rectangle drawDestination = new Rectangle();
-                    drawDestination.X = tiles[x, y].Destination.X + (int)Position.X;
-                    drawDestination.Y = tiles[x, y].Destination.Y + (int)Position.Y;
-                    drawDestination.Width = tiles[x, y].Destination.Width;
-                    drawDestination.Height = tiles[x, y].Destination.Height;
+                    drawDestination.X = mapInfo.Tiles[x, y].Destination.X + (int)Position.X;
+                    drawDestination.Y = mapInfo.Tiles[x, y].Destination.Y + (int)Position.Y;
+                    drawDestination.Width = mapInfo.Tiles[x, y].Destination.Width;
+                    drawDestination.Height = mapInfo.Tiles[x, y].Destination.Height;
 
 
 
-                    if (tiles[x, y].Type != TileType.None)
+                    if (mapInfo.Tiles[x, y].Type != TileType.None)
                     {
-                        _spriteBatch.Draw(texture,drawDestination, tiles[x, y].Source, Color.White);
+                        _spriteBatch.Draw(texture,drawDestination, mapInfo.Tiles[x, y].Source, Color.White);
                     }
                     else
                     {

@@ -48,8 +48,9 @@
     <Compile Include="Enums\TileType.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObjects\Map.cs" />
+    <Compile Include="GameObjects\MapObjects\MapInformation.cs" />
+    <Compile Include="GameObjects\MapObjects\Tile.cs" />
     <Compile Include="GameObjects\Player.cs" />
-    <Compile Include="GameObjects\Tile.cs" />
     <Compile Include="Handlers\Animation.cs" />
     <Compile Include="Handlers\AnimationSet.cs" />
     <Compile Include="Handlers\Camera.cs" />
@@ -91,14 +92,14 @@
     <Content Include="Content\Map\Testing.lvl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Content\lunchds.ttf" />
-    <EmbeddedResource Include="Content\manaspc.ttf" />
-    <None Include="Content\Debug.spritefont" />
-    <None Include="Content\GameFont_l.spritefont" />
-    <None Include="Content\GameFont_m.spritefont" />
-    <None Include="Content\GameFont_s.spritefont" />
-    <None Include="Content\GameFont_xl.spritefont" />
-    <None Include="Content\GameFont_xs.spritefont" />
+    <None Include="Content\Fonts\Debug.spritefont" />
+    <None Include="Content\Fonts\GameFont_l.spritefont" />
+    <None Include="Content\Fonts\GameFont_m.spritefont" />
+    <None Include="Content\Fonts\GameFont_s.spritefont" />
+    <None Include="Content\Fonts\GameFont_xl.spritefont" />
+    <None Include="Content\Fonts\GameFont_xs.spritefont" />
+    <None Include="Content\Fonts\lunchds.ttf" />
+    <None Include="Content\Fonts\manaspc.ttf" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

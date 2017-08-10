@@ -9,12 +9,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Giest_ario_platformer.Managers;
 using Giest_ario_platformer.Helpers;
 using Giest_ario_platformer.Enums;
+using Giest_ario_platformer.GameObjects.MapObjects;
 
 namespace Giest_ario_platformer.GameObjects
 {
     class Map : IGameObject
     {
-        private Tile[,] tiles;
+        private MapInformation mapInfo;
         private int tileSize;
         private Texture2D texture;
         private Vector2 widthHeight;
@@ -42,9 +43,10 @@ namespace Giest_ario_platformer.GameObjects
 
         public void LoadTestMap(String _file)
         {
+            
+            mapInfo = FileManager<MapInformation>.LoadFile(_file);
             this.tileSize = 32;
-            tiles = FileManager<Tile[,]>.LoadFile(_file);
-            widthHeight = new Vector2(tiles.GetLength(0), tiles.GetLength(1));
+            widthHeight = new Vector2(mapInfo.Tiles.GetLength(0), mapInfo.Tiles.GetLength(1));
         }
 
         public void LoadTestMap()
@@ -111,8 +113,8 @@ namespace Giest_ario_platformer.GameObjects
             {
                 for (int y = 0; y < widthHeight.Y; y++)
                 {
-                    if (tiles[x, y].Type != TileType.None)
-                        _spriteBatch.Draw(texture, tiles[x, y].Destination, tiles[x, y].Source, Color.White);
+                    if (mapInfo.Tiles[x, y].Type != TileType.None)
+                        _spriteBatch.Draw(texture, mapInfo.Tiles[x, y].Destination, mapInfo.Tiles[x, y].Source, Color.White);
                 }
             }
 
@@ -120,7 +122,7 @@ namespace Giest_ario_platformer.GameObjects
 
         internal Tile GetTile(int x, int y)
         {
-            return tiles[x, y];
+            return mapInfo.Tiles[x, y];
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Giest_ario_platformer.Enums;
 using Giest_ario_platformer.GameObjects;
+using Giest_ario_platformer.GameObjects.MapObjects;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
