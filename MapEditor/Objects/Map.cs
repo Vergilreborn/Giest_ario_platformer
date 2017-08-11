@@ -17,7 +17,9 @@ namespace MapEditor.Objects
     class Map : IGameObject
     {
 
-    
+
+        private Texture2D texturePlayerPosition;
+
         private Texture2D texture;
         private Texture2D emptyBlockTexture;
         private Vector2 Position;
@@ -26,7 +28,7 @@ namespace MapEditor.Objects
 
         //private Tile[,] tiles;
         private MapInformation mapInfo;
-
+        
         private String debugString;
         
 
@@ -65,6 +67,8 @@ namespace MapEditor.Objects
         {
             cursor.Load();
             texture = MapManager.Instance.Content.Load<Texture2D>("testTiles");
+            texturePlayerPosition = MapManager.Instance.Content.Load<Texture2D>("StartPosition");
+
             emptyBlockTexture = MapManager.Instance.CreateColorTexture(150,150,150,255);
 
         }
@@ -97,12 +101,20 @@ namespace MapEditor.Objects
             }
         }
 
-        public void SetTile(Tile selected)
+        public void SetTile(Tile _selected)
         {
             if (inScreen)
             {
-                cursor.Selected.SetTileType(selected.Type);
-                cursor.Selected.SetSource(selected.Source);
+                cursor.Selected.SetTileType(_selected.Type);
+                cursor.Selected.SetSource(_selected.Source);
+            }
+        }
+
+        public void SetPlayerPosition(Vector2 _position)
+        {
+            if (inScreen)
+            {
+                mapInfo.PlayerPosition = cursor.Selected.Position;
             }
         }
 
@@ -137,6 +149,8 @@ namespace MapEditor.Objects
                     }
                 }
             }
+
+            _spriteBatch.Draw(texturePlayerPosition, Position + mapInfo.PlayerPosition, Color.White);
 
             cursor.Draw(_spriteBatch);
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, debugString, new Vector2(0, 0), Color.AliceBlue);

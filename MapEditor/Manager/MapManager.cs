@@ -61,10 +61,12 @@ namespace MapEditor.Manager
         public Camera Cam;
         private ObjectSourceManager objectSourceManager;
         private Map map;
+
         private AMapButton saveFile;
         private AMapButton loadFile;
         private AMapButton clearMap;
         private AMapButton playerStart;
+        bool setPlayerPosition = false;
 
         public MapManager()
         {
@@ -112,7 +114,10 @@ namespace MapEditor.Manager
 
             if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Hold))
             {
-                map.SetTile(objectSourceManager.Cursor.Selected);
+                if (!setPlayerPosition)
+                    map.SetTile(objectSourceManager.Cursor.Selected);
+                else
+                    map.SetPlayerPosition(MouseManager.Instance.Position.ToVector2());
             }
 
             if (MouseManager.Instance.IsKeyActivity(false, KeyActivity.Hold))
@@ -137,7 +142,7 @@ namespace MapEditor.Manager
             saveFile.Draw(_spriteBatch);
             loadFile.Draw(_spriteBatch);
             clearMap.Draw(_spriteBatch);
-            playerStart.Draw(_spriteBatch);
+            playerStart.Draw(_spriteBatch,setPlayerPosition);
         }
 
         public void SetGraphicsDevice(GraphicsDevice _graphicsDevice)
@@ -185,6 +190,10 @@ namespace MapEditor.Manager
             if (clearMap.Intersects(MouseManager.Instance.Position))
             {
                 map.Reset();
+            }
+
+            if (playerStart.Intersects(MouseManager.Instance.Position)){
+                setPlayerPosition = !setPlayerPosition;
             }
         }
     }

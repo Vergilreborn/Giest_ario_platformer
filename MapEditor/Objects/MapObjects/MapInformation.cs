@@ -71,6 +71,18 @@ namespace MapEditor.Objects.MapObjects
                 tiles = value;
             }
         }
+
+        public Vector2 PlayerPosition
+        {
+            get
+            {
+                return playerPosition;
+            }
+            set
+            {
+                playerPosition = value;
+            }
+        }
         #endregion
 
         private int defaultWidth;
@@ -78,6 +90,7 @@ namespace MapEditor.Objects.MapObjects
         private int tileWidth;
         private int tileHeight;
         private Tile[,] tiles;
+        private Vector2 playerPosition;
 
         public MapInformation()
         {
@@ -91,6 +104,7 @@ namespace MapEditor.Objects.MapObjects
             defaultHeight = 26;
             tileWidth = 32;
             tileHeight = 32;
+            playerPosition = Vector2.Zero;
 
             tiles = new Tile[defaultWidth, defaultHeight];
 

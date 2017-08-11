@@ -20,6 +20,13 @@ namespace Giest_ario_platformer.GameObjects
         private Texture2D texture;
         private Vector2 widthHeight;
 
+        public Vector2 PlayerPosition
+        {
+            get
+            {
+                return mapInfo.PlayerPosition;
+            }
+        }
         public int MapHeight
         {
             get

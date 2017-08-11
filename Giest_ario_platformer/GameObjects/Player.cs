@@ -45,6 +45,12 @@ namespace Giest_ario_platformer.GameObjects
             debugStr = "";
         }
 
+        public void SetPosition(Vector2 _startPosition)
+        {
+            this.Position.X = _startPosition.X;
+            this.Position.Y = _startPosition.Y;
+        }
+
         public override void Load()
         {
             //texture = GameManager.Instance.Content.Load<Texture2D>("Mario");

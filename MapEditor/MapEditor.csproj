@@ -78,6 +78,7 @@
     <Content Include="Content\Cursor2.png" />
     <Content Include="Content\MapCursor.png" />
     <Content Include="Content\MapTiles.png" />
+    <Content Include="Content\StartPosition.png" />
     <Content Include="Content\testTiles.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>

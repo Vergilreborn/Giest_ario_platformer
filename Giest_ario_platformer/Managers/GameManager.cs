@@ -76,9 +76,8 @@ namespace Giest_ario_platformer.Managers
 
         public void Load()
         {
-            // DebugFont = Content.Load<SpriteFont>("Debug");
-            fonts.Add("Debug", Content.Load<SpriteFont>("Fonts/Debug"));
 
+            fonts.Add("Debug", Content.Load<SpriteFont>("Fonts/Debug"));
             fonts.Add("XSmall", Content.Load<SpriteFont>("Fonts/GameFont_xs"));
             fonts.Add("Small", Content.Load<SpriteFont>("Fonts/GameFont_s"));
             fonts.Add("Medium", Content.Load<SpriteFont>("Fonts/GameFont_m"));

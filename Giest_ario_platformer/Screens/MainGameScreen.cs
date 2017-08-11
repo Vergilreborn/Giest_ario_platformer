@@ -47,6 +47,7 @@ namespace Giest_ario_platformer.Screens
         {
             map.Load();
             player.Load();
+            player.SetPosition(map.PlayerPosition);
         }
 
         public override void Update(GameTime _gameTime)
