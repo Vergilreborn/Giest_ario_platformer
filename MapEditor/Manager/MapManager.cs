@@ -64,6 +64,7 @@ namespace MapEditor.Manager
         private AMapButton saveFile;
         private AMapButton loadFile;
         private AMapButton clearMap;
+        private AMapButton playerStart;
 
         public MapManager()
         {
@@ -81,6 +82,7 @@ namespace MapEditor.Manager
             clearMap = new AMapButton(new Vector2(900, 880), "Clear Map");
             saveFile = new AMapButton(new Vector2(1050, 920), "Save Map");
             loadFile = new AMapButton(new Vector2(1050, 880), "Load Map");
+            playerStart = new AMapButton(new Vector2(900,920),"Set Player Start");
         }
 
         public void SetScale(Vector2 _scale)
@@ -97,6 +99,7 @@ namespace MapEditor.Manager
             clearMap.Load();
             saveFile.Load();
             loadFile.Load();
+            playerStart.Load();
         }
 
         public void Update(GameTime _gameTime)
@@ -134,6 +137,7 @@ namespace MapEditor.Manager
             saveFile.Draw(_spriteBatch);
             loadFile.Draw(_spriteBatch);
             clearMap.Draw(_spriteBatch);
+            playerStart.Draw(_spriteBatch);
         }
 
         public void SetGraphicsDevice(GraphicsDevice _graphicsDevice)
