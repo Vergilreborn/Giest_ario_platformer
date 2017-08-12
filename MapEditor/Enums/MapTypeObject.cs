@@ -16,4 +16,4 @@ namespace MapEditor.Enums
         EndLocation,
         Empty
     }
-}s
+}
