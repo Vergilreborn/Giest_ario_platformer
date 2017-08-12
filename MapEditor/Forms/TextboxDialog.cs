@@ -21,5 +21,10 @@ namespace MapEditor.Forms
         {
             this.questionLabel.Text = _displayText;
         }
+
+        public String GetField()
+        {
+            return this.textBox1.Text;
+        }
     }
 }
