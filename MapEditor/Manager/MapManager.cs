@@ -66,6 +66,8 @@ namespace MapEditor.Manager
         private AMapButton loadFile;
         private AMapButton clearMap;
         private AMapButton playerStart;
+        private AMapButton setLevelTransition;
+
         bool setPlayerPosition = false;
 
         public MapManager()

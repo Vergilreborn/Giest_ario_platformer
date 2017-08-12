@@ -83,6 +83,20 @@ namespace MapEditor.Objects.MapObjects
                 playerPosition = value;
             }
         }
+
+        public List<MapObject> MapObjects
+        {
+            get
+            {
+                return mapObjects;
+            }
+            set
+            {
+                if (value == null)
+                    mapObjects = new List<MapObject>();
+                mapObjects = value;
+            }
+        }
         #endregion
 
         private int defaultWidth;
@@ -90,8 +104,10 @@ namespace MapEditor.Objects.MapObjects
         private int tileWidth;
         private int tileHeight;
         private Tile[,] tiles;
+        private List<MapObject> mapObjects;
         private Vector2 playerPosition;
 
+        
         public MapInformation()
         {
 
@@ -99,13 +115,12 @@ namespace MapEditor.Objects.MapObjects
 
         public void Init()
         {
-
             defaultWidth = 30;
             defaultHeight = 26;
             tileWidth = 32;
             tileHeight = 32;
             playerPosition = Vector2.Zero;
-
+            mapObjects = new List<MapObject>();
             tiles = new Tile[defaultWidth, defaultHeight];
 
             for (int x = 0; x < defaultWidth; x++)
