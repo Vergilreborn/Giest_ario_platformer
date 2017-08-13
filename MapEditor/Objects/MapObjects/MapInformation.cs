@@ -107,7 +107,6 @@ namespace MapEditor.Objects.MapObjects
         private List<MapObject> mapObjects;
         private Vector2 playerPosition;
 
-        
         public MapInformation()
         {
 

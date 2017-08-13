@@ -1,6 +1,6 @@
 ﻿namespace MapEditor.Forms
 {
-    partial class TextboxDialog
+    partial class DropDownDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             this.questionLabel = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // questionLabel
@@ -66,27 +66,28 @@
             this.button2.Text = "Confirm";
             this.button2.UseVisualStyleBackColor = false;
             // 
-            // textBox1
+            // comboBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(115, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(316, 20);
-            this.textBox1.TabIndex = 0;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(115, 12);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(316, 21);
+            this.comboBox1.TabIndex = 4;
             // 
-            // TextboxDialog
+            // DropDownDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.ClientSize = new System.Drawing.Size(443, 77);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.questionLabel);
-            this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximumSize = new System.Drawing.Size(459, 116);
             this.MinimumSize = new System.Drawing.Size(459, 116);
-            this.Name = "TextboxDialog";
+            this.Name = "DropDownDialog";
             this.Text = "Input Form";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -97,6 +98,6 @@
         private System.Windows.Forms.Label questionLabel;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

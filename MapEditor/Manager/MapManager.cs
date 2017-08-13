@@ -67,8 +67,10 @@ namespace MapEditor.Manager
         private AMapButton clearMap;
         private AMapButton playerStart;
         private AMapButton setLevelTransition;
+        private AMapButton mapTransitionStart;
+        private MapButtonType buttonSelected;
 
-        bool setPlayerPosition = false;
+
 
         public MapManager()
         {
@@ -82,11 +84,13 @@ namespace MapEditor.Manager
             map = new Map();
             map.Init();
             debugMode = false;
+            buttonSelected = MapButtonType.None;
 
             clearMap = new AMapButton(new Vector2(900, 880), "Clear Map");
             saveFile = new AMapButton(new Vector2(1050, 920), "Save Map");
             loadFile = new AMapButton(new Vector2(1050, 880), "Load Map");
-            playerStart = new AMapButton(new Vector2(900,920),"Set Player Start");
+            playerStart = new AMapButton(new Vector2(900,920),"Set Start Pos");
+            mapTransitionStart = new AMapButton(new Vector2(750, 880), "Map Transition");
         }
 
         public void SetScale(Vector2 _scale)
@@ -104,6 +108,7 @@ namespace MapEditor.Manager
             saveFile.Load();
             loadFile.Load();
             playerStart.Load();
+            mapTransitionStart.Load();
         }
 
         public void Update(GameTime _gameTime)
@@ -116,10 +121,17 @@ namespace MapEditor.Manager
 
             if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Hold))
             {
-                if (!setPlayerPosition)
-                    map.SetTile(objectSourceManager.Cursor.Selected);
-                else
-                    map.SetPlayerPosition(MouseManager.Instance.Position.ToVector2());
+                switch (buttonSelected)
+                {
+                    case MapButtonType.None:
+                        map.SetTile(objectSourceManager.Cursor.Selected);
+                    break;
+                    case MapButtonType.PlayerPosition:
+                        map.SetPlayerPosition(MouseManager.Instance.Position.ToVector2());
+                    break;
+                    
+                }
+                    
             }
 
             if (MouseManager.Instance.IsKeyActivity(false, KeyActivity.Hold))
@@ -144,7 +156,8 @@ namespace MapEditor.Manager
             saveFile.Draw(_spriteBatch);
             loadFile.Draw(_spriteBatch);
             clearMap.Draw(_spriteBatch);
-            playerStart.Draw(_spriteBatch,setPlayerPosition);
+            playerStart.Draw(_spriteBatch, buttonSelected == MapButtonType.PlayerPosition);
+            mapTransitionStart.Draw(_spriteBatch, buttonSelected == MapButtonType.MapTransition);
         }
 
         public void SetGraphicsDevice(GraphicsDevice _graphicsDevice)
@@ -177,6 +190,11 @@ namespace MapEditor.Manager
 
         }
 
+        private void SetButton(MapButtonType _newType)
+        {
+            buttonSelected = buttonSelected == _newType ? MapButtonType.None : _newType;
+        }
+
         private void checkMouseFunctionality()
         {
             if (saveFile.Intersects(MouseManager.Instance.Position))
@@ -195,7 +213,19 @@ namespace MapEditor.Manager
             }
 
             if (playerStart.Intersects(MouseManager.Instance.Position)){
-                setPlayerPosition = !setPlayerPosition;
+                SetButton(MapButtonType.PlayerPosition);
+            }
+
+            if (mapTransitionStart.Intersects(MouseManager.Instance.Position))
+            {
+                SetButton(MapButtonType.MapTransition);
+            }
+
+            switch (buttonSelected)
+            {
+                case MapButtonType.MapTransition:
+                    map.SetTransition(MouseManager.Instance.Position.ToVector2());
+                    break;
             }
         }
     }

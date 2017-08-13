@@ -56,7 +56,7 @@ namespace MapEditor.Abstract
             return collisionBox.Contains(position);
         }
 
-        internal void Draw(SpriteBatch _spriteBatch, bool _setPlayerPosition)
+        internal void Draw(SpriteBatch _spriteBatch, bool _setPlayerPosition = false)
         {
             _spriteBatch.Draw(texture, position, _setPlayerPosition ? Color.LightSalmon : Color.White);
             _spriteBatch.DrawString(font, text, center - textPosition, Color.Black);

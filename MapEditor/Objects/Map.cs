@@ -11,6 +11,8 @@ using MapEditor.Enums;
 using MapEditor.Helpers;
 using MapEditor.Exceptions;
 using MapEditor.Objects.MapObjects;
+using MapEditor.Forms;
+using System.Windows.Forms;
 
 namespace MapEditor.Objects
 {
@@ -28,6 +30,7 @@ namespace MapEditor.Objects
 
         //private Tile[,] tiles;
         private MapInformation mapInfo;
+        private DropDownDialog mapSelected;
         
         private String debugString;
         
@@ -39,6 +42,7 @@ namespace MapEditor.Objects
 
         public void Init()
         {
+            mapSelected = new DropDownDialog(true, "Selected Map:");
             mapInfo = new MapInformation();
             mapInfo.Init();
 
@@ -49,14 +53,14 @@ namespace MapEditor.Objects
 
         public void SaveMap()
         {
-            FileManager<MapInformation>.SaveFile("lvl","Giestario Levels", mapInfo);
+            FileManager<MapInformation>.SaveFile("gmap", "Giestario Map", mapInfo);
         }
 
         public void LoadMap()
         {
             try
             {
-                mapInfo = FileManager<MapInformation>.LoadFile("map", "Giestario Map");
+                mapInfo = FileManager<MapInformation>.LoadFile("gmap", "Giestario Map");
             }catch(NoFileSelectedException e)
             {
 
@@ -115,6 +119,21 @@ namespace MapEditor.Objects
             if (inScreen)
             {
                 mapInfo.PlayerPosition = cursor.Selected.Position;
+            }
+        }
+
+        public void SetTransition(Vector2 _position)
+        {
+            if (inScreen)
+            {
+                mapSelected.ShowDialog();
+                DialogResult result = mapSelected.DialogResult;
+                if (result == DialogResult.OK)
+                {
+                    String results = mapSelected.GetField();
+                }
+            //    mapInfo.PlayerPosition = cursor.Selected.Position;
+
             }
         }
 
