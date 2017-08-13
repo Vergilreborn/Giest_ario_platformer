@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Giest_ario_platformer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -70,6 +71,7 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
                 tiles = value;
             }
         }
+
         public Vector2 PlayerPosition
         {
             get
@@ -81,6 +83,20 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
                 playerPosition = value;
             }
         }
+
+        public List<MapObject> MapObjects
+        {
+            get
+            {
+                return mapObjects;
+            }
+            set
+            {
+                if (value == null)
+                    mapObjects = new List<MapObject>();
+                mapObjects = value;
+            }
+        }
         #endregion
 
         private int defaultWidth;
@@ -88,6 +104,7 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
         private int tileWidth;
         private int tileHeight;
         private Tile[,] tiles;
+        private List<MapObject> mapObjects;
         private Vector2 playerPosition;
 
         public MapInformation()
@@ -97,12 +114,12 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
 
         public void Init()
         {
-
             defaultWidth = 30;
             defaultHeight = 26;
             tileWidth = 32;
             tileHeight = 32;
-
+            playerPosition = Vector2.Zero;
+            mapObjects = new List<MapObject>();
             tiles = new Tile[defaultWidth, defaultHeight];
 
             for (int x = 0; x < defaultWidth; x++)

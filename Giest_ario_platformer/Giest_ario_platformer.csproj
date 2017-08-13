@@ -45,10 +45,12 @@
     <Compile Include="Abstract\AGameScreen.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Enums\KeyActivity.cs" />
+    <Compile Include="Enums\MapTypeObject.cs" />
     <Compile Include="Enums\TileType.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObjects\Map.cs" />
     <Compile Include="GameObjects\MapObjects\MapInformation.cs" />
+    <Compile Include="GameObjects\MapObjects\MapObject.cs" />
     <Compile Include="GameObjects\MapObjects\Tile.cs" />
     <Compile Include="GameObjects\Player.cs" />
     <Compile Include="Handlers\Animation.cs" />

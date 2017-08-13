@@ -1,4 +1,4 @@
-﻿using MapEditor.Enums;
+﻿using Giest_ario_platformer.Enums;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapEditor.Objects.MapObjects
+namespace Giest_ario_platformer.GameObjects.MapObjects
 {
     class MapObject
     {

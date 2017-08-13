@@ -48,11 +48,20 @@ namespace MapEditor.Manager
             }
         }
 
+        public bool IsActive
+        {
+            get
+            {
+                return isActive;
+            }
+        }
+
         private Vector2 scale;
 
         private SpriteFont debugFont;
 
         private bool debugMode;
+        private bool isActive;
 
         private static MapManager instance;
         public ContentManager Content;
@@ -66,7 +75,6 @@ namespace MapEditor.Manager
         private AMapButton loadFile;
         private AMapButton clearMap;
         private AMapButton playerStart;
-        private AMapButton setLevelTransition;
         private AMapButton mapTransitionStart;
         private MapButtonType buttonSelected;
 
@@ -147,7 +155,12 @@ namespace MapEditor.Manager
             map.Update(_gameTime);
             objectSourceManager.Update(_gameTime);
         }
-        
+
+        public void SetActive(bool _isActive)
+        {
+            this.isActive = _isActive;
+        }
+
         public void Draw(SpriteBatch _spriteBatch)
         {
             
@@ -225,7 +238,7 @@ namespace MapEditor.Manager
             {
                 case MapButtonType.MapTransition:
                     map.SetTransition(MouseManager.Instance.Position.ToVector2());
-                    break;
+                break;
             }
         }
     }

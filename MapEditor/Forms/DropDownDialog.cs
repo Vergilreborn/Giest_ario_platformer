@@ -48,7 +48,9 @@ namespace MapEditor.Forms
 
         public String GetField()
         {
-            return this.comboBox1.SelectedValue.ToString();
+            if(this.comboBox1.SelectedItem == null)
+                return "";
+            return this.comboBox1.SelectedItem.ToString();
         }
     }
 }

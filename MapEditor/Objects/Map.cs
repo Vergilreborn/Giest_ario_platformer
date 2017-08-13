@@ -126,14 +126,34 @@ namespace MapEditor.Objects
         {
             if (inScreen)
             {
+
+                MapObject mObject = mapInfo.MapObjects.AsQueryable().Where(x => x.DestinationBox.Contains(_position - Position)).FirstOrDefault();
+
                 mapSelected.ShowDialog();
                 DialogResult result = mapSelected.DialogResult;
-                if (result == DialogResult.OK)
+                String results = mapSelected.GetField();
+                if (result == DialogResult.OK && results != "")
                 {
-                    String results = mapSelected.GetField();
+                    
+                    
+                    Tile t = cursor.Selected;
+                    if (mObject == null)
+                    {
+                        MapObject obj = new MapObject();
+                        obj.AddTile(t);
+                        obj.SetType(MapTypeObject.Transition);
+                        obj.SetDrawColor(Color.DarkGreen);
+                        obj.Data = results;
+                        mapInfo.MapObjects.Add(obj);
+                    }
+                    else if(mObject.Type == MapTypeObject.Transition)
+                    {
+                        mObject.AddTile(t);
+                        mObject.SetType(MapTypeObject.Transition);
+                        mObject.SetDrawColor(Color.DarkGreen);
+                        mObject.Data = results;
+                    }
                 }
-            //    mapInfo.PlayerPosition = cursor.Selected.Position;
-
             }
         }
 
@@ -168,6 +188,12 @@ namespace MapEditor.Objects
                     }
                 }
             }
+
+            foreach(MapObject mapObj in mapInfo.MapObjects){
+                Rectangle drawRect = new Rectangle(mapObj.DestinationBox.X + (int)Position.X, mapObj.DestinationBox.Y + (int)Position.Y, mapObj.DestinationBox.Width, mapObj.DestinationBox.Height);
+                _spriteBatch.Draw(emptyBlockTexture, drawRect, mapObj.GetDrawColor());
+            }
+
 
             _spriteBatch.Draw(texturePlayerPosition, Position + mapInfo.PlayerPosition, Color.White);
 

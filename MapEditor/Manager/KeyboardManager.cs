@@ -52,6 +52,9 @@ namespace MapEditor.Manager
 
         public Boolean IsKeyActivity(String _keyStr,KeyActivity _activity)
         {
+            if (!MapManager.Instance.IsActive)
+                return false;
+
             Keys key = (Keys)Enum.Parse(typeof(Keys), _keyStr);
             
             switch (_activity)
