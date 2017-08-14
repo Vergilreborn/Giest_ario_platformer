@@ -76,7 +76,6 @@ namespace MapEditor.Objects.MapObjects
         private int width;
         private int height;
         private List<Tile> tilesStored;
-        private Color drawColor;
 
         public MapObject()
         {
@@ -138,14 +137,30 @@ namespace MapEditor.Objects.MapObjects
             this.DestinationBox = _collision;
         }
 
-        public void SetDrawColor(Color _color)
-        {
-            this.drawColor = _color * .40f;
-        }
+        //public void SetDrawColor()
+        //{
+        //    this.drawColor = _color * .60f;
+        //}
 
         public Color GetDrawColor()
         {
-            return drawColor;
+            switch (type)
+            {
+                case MapTypeObject.Checkpoint:
+                    return Color.AntiqueWhite * .60f;
+                case MapTypeObject.EndLocation:
+                    return Color.LightSeaGreen * .60f;
+                case MapTypeObject.Enemy:
+                    return Color.PaleVioletRed * .60f;
+                case MapTypeObject.Item:
+                    return Color.BlueViolet * .60f;
+                case MapTypeObject.Transition:
+                    return Color.LightGoldenrodYellow * .60f;
+                case MapTypeObject.MoveableWall:
+                    return Color.PeachPuff * .60f;
+                default:
+                    return Color.Magenta * .80f;
+            }
         }
     }
 }

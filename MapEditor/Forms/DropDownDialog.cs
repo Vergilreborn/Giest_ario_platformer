@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using MapEditor.Forms.Ext;
+
 namespace MapEditor.Forms
 {
     public partial class DropDownDialog : Form
@@ -24,20 +26,20 @@ namespace MapEditor.Forms
             this.comboBox1.Items.AddRange(mapFiles);
         }
 
-        public DropDownDialog(bool _isMap,String _displayText)
+        public DropDownDialog(String _fileExt, String _objectType, String _displayText)
         {
             InitializeComponent();
-            if (_isMap)
+            String mapDirectory = Directory.GetCurrentDirectory() + $@"\Content\{_objectType}\";
+            String[] mapFiles = Directory.GetFiles(mapDirectory, $"*{_fileExt}");
+            foreach(String item in mapFiles)
             {
-                String mapDirectory = Directory.GetCurrentDirectory() + @"\Content\Maps\";
-                String[] mapFiles = Directory.GetFiles(mapDirectory, "*.gmap");
-                foreach(String item in mapFiles)
-                {
-                    this.comboBox1.Items.Add(item.Replace(mapDirectory,""));
-                }
-                
-                this.questionLabel.Text = _displayText;
+                //item.Replace(mapDirectory, "")
+                this.comboBox1.Items.Add(new ComboBoxItem() { Text = item.Replace(mapDirectory, ""),
+                                                              Value = item});
             }
+                
+            this.questionLabel.Text = _displayText;
+           
         }
 
         public DropDownDialog(String _displayText)
@@ -50,7 +52,13 @@ namespace MapEditor.Forms
         {
             if(this.comboBox1.SelectedItem == null)
                 return "";
-            return this.comboBox1.SelectedItem.ToString();
+            return ((ComboBoxItem)this.comboBox1.SelectedItem).Value.ToString();
+        }
+        public String GetCleanText()
+        {
+            if (this.comboBox1.SelectedItem == null)
+                return "";
+            return ((ComboBoxItem)this.comboBox1.SelectedItem).Text.ToString();
         }
     }
 }

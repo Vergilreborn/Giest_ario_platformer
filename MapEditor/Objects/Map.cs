@@ -42,7 +42,7 @@ namespace MapEditor.Objects
 
         public void Init()
         {
-            mapSelected = new DropDownDialog(true, "Selected Map:");
+            mapSelected = new DropDownDialog(".gmap","Map", "Selected Map:");
             mapInfo = new MapInformation();
             mapInfo.Init();
 
@@ -53,14 +53,15 @@ namespace MapEditor.Objects
 
         public void SaveMap()
         {
-            FileManager<MapInformation>.SaveFile("gmap", "Giestario Map", mapInfo);
+            FileManager<MapInformation>.SaveFileGameObject(".gmap", "Map", mapInfo);
         }
 
         public void LoadMap()
         {
             try
             {
-                mapInfo = FileManager<MapInformation>.LoadFile("gmap", "Giestario Map");
+                mapInfo = FileManager<MapInformation>.LoadFileGameObject(".gmap", "Map");
+                    //FileManager<MapInformation>.LoadFile("gmap", "Giestario Map");
             }catch(NoFileSelectedException e)
             {
 
@@ -131,7 +132,7 @@ namespace MapEditor.Objects
 
                 mapSelected.ShowDialog();
                 DialogResult result = mapSelected.DialogResult;
-                String results = mapSelected.GetField();
+                String results = mapSelected.GetCleanText();
                 if (result == DialogResult.OK && results != "")
                 {
                     
@@ -142,7 +143,6 @@ namespace MapEditor.Objects
                         MapObject obj = new MapObject();
                         obj.AddTile(t);
                         obj.SetType(MapTypeObject.Transition);
-                        obj.SetDrawColor(Color.DarkGreen);
                         obj.Data = results;
                         mapInfo.MapObjects.Add(obj);
                     }
@@ -150,7 +150,6 @@ namespace MapEditor.Objects
                     {
                         mObject.AddTile(t);
                         mObject.SetType(MapTypeObject.Transition);
-                        mObject.SetDrawColor(Color.DarkGreen);
                         mObject.Data = results;
                     }
                 }

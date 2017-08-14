@@ -37,9 +37,10 @@
             // questionLabel
             // 
             this.questionLabel.AutoSize = true;
-            this.questionLabel.Location = new System.Drawing.Point(9, 15);
+            this.questionLabel.Location = new System.Drawing.Point(18, 29);
+            this.questionLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.questionLabel.Name = "questionLabel";
-            this.questionLabel.Size = new System.Drawing.Size(0, 13);
+            this.questionLabel.Size = new System.Drawing.Size(0, 25);
             this.questionLabel.TabIndex = 1;
             // 
             // button1
@@ -47,9 +48,10 @@
             this.button1.BackColor = System.Drawing.Color.Salmon;
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(12, 42);
+            this.button1.Location = new System.Drawing.Point(24, 81);
+            this.button1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(150, 44);
             this.button1.TabIndex = 2;
             this.button1.Text = "Cancel";
             this.button1.UseVisualStyleBackColor = false;
@@ -59,9 +61,10 @@
             this.button2.BackColor = System.Drawing.Color.Aquamarine;
             this.button2.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(356, 42);
+            this.button2.Location = new System.Drawing.Point(712, 81);
+            this.button2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(150, 44);
             this.button2.TabIndex = 3;
             this.button2.Text = "Confirm";
             this.button2.UseVisualStyleBackColor = false;
@@ -70,24 +73,25 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(115, 12);
+            this.comboBox1.Location = new System.Drawing.Point(230, 23);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(316, 21);
+            this.comboBox1.Size = new System.Drawing.Size(628, 33);
             this.comboBox1.TabIndex = 4;
             // 
             // DropDownDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.AliceBlue;
-            this.ClientSize = new System.Drawing.Size(443, 77);
+            this.ClientSize = new System.Drawing.Size(866, 87);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.questionLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MaximumSize = new System.Drawing.Size(459, 116);
-            this.MinimumSize = new System.Drawing.Size(459, 116);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.MaximumSize = new System.Drawing.Size(892, 158);
+            this.MinimumSize = new System.Drawing.Size(892, 158);
             this.Name = "DropDownDialog";
             this.Text = "Input Form";
             this.ResumeLayout(false);

@@ -51,6 +51,7 @@
     <Compile Include="Forms\DropDownDialog.Designer.cs">
       <DependentUpon>DropDownDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Ext\ComboBoxItem.cs" />
     <Compile Include="Forms\TextboxDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,7 +104,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
     <None Include="Content\debugFont.spritefont" />
-    <None Include="Content\Maps\Testing.gmap">
+    <None Include="Content\Map\Testing.gmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

@@ -19,6 +19,7 @@ namespace MapEditor.Forms
 
         public TextboxDialog(String _displayText)
         {
+            InitializeComponent();
             this.questionLabel.Text = _displayText;
         }
 
