@@ -40,7 +40,8 @@ namespace Giest_ario_platformer.GameObjects
         private float horSpeedBackup;
         private Texture2D debugtexture;
         private String changeLevel = null;
-        private float deadUpSpeed = -20f;
+        private float deadUpSpeed = -12f;
+        private float deathSpeedGravity = 0.5f;
         
 
         private String debugStr;
@@ -201,12 +202,11 @@ namespace Giest_ario_platformer.GameObjects
                 Position.Y = _map.PlayerPosition.Y;
                 fallSpeed = 0f;
                 moving = Direction.None;
-
             }
             else
             {
                 Position.Y += fallSpeed;
-                fallSpeed += Gravity;
+                fallSpeed += deathSpeedGravity;
             }
             setAnimation(_gameTime);
 
