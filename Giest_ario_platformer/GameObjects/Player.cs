@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Giest_ario_platformer.Enums;
 using Giest_ario_platformer.Handlers;
 using Giest_ario_platformer.Helpers;
+using Giest_ario_platformer.GameObjects.MapObjects;
 
 namespace Giest_ario_platformer.GameObjects
 {
@@ -27,6 +28,7 @@ namespace Giest_ario_platformer.GameObjects
         private float horSpeed;
         private float horSpeedBackup;
         private Texture2D debugtexture;
+        private String changeLevel = null;
 
         private String debugStr;
 
@@ -85,6 +87,7 @@ namespace Giest_ario_platformer.GameObjects
         //handle collision
         internal void Update(GameTime _gameTime, Map _map)
         {
+            changeLevel = null;
 
             SavePosition.X = Position.X;
             SavePosition.Y = Position.Y;
@@ -132,6 +135,12 @@ namespace Giest_ario_platformer.GameObjects
             debugStr += Environment.NewLine + $"Ver:({collision},{fallSpeed})";
             debugStr += Environment.NewLine + $"Action:{action}";
             setAnimation(_gameTime);
+
+            MapObject newLevel = CollisionDetection.IsCollidingObjects(_map, CollisionBox);
+            if (newLevel != null)
+            {
+                changeLevel = newLevel.Data;
+            }
 
             //TODO: set death = true and play death animation
             if(Position.Y > _map.MapHeight)
@@ -222,14 +231,17 @@ namespace Giest_ario_platformer.GameObjects
             {
                 isJumping = true;
                 fallSpeed = -10f;
-                //action = "Jump";
             }
             else if (isJumping && fallSpeed < 0 && KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Hold))
             {
                 fallSpeed -= .6f;
-                //action = "Jump";
             }
             
+        }
+
+        public String ChangeLevel()
+        {
+            return changeLevel;
         }
         
         private void setAnimation(GameTime _gameTime)
@@ -243,11 +255,9 @@ namespace Giest_ario_platformer.GameObjects
             }
             else
             {
-
                 if(moving != Direction.None)
                     current = moving;
                 currentAnimation = animations.GetAnimation($"{action}_{mainDirection}");
-
             }
 
             currentAnimation.Update(_gameTime);
@@ -255,7 +265,6 @@ namespace Giest_ario_platformer.GameObjects
 
         public override void Draw(SpriteBatch _spriteBatch)
         {
-
             
             currentAnimation.Draw(_spriteBatch,CollisionBox);
 
@@ -263,7 +272,5 @@ namespace Giest_ario_platformer.GameObjects
             _spriteBatch.DrawString(GameManager.Instance.Fonts["Debug"], debugStr, Position - new Vector2(100, 20), Color.Turquoise);
 
         }
-
-
     }
 }

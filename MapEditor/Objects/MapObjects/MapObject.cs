@@ -107,26 +107,6 @@ namespace MapEditor.Objects.MapObjects
             updateDestinationBox();
         }
 
-        private void updateDestinationBox()
-        {
-            int bottom = 0;
-            int right = 0;
-            bool firstSet = true;
-            foreach (Tile t in tilesStored)
-            {
-                
-                location.X =firstSet ? (int)t.Destination.X : Math.Min((int)location.X, (int)t.Destination.X);
-                location.Y = firstSet ? (int)t.Destination.Y : Math.Min((int)location.Y, (int)t.Destination.Y);
-                right= firstSet ? (int)t.Destination.Right : Math.Max(width, (int)t.Destination.Right);
-                bottom = firstSet ? (int)t.Destination.Bottom : Math.Max(height, (int)t.Destination.Bottom);
-                firstSet = false;
-            }
-
-            width = right - (int)location.X;
-            height= bottom - (int)location.Y;
-
-        }
-
         public void SetType(MapTypeObject _type)
         {
             this.type = _type;
@@ -136,11 +116,6 @@ namespace MapEditor.Objects.MapObjects
         {
             this.DestinationBox = _collision;
         }
-
-        //public void SetDrawColor()
-        //{
-        //    this.drawColor = _color * .60f;
-        //}
 
         public Color GetDrawColor()
         {
@@ -161,6 +136,25 @@ namespace MapEditor.Objects.MapObjects
                 default:
                     return Color.Magenta * .80f;
             }
+        }
+
+        private void updateDestinationBox()
+        {
+            int bottom = 0;
+            int right = 0;
+            bool firstSet = true;
+
+            foreach (Tile t in tilesStored)
+            {
+                location.X = firstSet ? (int)t.Destination.X : Math.Min((int)location.X, (int)t.Destination.X);
+                location.Y = firstSet ? (int)t.Destination.Y : Math.Min((int)location.Y, (int)t.Destination.Y);
+                right = firstSet ? (int)t.Destination.Right : Math.Max(width, (int)t.Destination.Right);
+                bottom = firstSet ? (int)t.Destination.Bottom : Math.Max(height, (int)t.Destination.Bottom);
+                firstSet = false;
+            }
+
+            width = right - (int)location.X;
+            height = bottom - (int)location.Y;
         }
     }
 }

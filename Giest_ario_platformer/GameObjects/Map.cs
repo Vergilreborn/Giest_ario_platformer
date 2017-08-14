@@ -18,6 +18,8 @@ namespace Giest_ario_platformer.GameObjects
         private MapInformation mapInfo;
         private int tileSize;
         private Texture2D texture;
+
+        private Texture2D emptyBlockTexture;
         private Vector2 widthHeight;
 
         public Vector2 PlayerPosition
@@ -51,47 +53,21 @@ namespace Giest_ario_platformer.GameObjects
         public void LoadTestMap(String _file)
         {
             
-            mapInfo = FileManager<MapInformation>.LoadFile(_file);
+            mapInfo = FileManager<MapInformation>.LoadFile(@"Content\Map\" + _file);
+            emptyBlockTexture = GameManager.Instance.CreateColorTexture(255, 255, 255, 255);
             this.tileSize = 32;
             widthHeight = new Vector2(mapInfo.Tiles.GetLength(0), mapInfo.Tiles.GetLength(1));
-        }
-
-        public void LoadTestMap()
-        {
-            //widthHeight = new Vector2(80, 50);
-            
-            //tiles = new Tile[(int)widthHeight.X,(int) widthHeight.Y];
-            //for(int x = 5; x < widthHeight.X; x++)
-            //{
-            //        tiles[x, 10] = new Tile(x, 10, tileSize);
-            //}
-            //for (int x = 0; x < widthHeight.X-10; x++)
-            //{
-            //    tiles[x, 15] = new Tile(x, 15, tileSize);
-            //}
-
-            //for (int x = 10; x < widthHeight.X - 10; x++)
-            //{
-            //    tiles[x, 20] = new Tile(x, 20, tileSize);
-            //}
-
-            //tiles[2, 8] = new Tile(2, 8, tileSize);
-            //tiles[3, 7] = new Tile(3, 7, tileSize);
-            //tiles[8, 9] = new Tile(8, 9, tileSize);
-            //tiles[9, 9] = new Tile(9, 9, tileSize);
-            //tiles[11, 9] = new Tile(11, 9, tileSize);
-            //tiles[14, 9] = new Tile(14, 9, tileSize);
-            //tiles[20, 9] = new Tile(20, 9, tileSize);
         }
 
         internal void Dispose()
         {
             texture.Dispose();
+            emptyBlockTexture.Dispose();
         }
 
         public void Init()
         {
-            LoadTestMap("Content/Map/Testing.lvl");
+            LoadTestMap("Testing1.gmap");
         }
 
         internal int GetTileSizes()
@@ -125,9 +101,21 @@ namespace Giest_ario_platformer.GameObjects
                 }
             }
 
+
+            foreach (MapObject mapObj in mapInfo.MapObjects)
+            {
+                Rectangle drawRect = new Rectangle(mapObj.DestinationBox.X, mapObj.DestinationBox.Y, mapObj.DestinationBox.Width, mapObj.DestinationBox.Height);
+                _spriteBatch.Draw(emptyBlockTexture, drawRect, mapObj.GetDrawColor());
+            }
+           
         }
 
-        internal Tile GetTile(int x, int y)
+        public List<MapObject> GetMapObjects()
+        {
+            return mapInfo.MapObjects;
+        }
+
+        public Tile GetTile(int x, int y)
         {
             return mapInfo.Tiles[x, y];
         }

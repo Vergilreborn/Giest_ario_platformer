@@ -31,7 +31,7 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
             }
             set
             {
-                if(location != null)
+                if (location != null)
                 {
                     location.X = value.X;
                     location.Y = value.Y;
@@ -52,7 +52,7 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
             }
             set
             {
-                data = value;   
+                data = value;
             }
         }
 
@@ -76,7 +76,6 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
         private int width;
         private int height;
         private List<Tile> tilesStored;
-        private Color drawColor;
 
         public MapObject()
         {
@@ -90,7 +89,7 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
         public void AddTile(Tile _tile)
         {
             Tile t = tilesStored.AsQueryable().Where(x => x.Position == _tile.Position).FirstOrDefault();
-            if(t == null)
+            if (t == null)
             {
                 tilesStored.Add(_tile);
             }
@@ -108,26 +107,6 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
             updateDestinationBox();
         }
 
-        private void updateDestinationBox()
-        {
-            int bottom = 0;
-            int right = 0;
-            bool firstSet = true;
-            foreach (Tile t in tilesStored)
-            {
-                
-                location.X =firstSet ? (int)t.Destination.X : Math.Min((int)location.X, (int)t.Destination.X);
-                location.Y = firstSet ? (int)t.Destination.Y : Math.Min((int)location.Y, (int)t.Destination.Y);
-                right= firstSet ? (int)t.Destination.Right : Math.Max(width, (int)t.Destination.Right);
-                bottom = firstSet ? (int)t.Destination.Bottom : Math.Max(height, (int)t.Destination.Bottom);
-                firstSet = false;
-            }
-
-            width = right - (int)location.X;
-            height= bottom - (int)location.Y;
-
-        }
-
         public void SetType(MapTypeObject _type)
         {
             this.type = _type;
@@ -138,14 +117,45 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
             this.DestinationBox = _collision;
         }
 
-        public void SetDrawColor(Color _color)
-        {
-            this.drawColor = _color * .40f;
-        }
-
         public Color GetDrawColor()
         {
-            return drawColor;
+            switch (type)
+            {
+                case MapTypeObject.Checkpoint:
+                    return Color.AntiqueWhite * .60f;
+                case MapTypeObject.EndLocation:
+                    return Color.LightSeaGreen * .60f;
+                case MapTypeObject.Enemy:
+                    return Color.PaleVioletRed * .60f;
+                case MapTypeObject.Item:
+                    return Color.BlueViolet * .60f;
+                case MapTypeObject.Transition:
+                    return Color.LightGoldenrodYellow * .60f;
+                case MapTypeObject.MoveableWall:
+                    return Color.PeachPuff * .60f;
+                default:
+                    return Color.Magenta * .80f;
+            }
+        }
+
+        private void updateDestinationBox()
+        {
+            int bottom = 0;
+            int right = 0;
+            bool firstSet = true;
+
+            foreach (Tile t in tilesStored)
+            {
+                location.X = firstSet ? (int)t.Destination.X : Math.Min((int)location.X, (int)t.Destination.X);
+                location.Y = firstSet ? (int)t.Destination.Y : Math.Min((int)location.Y, (int)t.Destination.Y);
+                right = firstSet ? (int)t.Destination.Right : Math.Max(width, (int)t.Destination.Right);
+                bottom = firstSet ? (int)t.Destination.Bottom : Math.Max(height, (int)t.Destination.Bottom);
+                firstSet = false;
+            }
+
+            width = right - (int)location.X;
+            height = bottom - (int)location.Y;
         }
     }
 }
+

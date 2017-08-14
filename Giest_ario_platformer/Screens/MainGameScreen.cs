@@ -50,6 +50,12 @@ namespace Giest_ario_platformer.Screens
             player.SetPosition(map.PlayerPosition);
         }
 
+        public void LoadMap(String mapName)
+        {
+            map.LoadTestMap(mapName);
+            player.SetPosition(map.PlayerPosition);
+        }
+
         public override void Update(GameTime _gameTime)
         {
             if(KeyboardManager.Instance.IsKeyActivity(Keys.Enter.ToString(), KeyActivity.Pressed))
@@ -65,6 +71,9 @@ namespace Giest_ario_platformer.Screens
             else { 
                 map.Update(_gameTime);
                 player.Update(_gameTime, map);
+                if (player.ChangeLevel() != null){
+                    LoadMap(player.ChangeLevel());
+                }
                 GameManager.Instance.Cam.Update(_gameTime, player.Center);
             }
         }

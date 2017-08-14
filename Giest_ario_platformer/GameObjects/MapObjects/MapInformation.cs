@@ -109,7 +109,8 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
 
         public MapInformation()
         {
-
+            tiles = new Tile[0, 0];
+            mapObjects = new List<MapObject>();
         }
 
         public void Init()
