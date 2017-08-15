@@ -39,12 +39,21 @@ namespace Giest_ario_platformer.Managers
                 {
                     MediaPlayer.Stop();
                 }
+                if (_song != "")
+                {
 
-                Song song = GameManager.Instance.Content.Load<Song>($@"Music\{_song}");
-                currentSong = _song;
-                MediaPlayer.Play(song);
-                MediaPlayer.IsRepeating = true;
-                songPlaying = song;
+                    Song song = GameManager.Instance.Content.Load<Song>($@"Music\{_song}");
+                    currentSong = _song;
+                    MediaPlayer.Play(song);
+                    MediaPlayer.IsRepeating = true;
+                    songPlaying = song;
+                }
+                else
+                {
+                    songPlaying = null;
+                    currentSong = _song;
+                }
+                
             }
         }
 

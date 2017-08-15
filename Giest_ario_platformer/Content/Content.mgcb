@@ -259,3 +259,9 @@
 /processorParam:Quality=Best
 /build:Music/Testing.mp3
 
+#begin Music/Select.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Select.mp3
+

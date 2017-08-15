@@ -193,11 +193,25 @@ namespace MapEditor.Objects
                 _spriteBatch.Draw(emptyBlockTexture, drawRect, mapObj.GetDrawColor());
             }
 
+            _spriteBatch.DrawString(MapManager.Instance.DebugFont, "Song:" + mapInfo.Music, Position - new Vector2(0, 20), Color.LightSkyBlue);
+
 
             _spriteBatch.Draw(texturePlayerPosition, Position + mapInfo.PlayerPosition, Color.White);
 
             cursor.Draw(_spriteBatch);
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, debugString, new Vector2(0, 0), Color.AliceBlue);
+        }
+
+        internal void SetMusic()
+        {
+            using(DropDownDialog musicDialog = new DropDownDialog(".mp3","Music","Choose Music:"))
+            {
+                DialogResult result = musicDialog.ShowDialog();
+                if(result == DialogResult.OK)
+                {
+                    mapInfo.Music = musicDialog.GetCleanText().Replace(".mp3","");
+                }
+            }
         }
     }
 }

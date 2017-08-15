@@ -43,7 +43,6 @@ namespace Giest_ario_platformer.GameObjects
         private float deadUpSpeed = -12f;
         private float deathSpeedGravity = 0.5f;
         
-
         private String debugStr;
 
         public Player(Vector2 _position)

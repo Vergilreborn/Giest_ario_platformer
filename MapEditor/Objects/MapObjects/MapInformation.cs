@@ -97,8 +97,21 @@ namespace MapEditor.Objects.MapObjects
                 mapObjects = value;
             }
         }
-        #endregion
 
+        public string Music
+        {
+            get
+            {
+                return music;
+            }
+            set
+            {
+                music = value;
+            }
+        }
+
+        #endregion
+        private String music;
         private int defaultWidth;
         private int defaultHeight;
         private int tileWidth;
@@ -110,6 +123,7 @@ namespace MapEditor.Objects.MapObjects
         public MapInformation()
         {
             tiles = new Tile[0, 0];
+            music = "";
             mapObjects = new List<MapObject>();
         }
 

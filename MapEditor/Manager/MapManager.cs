@@ -76,6 +76,7 @@ namespace MapEditor.Manager
         private AMapButton clearMap;
         private AMapButton playerStart;
         private AMapButton mapTransitionStart;
+        private AMapButton setMusicFile;
         private MapButtonType buttonSelected;
 
 
@@ -98,6 +99,7 @@ namespace MapEditor.Manager
             saveFile = new AMapButton(new Vector2(1050, 920), "Save Map");
             loadFile = new AMapButton(new Vector2(1050, 880), "Load Map");
             playerStart = new AMapButton(new Vector2(900,920),"Set Start Pos");
+            setMusicFile = new AMapButton(new Vector2(750, 920), "Set Music");
             mapTransitionStart = new AMapButton(new Vector2(750, 880), "Map Transition");
         }
 
@@ -116,6 +118,7 @@ namespace MapEditor.Manager
             saveFile.Load();
             loadFile.Load();
             playerStart.Load();
+            setMusicFile.Load();
             mapTransitionStart.Load();
         }
 
@@ -169,6 +172,7 @@ namespace MapEditor.Manager
             saveFile.Draw(_spriteBatch);
             loadFile.Draw(_spriteBatch);
             clearMap.Draw(_spriteBatch);
+            setMusicFile.Draw(_spriteBatch);
             playerStart.Draw(_spriteBatch, buttonSelected == MapButtonType.PlayerPosition);
             mapTransitionStart.Draw(_spriteBatch, buttonSelected == MapButtonType.MapTransition);
         }
@@ -223,6 +227,11 @@ namespace MapEditor.Manager
             if (clearMap.Intersects(MouseManager.Instance.Position))
             {
                 map.Reset();
+            }
+
+            if (setMusicFile.Intersects(MouseManager.Instance.Position))
+            {
+                map.SetMusic();
             }
 
             if (playerStart.Intersects(MouseManager.Instance.Position)){
