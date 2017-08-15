@@ -63,7 +63,6 @@ namespace Giest_ario_platformer.Screens
                 isPause = !isPause;
             }
 
-
             if (isPause)
             {
 

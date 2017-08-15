@@ -112,6 +112,13 @@ namespace Giest_ario_platformer.GameObjects
 
                 Update(_gameTime);
 
+                if (KeyboardManager.Instance.IsKeyActivity(Keys.R.ToString(), KeyActivity.Pressed))
+                {
+                    Position.X = _map.PlayerPosition.X;
+                    Position.Y = _map.PlayerPosition.Y;
+                    isJumping = true;
+                }
+
                 float newPosition;
                 bool positiveChange = SavePosition.X < Position.X;
                 bool collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, true, out newPosition);
@@ -260,13 +267,7 @@ namespace Giest_ario_platformer.GameObjects
                 moving = Direction.Right;
             }
 
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.R.ToString(), KeyActivity.Pressed))
-            {
-                Position.X = 40;
-                Position.Y = 20;
-                isJumping = true;
-            }
-
+          
             Position.X += horSpeed;
 
             if(Math.Abs(horSpeed) > 8f)
@@ -290,6 +291,7 @@ namespace Giest_ario_platformer.GameObjects
 
             if (!isJumping && KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Pressed))
             {
+                SoundManager.Instance.PlaySound("Mario_Jump");
                 isJumping = true;
                 fallSpeed = -10f;
             }

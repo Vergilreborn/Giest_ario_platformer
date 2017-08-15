@@ -57,6 +57,7 @@ namespace Giest_ario_platformer.GameObjects
             emptyBlockTexture = GameManager.Instance.CreateColorTexture(255, 255, 255, 255);
             this.tileSize = 32;
             widthHeight = new Vector2(mapInfo.Tiles.GetLength(0), mapInfo.Tiles.GetLength(1));
+            MusicManager.Instance.PlaySong("Testing");
         }
 
         internal void Dispose()
