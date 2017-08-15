@@ -149,5 +149,10 @@ namespace MapEditor.Manager
 
             cursor.Draw(_spriteBatch);
         }
+
+        public Texture2D getTexture()
+        {
+            return texture;
+        }
     }
 }

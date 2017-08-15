@@ -69,6 +69,7 @@ namespace MapEditor.Manager
         public Viewport Viewport;
         public Camera Cam;
         private ObjectSourceManager objectSourceManager;
+        private CollisionTypeManager typeManager;
         private Map map;
 
         private AMapButton saveFile;
@@ -88,8 +89,10 @@ namespace MapEditor.Manager
         public void Init()
         {
             scale = new Vector2(1,1);
+            typeManager = new CollisionTypeManager();
             objectSourceManager = new ObjectSourceManager();
             objectSourceManager.Init();
+            typeManager.Init();
             map = new Map();
             map.Init();
             debugMode = false;
@@ -117,6 +120,7 @@ namespace MapEditor.Manager
             clearMap.Load();
             saveFile.Load();
             loadFile.Load();
+            typeManager.Load();
             playerStart.Load();
             setMusicFile.Load();
             mapTransitionStart.Load();
@@ -172,9 +176,18 @@ namespace MapEditor.Manager
             saveFile.Draw(_spriteBatch);
             loadFile.Draw(_spriteBatch);
             clearMap.Draw(_spriteBatch);
+            typeManager.Draw(_spriteBatch);
             setMusicFile.Draw(_spriteBatch);
             playerStart.Draw(_spriteBatch, buttonSelected == MapButtonType.PlayerPosition);
             mapTransitionStart.Draw(_spriteBatch, buttonSelected == MapButtonType.MapTransition);
+
+
+            Texture2D texture = objectSourceManager.getTexture();
+            Rectangle selectedSource = objectSourceManager.Cursor.Selected.Source;
+
+            _spriteBatch.DrawString(debugFont, "Selected", new Vector2(20, 480), Color.Pink);
+            _spriteBatch.Draw(texture, new Vector2(34, 500), selectedSource, Color.White);
+
         }
 
         public void SetGraphicsDevice(GraphicsDevice _graphicsDevice)

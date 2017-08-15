@@ -60,10 +60,12 @@
     </Compile>
     <Compile Include="Game1.cs" />
     <Compile Include="Handlers\Camera.cs" />
+    <Compile Include="Helpers\Constant.cs" />
     <Compile Include="Helpers\FileManager.cs" />
     <Compile Include="Exceptions\NoFileSelectedException.cs" />
     <Compile Include="Helpers\SpriteBatchAssist.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
+    <Compile Include="Manager\CollisionTypeManager.cs" />
     <Compile Include="Manager\KeyboardManager.cs" />
     <Compile Include="Manager\MapManager.cs" />
     <Compile Include="Manager\MouseManager.cs" />
