@@ -85,7 +85,7 @@ namespace MapEditor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            
+            MapManager.Instance.SetActive(IsActive);
             MapManager.Instance.Update(gameTime);
 
             base.Update(gameTime);

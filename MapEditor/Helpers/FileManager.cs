@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using MapEditor.Exceptions;
+using MapEditor.Forms;
+using MapEditor.Objects.MapObjects;
 
 namespace MapEditor.Helpers
 {
@@ -23,6 +25,26 @@ namespace MapEditor.Helpers
             return JsonConvert.DeserializeObject<E>(_objStr);
         }
 
+        public static void SaveFileGameObject(String _fileExt,String _folderName,E _obj)
+        {
+            using(TextboxDialog fDialog = new TextboxDialog($"Save {_fileExt}:"))
+            {
+                DialogResult dg =  fDialog.ShowDialog();
+                if(dg == DialogResult.OK)
+                {
+                    String fileName = fDialog.GetField();
+                    String currentDirectory = $@"{Directory.GetCurrentDirectory()}\Content\{_folderName}\";
+                    if (!Directory.Exists(currentDirectory))
+                    {
+                        Directory.CreateDirectory(currentDirectory);
+                    }
+                    String filePath = currentDirectory +  fileName+ _fileExt;
+                  
+                    File.WriteAllText(filePath, SerializeObject(_obj));
+                }
+            }
+        }
+
         public static void SaveFile(String _fileType,String _fileTypeName, E _obj)
         {
             using (SaveFileDialog fDialog = new SaveFileDialog())
@@ -35,6 +57,22 @@ namespace MapEditor.Helpers
                     String filePath = fDialog.FileName;
                     File.WriteAllText(filePath, SerializeObject(_obj));
                 }
+            }
+
+        }
+
+        public static E LoadFileGameObject(string _fileExt, string _folderName)
+        {
+            using (DropDownDialog fDialog = new DropDownDialog(_fileExt, "Map", $"Load ({_fileExt})"))
+            {
+
+                DialogResult dg = fDialog.ShowDialog();
+                if (dg == DialogResult.OK)
+                {
+                    String fileName = fDialog.GetField();
+                    return DeserializeObject(File.ReadAllText(fileName));
+                }
+                throw new NoFileSelectedException();
             }
 
         }

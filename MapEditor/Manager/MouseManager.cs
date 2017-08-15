@@ -58,6 +58,8 @@ namespace MapEditor.Manager
 
         public Boolean IsKeyActivity(bool _left, KeyActivity _activity)
         {
+            if (!MapManager.Instance.IsActive)
+                return false;
             switch (_activity)
             {
                 case KeyActivity.Down:

@@ -11,22 +11,38 @@ using Microsoft.Xna.Framework.Input;
 using Giest_ario_platformer.Enums;
 using Giest_ario_platformer.Handlers;
 using Giest_ario_platformer.Helpers;
+using Giest_ario_platformer.GameObjects.MapObjects;
 
 namespace Giest_ario_platformer.GameObjects
 {
     class Player : AGameObject
     {
 
+        public bool IsDead
+        {
+            get { return isDead; }
+        }
+
+        public String ChangeLevel
+        {
+            get { return changeLevel; }
+        }
+
         private Animation currentAnimation;
         private AnimationSet animations;
         private float fallSpeed;
         private bool isJumping;
+        private bool isDead = false;
         private Direction current;
         private Direction moving;
         private String action;
         private float horSpeed;
         private float horSpeedBackup;
         private Texture2D debugtexture;
+        private String changeLevel = null;
+        private float deadUpSpeed = -12f;
+        private float deathSpeedGravity = 0.5f;
+        
 
         private String debugStr;
 
@@ -60,7 +76,7 @@ namespace Giest_ario_platformer.GameObjects
             animations.AddAnimation("Right", "Player/Mario_Still_Right", 1, 100, false);
             animations.AddAnimation("Jump_Left", "Player/Mario_Jump_Left", 1, 100, false);
             animations.AddAnimation("Jump_Right", "Player/Mario_Jump_Right", 1, 100, false);
-
+            animations.AddAnimation("Death", "Player/Mario_Death", 1, 100, false);
             animations.AddAnimation("Turn_Left", "Player/Mario_Turn_Left", 1, 100, false);
             animations.AddAnimation("Turn_Right", "Player/Mario_Turn_Right", 1, 100, false);
             animations.AddAnimation("Walk_Left", "Player/Mario_Walk_Left", 2, 70, true);
@@ -85,64 +101,118 @@ namespace Giest_ario_platformer.GameObjects
         //handle collision
         internal void Update(GameTime _gameTime, Map _map)
         {
+            debugStr = "";
 
-            SavePosition.X = Position.X;
-            SavePosition.Y = Position.Y;
-
-            Update(_gameTime);
-
-            float newPosition;
-            bool positiveChange = SavePosition.X < Position.X;
-            bool collision = CollisionDetection.IsColliding(_map,CollisionBox,positiveChange,true,out newPosition);
-
-            if (collision)
+            if (!isDead)
             {
-                Position.X = newPosition;
-                horSpeed = 0f;
+                changeLevel = null;
+
+                SavePosition.X = Position.X;
+                SavePosition.Y = Position.Y;
+
+                Update(_gameTime);
+
+                float newPosition;
+                bool positiveChange = SavePosition.X < Position.X;
+                bool collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, true, out newPosition);
+
+                if (collision)
+                {
+                    Position.X = newPosition;
+                    horSpeed = 0f;
+                }
+
+                debugStr = $"Hor:({collision},{horSpeed})";
+                Position.Y += fallSpeed;
+
+                positiveChange = SavePosition.Y < Position.Y;
+                collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, false, out newPosition);
+
+                if (!collision)
+                {
+                    fallSpeed = Math.Min(fallSpeed + Gravity, 10f);
+                    if (fallSpeed > 1f)
+                        isJumping = true;
+
+
+                }
+                else
+                {
+                    Position.Y = newPosition;
+                    fallSpeed = Gravity;
+                    isJumping = false;
+                }
+
+                if (isJumping)
+                {
+                    action = "Jump";
+                    if (Math.Abs(horSpeed) > 8f)
+                        action = "RunJump";
+                }
+                debugStr += Environment.NewLine + $"Ver:({collision},{fallSpeed})";
+
+                if (KeyboardManager.Instance.IsKeyActivity(Keys.A.ToString(), KeyActivity.Pressed))
+                {
+                    action = "Death";
+                    isJumping = false;
+                    moving = Direction.None;
+                    isDead = true;
+                    fallSpeed = deadUpSpeed;
+                }
+
+                if (Position.Y > _map.MapHeight)
+                {
+                    action = "Death";
+                    isJumping = false;
+                    moving = Direction.None;
+                    isDead = true;
+                    fallSpeed = deadUpSpeed;
+                    Position.Y += fallSpeed;
+
+                }
+            }
+            if (Position.Y > _map.MapHeight)
+            {
+                isDead = false;
+                Position.X = _map.PlayerPosition.X;
+                Position.Y = _map.PlayerPosition.Y;
+                fallSpeed = 0f;
+                moving = Direction.None;
+
             }
 
-            debugStr = $"Hor:({collision},{horSpeed})";
-            Position.Y += fallSpeed;
+            debugStr += Environment.NewLine + $"Action:{action}";
+            
+            setAnimation(_gameTime);
 
-            positiveChange = SavePosition.Y < Position.Y;
-            collision = CollisionDetection.IsColliding(_map, CollisionBox,positiveChange,false, out newPosition);
-
-            if (!collision)
+            MapObject newLevel = CollisionDetection.IsCollidingObjects(_map, CollisionBox);
+            if (newLevel != null)
             {
-                fallSpeed = Math.Min(fallSpeed + Gravity, 10f);
-                if(fallSpeed > 1f)
-                    isJumping = true;
+                changeLevel = newLevel.Data;
+            }
+            
+        }
 
-
+        public void PlayDeathUpdate(GameTime _gameTime,Map _map)
+        {
+            if (Position.Y > _map.MapHeight)
+            {
+                isDead = false;
+                Position.X = _map.PlayerPosition.X;
+                Position.Y = _map.PlayerPosition.Y;
+                fallSpeed = 0f;
+                moving = Direction.None;
             }
             else
             {
-                Position.Y = newPosition;
-                fallSpeed = Gravity;
-                isJumping = false;
+                Position.Y += fallSpeed;
+                fallSpeed += deathSpeedGravity;
             }
-
-            if (isJumping)
-            {
-                action = "Jump";
-                if (Math.Abs(horSpeed) > 8f)
-                    action = "RunJump";
-            }
-
-            debugStr += Environment.NewLine + $"Ver:({collision},{fallSpeed})";
-            debugStr += Environment.NewLine + $"Action:{action}";
             setAnimation(_gameTime);
-
-            //TODO: set death = true and play death animation
-            if(Position.Y > _map.MapHeight)
-            {
-                Position.X = 64;
-                Position.Y = 64;
-            }
 
         }
 
-        
+
         //handle animation
         public override void Update(GameTime _gameTime)
         {
@@ -222,32 +292,31 @@ namespace Giest_ario_platformer.GameObjects
             {
                 isJumping = true;
                 fallSpeed = -10f;
-                //action = "Jump";
             }
             else if (isJumping && fallSpeed < 0 && KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Hold))
             {
                 fallSpeed -= .6f;
-                //action = "Jump";
             }
             
         }
-        
+  
         private void setAnimation(GameTime _gameTime)
         {
 
             String mainDirection = current.ToString();
-
-            if (moving == Direction.None && !isJumping)
+            if (isDead)
+            {
+                currentAnimation = animations.GetAnimation(action);
+            }
+            else if (moving == Direction.None && !isJumping)
             {
                 currentAnimation = animations.GetAnimation(mainDirection);
             }
             else
             {
-
                 if(moving != Direction.None)
                     current = moving;
                 currentAnimation = animations.GetAnimation($"{action}_{mainDirection}");
-
             }
 
             currentAnimation.Update(_gameTime);
@@ -255,7 +324,6 @@ namespace Giest_ario_platformer.GameObjects
 
         public override void Draw(SpriteBatch _spriteBatch)
         {
-
             
             currentAnimation.Draw(_spriteBatch,CollisionBox);
 
@@ -263,7 +331,5 @@ namespace Giest_ario_platformer.GameObjects
             _spriteBatch.DrawString(GameManager.Instance.Fonts["Debug"], debugStr, Position - new Vector2(100, 20), Color.Turquoise);
 
         }
-
-
     }
 }

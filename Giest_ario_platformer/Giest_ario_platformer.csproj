@@ -45,10 +45,12 @@
     <Compile Include="Abstract\AGameScreen.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Enums\KeyActivity.cs" />
+    <Compile Include="Enums\MapTypeObject.cs" />
     <Compile Include="Enums\TileType.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObjects\Map.cs" />
     <Compile Include="GameObjects\MapObjects\MapInformation.cs" />
+    <Compile Include="GameObjects\MapObjects\MapObject.cs" />
     <Compile Include="GameObjects\MapObjects\Tile.cs" />
     <Compile Include="GameObjects\Player.cs" />
     <Compile Include="Handlers\Animation.cs" />
@@ -89,9 +91,6 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
-    <Content Include="Content\Map\Testing.lvl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Content\Fonts\Debug.spritefont" />
     <None Include="Content\Fonts\GameFont_l.spritefont" />
     <None Include="Content\Fonts\GameFont_m.spritefont" />
@@ -100,6 +99,12 @@
     <None Include="Content\Fonts\GameFont_xs.spritefont" />
     <None Include="Content\Fonts\lunchds.ttf" />
     <None Include="Content\Fonts\manaspc.ttf" />
+    <None Include="Content\Map\Testing.gmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Map\Testing1.gmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

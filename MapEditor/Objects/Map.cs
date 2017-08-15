@@ -11,6 +11,8 @@ using MapEditor.Enums;
 using MapEditor.Helpers;
 using MapEditor.Exceptions;
 using MapEditor.Objects.MapObjects;
+using MapEditor.Forms;
+using System.Windows.Forms;
 
 namespace MapEditor.Objects
 {
@@ -28,6 +30,7 @@ namespace MapEditor.Objects
 
         //private Tile[,] tiles;
         private MapInformation mapInfo;
+        private DropDownDialog mapSelected;
         
         private String debugString;
         
@@ -39,6 +42,7 @@ namespace MapEditor.Objects
 
         public void Init()
         {
+            mapSelected = new DropDownDialog(".gmap","Map", "Selected Map:");
             mapInfo = new MapInformation();
             mapInfo.Init();
 
@@ -49,14 +53,15 @@ namespace MapEditor.Objects
 
         public void SaveMap()
         {
-            FileManager<MapInformation>.SaveFile("lvl","Giestario Levels", mapInfo);
+            FileManager<MapInformation>.SaveFileGameObject(".gmap", "Map", mapInfo);
         }
 
         public void LoadMap()
         {
             try
             {
-                mapInfo = FileManager<MapInformation>.LoadFile("map", "Giestario Map");
+                mapInfo = FileManager<MapInformation>.LoadFileGameObject(".gmap", "Map");
+                    //FileManager<MapInformation>.LoadFile("gmap", "Giestario Map");
             }catch(NoFileSelectedException e)
             {
 
@@ -118,6 +123,39 @@ namespace MapEditor.Objects
             }
         }
 
+        public void SetTransition(Vector2 _position)
+        {
+            if (inScreen)
+            {
+
+                MapObject mObject = mapInfo.MapObjects.AsQueryable().Where(x => x.DestinationBox.Contains(_position - Position)).FirstOrDefault();
+
+                mapSelected.ShowDialog();
+                DialogResult result = mapSelected.DialogResult;
+                String results = mapSelected.GetCleanText();
+                if (result == DialogResult.OK && results != "")
+                {
+                    
+                    
+                    Tile t = cursor.Selected;
+                    if (mObject == null)
+                    {
+                        MapObject obj = new MapObject();
+                        obj.AddTile(t);
+                        obj.SetType(MapTypeObject.Transition);
+                        obj.Data = results;
+                        mapInfo.MapObjects.Add(obj);
+                    }
+                    else if(mObject.Type == MapTypeObject.Transition)
+                    {
+                        mObject.AddTile(t);
+                        mObject.SetType(MapTypeObject.Transition);
+                        mObject.Data = results;
+                    }
+                }
+            }
+        }
+
         public void Reset()
         {
             mapInfo.Reset();
@@ -149,6 +187,12 @@ namespace MapEditor.Objects
                     }
                 }
             }
+
+            foreach(MapObject mapObj in mapInfo.MapObjects){
+                Rectangle drawRect = new Rectangle(mapObj.DestinationBox.X + (int)Position.X, mapObj.DestinationBox.Y + (int)Position.Y, mapObj.DestinationBox.Width, mapObj.DestinationBox.Height);
+                _spriteBatch.Draw(emptyBlockTexture, drawRect, mapObj.GetDrawColor());
+            }
+
 
             _spriteBatch.Draw(texturePlayerPosition, Position + mapInfo.PlayerPosition, Color.White);
 
