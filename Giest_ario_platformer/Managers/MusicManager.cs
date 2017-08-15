@@ -24,10 +24,11 @@ namespace Giest_ario_platformer.Managers
 
         private Song songPlaying;
         private String currentSong;
+        private bool isPaused;
 
         public MusicManager()
         {
-            
+            isPaused = false;    
         }
 
         public void PlaySong(string _song)
@@ -45,6 +46,20 @@ namespace Giest_ario_platformer.Managers
                 MediaPlayer.IsRepeating = true;
                 songPlaying = song;
             }
+        }
+
+        public void Pause()
+        {
+            isPaused = !isPaused;
+            if (isPaused)
+            {
+                MediaPlayer.Pause();
+            }
+            else
+            {
+                MediaPlayer.Resume();
+            }
+            
         }
         
 

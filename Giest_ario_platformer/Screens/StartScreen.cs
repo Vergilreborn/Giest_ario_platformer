@@ -32,7 +32,7 @@ namespace Giest_ario_platformer.Screens
         {
             //TODO: Dynamicall load the options and change screen depending on them
 
-            screenOptions = new List<string> { "Start", "Exit" };
+            screenOptions = new List<string> { "START", "EXIT" };
             currentOptionPos = 0;
             position = new Vector2(0, 0);
         }
@@ -70,8 +70,8 @@ namespace Giest_ario_platformer.Screens
             {
                 switch (screenOptions[currentOptionPos])
                 {
-                    case "Start" : GameManager.Instance.ChangeScreen("MainGameScreen"); break;
-                    case "Exit": GameManager.Instance.ChangeScreen("Exit"); break;
+                    case "START" : GameManager.Instance.ChangeScreen("MainGameScreen"); break;
+                    case "EXIT": GameManager.Instance.ChangeScreen("Exit"); break;
                 }
             }
 

@@ -61,6 +61,7 @@ namespace Giest_ario_platformer.Screens
             if(KeyboardManager.Instance.IsKeyActivity(Keys.Enter.ToString(), KeyActivity.Pressed))
             {
                 isPause = !isPause;
+                MusicManager.Instance.Pause();
             }
 
             if (isPause)
