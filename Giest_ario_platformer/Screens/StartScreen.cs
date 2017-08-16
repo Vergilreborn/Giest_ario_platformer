@@ -35,6 +35,7 @@ namespace Giest_ario_platformer.Screens
             screenOptions = new List<string> { "START", "EXIT" };
             currentOptionPos = 0;
             position = new Vector2(0, 0);
+            
         }
 
         public override void Load()

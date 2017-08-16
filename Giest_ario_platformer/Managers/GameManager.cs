@@ -83,6 +83,7 @@ namespace Giest_ario_platformer.Managers
             fonts.Add("Medium", Content.Load<SpriteFont>("Fonts/GameFont_m"));
             fonts.Add("Large", Content.Load<SpriteFont>("Fonts/GameFont_l"));
             fonts.Add("XLarge", Content.Load<SpriteFont>("Fonts/GameFont_xl"));
+            Cam.Load();
             currentScreen.Load();
         }
 
@@ -121,8 +122,9 @@ namespace Giest_ario_platformer.Managers
 
 
         public void Draw(SpriteBatch _spriteBatch)
-        { 
-            currentScreen.Draw(_spriteBatch); 
+        {
+            Cam.Draw(_spriteBatch);
+            currentScreen.Draw(_spriteBatch);
         }
 
         public void ChangeScreen(string screenName)

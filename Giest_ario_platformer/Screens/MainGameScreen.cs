@@ -39,7 +39,8 @@ namespace Giest_ario_platformer.Screens
             map = new Map();
             map.Init();
             player.Init();
-           
+            GameManager.Instance.Cam.SetMapBoundary(map.GetBoundary());
+
 
         }
 
@@ -53,6 +54,7 @@ namespace Giest_ario_platformer.Screens
         public void LoadMap(String mapName)
         {
             map.LoadTestMap(mapName);
+          
             player.SetPosition(map.PlayerPosition);
         }
 
@@ -78,7 +80,7 @@ namespace Giest_ario_platformer.Screens
                 if (player.ChangeLevel != null){
                     LoadMap(player.ChangeLevel);
                 }
-                GameManager.Instance.Cam.Update(_gameTime, player.Center);
+                GameManager.Instance.Cam.Follow(player.CollisionBox);
             }
         }
 
