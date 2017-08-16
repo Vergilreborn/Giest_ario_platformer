@@ -20,6 +20,8 @@ namespace MapEditor.Helpers
                     return Color.LightPink* .50f;
                 case TileType.Death:
                     return Color.Red * .50f;
+                case TileType.Water:
+                    return Color.MediumAquamarine * .50f;
                 case TileType.Ice:
                     return Color.Blue * .50f;
                 default:

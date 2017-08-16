@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MapEditor.Enums;
 using MapEditor.Helpers;
+using MapEditor.Objects.MapObjects;
 
 namespace MapEditor.Manager
 {
@@ -15,10 +16,11 @@ namespace MapEditor.Manager
     {
 
         private Texture2D emptyTexture;
-       private TileType[] enumArray;
+        private TileType[] enumArray;
         private int tileSizeX;
         private int tileSizeY;
         private Vector2 position;
+        List<CollisionTypeButton> colButtons;
         
 
         public CollisionTypeManager()
@@ -28,10 +30,17 @@ namespace MapEditor.Manager
         
         public void Init()
         {
+            colButtons = new List<CollisionTypeButton>();
             tileSizeX = 32;
             tileSizeY = 32;
             position = new Vector2(25, 600);
-            enumArray = (TileType[])Enum.GetValues(typeof(TileType)); ;
+            enumArray = (TileType[])Enum.GetValues(typeof(TileType));
+            for(int i = 0;i< enumArray.Length; i++)
+            {
+                Rectangle destination = new Rectangle((int)position.X, (int)position.Y
+                      + (tileSizeY * i) + i, tileSizeX, tileSizeY);
+                colButtons.Add(new CollisionTypeButton(destination, enumArray[i]));
+            }
         }
 
         public void Load()
@@ -47,12 +56,11 @@ namespace MapEditor.Manager
         public void Draw(SpriteBatch _spriteBatch)
         {
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, "Collision Types",position - new Vector2(0,20), Color.White);
-            for(var i = 0; i < enumArray.Length; i++)
-            {
-                Rectangle destination = new Rectangle((int)position.X, (int)position.Y
-                        + (tileSizeY * i) + i, tileSizeX, tileSizeY);
-                _spriteBatch.Draw(emptyTexture, destination, Constant.GetCollisionColor(enumArray[i]));
-                SpriteBatchAssist.DrawBox(_spriteBatch, emptyTexture, destination);
+            foreach(CollisionTypeButton colButton in colButtons)
+             {
+                _spriteBatch.Draw(emptyTexture, colButton.Destination, Constant.GetCollisionColor(colButton.Type));
+                _spriteBatch.DrawString(MapManager.Instance.DebugFont, colButton.Type.ToString(), new Vector2(colButton.Destination.Right + 5, colButton.Destination.Top + 5), Color.White);
+                SpriteBatchAssist.DrawBox(_spriteBatch, emptyTexture, colButton.Destination);
             }
         }
     }

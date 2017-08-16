@@ -73,6 +73,7 @@
     <Compile Include="Objects\Cursor.cs" />
     <Compile Include="Objects\Map.cs" />
     <Compile Include="Abstract\AMapButton.cs" />
+    <Compile Include="Objects\MapObjects\CollisionTypeButton.cs" />
     <Compile Include="Objects\MapObjects\MapInformation.cs" />
     <Compile Include="Objects\MapObjects\MapObject.cs" />
     <Compile Include="Objects\MapObjects\Tile.cs" />
