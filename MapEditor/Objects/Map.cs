@@ -190,7 +190,8 @@ namespace MapEditor.Objects
                     }
 
                     SpriteBatchAssist.DrawBox(_spriteBatch, emptyBlockTexture, drawDestination, .33f);
-                    _spriteBatch.Draw(emptyBlockTexture, drawDestination, Constant.GetCollisionColor(tile.Type) * (MapManager.Instance.ShowTypes != DrawType.Tile ? 1f : .33f));
+                    if(tile.Type != TileType.None)
+                        _spriteBatch.Draw(emptyBlockTexture, drawDestination, Constant.GetCollisionColor(tile.Type) * (MapManager.Instance.ShowTypes != DrawType.Tile ? 1f : .33f));
                                       
                 }
             }

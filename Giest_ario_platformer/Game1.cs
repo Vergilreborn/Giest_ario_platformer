@@ -106,7 +106,7 @@ namespace Giest_ario_platformer
 
             //spriteBatch.Begin();
             //Scale
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, GameManager.Instance.Cam.GetTransform());
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, new SamplerState() { Filter = TextureFilter.Point }, null, null, null, GameManager.Instance.Cam.GetTransform());
             
 
             GameManager.Instance.Draw(spriteBatch);

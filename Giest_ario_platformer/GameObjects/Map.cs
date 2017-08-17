@@ -105,7 +105,7 @@ namespace Giest_ario_platformer.GameObjects
             {
                 for (int y = 0; y < widthHeight.Y; y++)
                 {
-                    if (mapInfo.Tiles[x, y].Source != new Rectangle()) {
+                    if (mapInfo.Tiles[x, y].Source != new Rectangle() || mapInfo.Tiles[x,y].Type != TileType.None) {
                         _spriteBatch.Draw(texture, mapInfo.Tiles[x, y].Destination, mapInfo.Tiles[x, y].Source, Color.White);
                         if (GameManager.Instance.IsDebug)
                         {

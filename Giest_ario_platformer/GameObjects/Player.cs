@@ -32,6 +32,7 @@ namespace Giest_ario_platformer.GameObjects
         private AnimationSet animations;
         private float fallSpeed;
         private bool isJumping;
+        private bool isSwimming;
         private bool isDead = false;
         private Direction current;
         private Direction moving;
@@ -123,41 +124,64 @@ namespace Giest_ario_platformer.GameObjects
                 TileType collisionType;
                 bool collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, true, out newPosition, out collisionType);
 
+
                 if (collision )
                 {
                     Position.X = newPosition;
                     horSpeed = 0f;
                 }
                 
-                debugStr = $"Hor:({collision},{horSpeed})";
+                debugStr = $"Hor:({collision},{collisionType.ToString()},{horSpeed})";
                 Position.Y += fallSpeed;
 
                 positiveChange = SavePosition.Y < Position.Y;
-                collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, false, out newPosition, out collisionType);
+                TileType collisionTypeVer;
+                collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, false, out newPosition, out collisionTypeVer);
+
+                collisionType = (collisionType == TileType.Water ? TileType.Water : collisionTypeVer);
 
                 if (!collision)
                 {
-                    fallSpeed = Math.Min(fallSpeed + Gravity, 10f);
-                    if (fallSpeed > 1f)
-                        isJumping = true;
-
+                    if (collisionType == TileType.Water)
+                    {
+                        fallSpeed = Math.Max(fallSpeed + (Gravity / 3f), -6f);
+                        fallSpeed = Math.Min(fallSpeed + (Gravity/3f), 2f);
+                        isSwimming = true;
+                    }
+                    else
+                    {
+                        isSwimming = false;
+                        fallSpeed = Math.Min(fallSpeed + Gravity, 10f);
+                        if (fallSpeed > 1f)
+                            isJumping = true;
+                    }
                 }
                 else
                 {
                    
                     Position.Y = newPosition;
-                    fallSpeed = Gravity;
+                    if (collisionType == TileType.Water)
+                    {
+                        fallSpeed = Math.Max(fallSpeed + (Gravity / 3f), -6f);
+                        fallSpeed = Math.Min(fallSpeed + (Gravity / 3f), 2f);
+                        isSwimming = true;
+                    }
+                    else
+                    {
+                        fallSpeed = Gravity;
+                        isSwimming = false;
+                    }
                     isJumping = false;
                    
                 }
-
+                
                 if (isJumping)
                 {
                     action = "Jump";
                     if (Math.Abs(horSpeed) > 8f)
                         action = "RunJump";
                 }
-                debugStr += Environment.NewLine + $"Ver:({collision},{fallSpeed})";
+                debugStr += Environment.NewLine + $"Ver:({collision},{collisionType.ToString()},{fallSpeed})";
 
                 if (KeyboardManager.Instance.IsKeyActivity(Keys.A.ToString(), KeyActivity.Pressed))
                 {
@@ -237,20 +261,24 @@ namespace Giest_ario_platformer.GameObjects
                     && KeyboardManager.Instance.IsKeyActivity(Keys.Z.ToString(),KeyActivity.Hold))
             {
                 if (horSpeed > 0f)
-                    horSpeed -= .4f;
+                    horSpeed -= isSwimming ? .2f : .4f;
                 else
-                    horSpeed -= .2f;
+                    horSpeed -= isSwimming ? .2f : .2f;
+                if (isSwimming)
+                    horSpeed = Math.Max(horSpeed, -3f);
                 horSpeed = Math.Max(horSpeed, -10f);
                 moving = Direction.Left;
             }
             else if (KeyboardManager.Instance.IsKeyActivity(Keys.Left.ToString(), KeyActivity.Down))
             {
                 if (horSpeed > 0f)
-                    horSpeed -= .3f;
+                    horSpeed -= isSwimming ? .2f : .3f;
                 else if(horSpeed > -4f)
-                    horSpeed -= .2f;
+                    horSpeed -= isSwimming ? .2f : .2f;
                 else if (horSpeed < -4f)
-                    horSpeed += .2f;
+                    horSpeed += isSwimming ? .2f : .2f;
+                if (isSwimming)
+                    horSpeed = Math.Max(horSpeed, -3f);
                 moving = Direction.Left;
             }
 
@@ -258,20 +286,24 @@ namespace Giest_ario_platformer.GameObjects
                   && KeyboardManager.Instance.IsKeyActivity(Keys.Z.ToString(), KeyActivity.Hold))
             {
                 if (horSpeed < 0f)
-                    horSpeed += .4f;
+                    horSpeed += isSwimming ? .2f : .4f;
                 else
-                    horSpeed += .2f;
+                    horSpeed += isSwimming ? .2f : .2f;
+                if (isSwimming)
+                    horSpeed = Math.Min(horSpeed, 3f);
                 horSpeed = Math.Min(horSpeed, 10f);
                 moving = Direction.Right;
             }
             else if (KeyboardManager.Instance.IsKeyActivity(Keys.Right.ToString(), KeyActivity.Down))
             {
                 if (horSpeed < 0f)
-                    horSpeed += .3f;
+                    horSpeed += isSwimming? .2f : .3f;
                 else if (horSpeed < 4f)
-                    horSpeed += .2f;
+                    horSpeed += isSwimming ? .2f : .2f;
                 else if (horSpeed > 4f)
-                    horSpeed -= .2f;
+                    horSpeed -= isSwimming ? .2f : .2f;
+                if (isSwimming)
+                    horSpeed = Math.Min(horSpeed, 3f);
                 moving = Direction.Right;
             }
           
@@ -296,15 +328,24 @@ namespace Giest_ario_platformer.GameObjects
                 action = "Turn";
             }
 
-            if (!isJumping && KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Pressed))
+            if ((!isJumping || isSwimming) && KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Pressed))
             {
-                SoundManager.Instance.PlaySound("Mario_Jump");
-                isJumping = true;
-                fallSpeed = -10f;
+                if (isSwimming) {
+                    fallSpeed = -6f;
+                }
+                else
+                {
+                    SoundManager.Instance.PlaySound("Mario_Jump");
+                    isJumping = true;
+                    fallSpeed = -10f;
+                }
             }
-            else if (isJumping && fallSpeed < 0 && KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Hold))
+            else if ((isJumping || isSwimming) && fallSpeed < 0 && KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Hold))
             {
-                fallSpeed -= .6f;
+                if (isSwimming)
+                    fallSpeed -= .2f;
+                else
+                    fallSpeed -= .6f;
             }
             
         }
@@ -336,10 +377,14 @@ namespace Giest_ario_platformer.GameObjects
             if (GameManager.Instance.IsDebug)
             {
                 _spriteBatch.Draw(debugtexture, CollisionBox, Color.White * Constants.DEBUG_OPACITY);
-                _spriteBatch.DrawString(GameManager.Instance.Fonts["Debug"], debugStr, Position - new Vector2(100, 20), Color.Turquoise);
             }
             currentAnimation.Draw(_spriteBatch, CollisionBox);
+            if (GameManager.Instance.IsDebug)
+                {
 
+                    _spriteBatch.DrawString(GameManager.Instance.Fonts["Debug"], debugStr, Position - new Vector2(100, 20), Color.Turquoise);
+            }
+       
         }
     }
 }

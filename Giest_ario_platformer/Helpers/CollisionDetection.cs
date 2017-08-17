@@ -31,14 +31,18 @@ namespace Giest_ario_platformer.Helpers
                     Tile tile = _map.GetTile(x, y);
                     if (tile != null && tile.Type != TileType.None)
                     {
-                        if (tile.Destination.Intersects(_collisionBox))
+                        if(tile.Destination.Intersects(_collisionBox) &&tile.Type== TileType.Water)
                         {
                             type = tile.Type;
-                            _newValue = _isPositive ? (_isHor ? tile.Destination.X - _collisionBox.Width : tile.Destination.Y - _collisionBox.Height) : 
-                                                     (_isHor ? (tile.Destination.X + tile.Destination.Width) : 
-                                                                (tile.Destination.Y + tile.Destination.Height ));
+                        }else if (tile.Destination.Intersects(_collisionBox))
+                        {
+                            type= tile.Type;
+                                _newValue = _isPositive ? (_isHor ? tile.Destination.X - _collisionBox.Width : tile.Destination.Y - _collisionBox.Height) :
+                                                     (_isHor ? (tile.Destination.X + tile.Destination.Width) :
+                                                                (tile.Destination.Y + tile.Destination.Height));
                             return true;
                         }
+                        
                     }
                 }
             }

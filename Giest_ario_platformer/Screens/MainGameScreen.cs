@@ -53,8 +53,8 @@ namespace Giest_ario_platformer.Screens
 
         public void LoadMap(String mapName)
         {
+
             map.LoadTestMap(mapName);
-          
             player.SetPosition(map.PlayerPosition);
         }
 
@@ -86,8 +86,8 @@ namespace Giest_ario_platformer.Screens
 
         public override void Draw(SpriteBatch _spriteBatch)
         {
-            player.Draw(_spriteBatch);
             map.Draw(_spriteBatch);
+            player.Draw(_spriteBatch);
         }
 
         public override void UnLoad()
