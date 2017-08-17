@@ -149,12 +149,14 @@ namespace Giest_ario_platformer.Handlers
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            if(isFollowing)
-                _spriteBatch.Draw(texture, boundingBox, Color.White * .20f);
+            if (GameManager.Instance.IsDebug)
+            {
+                if (isFollowing)
+                    _spriteBatch.Draw(texture, boundingBox, Color.White * .20f);
 
-            if (isFollowing)
-                _spriteBatch.Draw(texture, new Rectangle((int)(-transformation.M41/scale.M11),(int)(-transformation.M42/scale.M22),(int)(view.Width/scale.M11),(int)(view.Height/scale.M22)), Color.Red* .20f);
-
+                if (isFollowing)
+                    _spriteBatch.Draw(texture, new Rectangle((int)(-transformation.M41 / scale.M11), (int)(-transformation.M42 / scale.M22), (int)(view.Width / scale.M11), (int)(view.Height / scale.M22)), Color.Red * .20f);
+            }
         }
     }
 }

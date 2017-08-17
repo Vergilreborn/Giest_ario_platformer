@@ -14,7 +14,7 @@ namespace MapEditor.Manager
 {
     class MapManager : IGameObject
     {
-
+        #region Getters/Setters
         public static MapManager Instance
         {
             get
@@ -57,6 +57,22 @@ namespace MapEditor.Manager
             }
         }
 
+        public DrawType ShowTypes
+        {
+            get
+            {
+                return drawTypeSelected;
+            }
+        }
+        #endregion
+
+        private static MapManager instance;
+
+        public ContentManager Content;
+        public GraphicsDevice Graphics;
+        public Viewport Viewport;
+        public Camera Cam;
+
         private Vector2 scale;
 
         private SpriteFont debugFont;
@@ -64,11 +80,6 @@ namespace MapEditor.Manager
         private bool debugMode;
         private bool isActive;
 
-        private static MapManager instance;
-        public ContentManager Content;
-        public GraphicsDevice Graphics;
-        public Viewport Viewport;
-        public Camera Cam;
         private ObjectSourceManager objectSourceManager;
         private CollisionTypeManager typeManager;
         private Map map;
@@ -79,10 +90,9 @@ namespace MapEditor.Manager
         private AMapButton playerStart;
         private AMapButton mapTransitionStart;
         private AMapButton setMusicFile;
-
         private AMapButton setDrawType;
-        private DrawType drawTypeSelected;
 
+        private DrawType drawTypeSelected;
         private MapButtonType buttonSelected;
 
 
@@ -147,8 +157,12 @@ namespace MapEditor.Manager
                 switch (buttonSelected)
                 {
                     case MapButtonType.None:
-                        map.SetTile(objectSourceManager.Cursor.Selected);
-                    break;
+                        if(drawTypeSelected != DrawType.Collision)
+                            map.SetTile(objectSourceManager.Cursor.Selected);
+
+                        if (drawTypeSelected != DrawType.Tile)
+                            map.SetCollisionType(typeManager.Cursor.Selected.Type);
+                        break;
                     case MapButtonType.PlayerPosition:
                         map.SetPlayerPosition(MouseManager.Instance.Position.ToVector2());
                     break;
@@ -222,7 +236,7 @@ namespace MapEditor.Manager
             
             _spriteBatch.Draw(texture, new Vector2(34, 497), selectedSource, Color.White * (drawTypeSelected != DrawType.Collision? 1f: .33f));
             
-            _spriteBatch.Draw(texture2, collisionSection, Constant.GetCollisionColor(typeManager.Cursor.Selected.Type)*(drawTypeSelected != DrawType.Tile ? 1f : .33f));
+            _spriteBatch.Draw(texture2, collisionSection, Constant.GetCollisionColor(typeManager.Cursor.Selected.Type)*(drawTypeSelected != DrawType.Tile ? 1f : .66f));
 
         }
 

@@ -12,8 +12,9 @@ namespace Giest_ario_platformer.Helpers
 {
     class CollisionDetection
     {
-        public static bool IsColliding(Map _map, Rectangle _collisionBox, bool _isPositive ,bool _isHor, out float _newValue)
+        public static bool IsColliding(Map _map, Rectangle _collisionBox, bool _isPositive ,bool _isHor, out float _newValue, out TileType type)
         {
+            type = TileType.None;
             _newValue = 0f;
             int tileSize = _map.GetTileSizes();
             
@@ -32,6 +33,7 @@ namespace Giest_ario_platformer.Helpers
                     {
                         if (tile.Destination.Intersects(_collisionBox))
                         {
+                            type = tile.Type;
                             _newValue = _isPositive ? (_isHor ? tile.Destination.X - _collisionBox.Width : tile.Destination.Y - _collisionBox.Height) : 
                                                      (_isHor ? (tile.Destination.X + tile.Destination.Width) : 
                                                                 (tile.Destination.Y + tile.Destination.Height ));

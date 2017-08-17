@@ -120,19 +120,20 @@ namespace Giest_ario_platformer.GameObjects
 
                 float newPosition;
                 bool positiveChange = SavePosition.X < Position.X;
-                bool collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, true, out newPosition);
+                TileType collisionType;
+                bool collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, true, out newPosition, out collisionType);
 
-                if (collision)
+                if (collision )
                 {
                     Position.X = newPosition;
                     horSpeed = 0f;
                 }
-
+                
                 debugStr = $"Hor:({collision},{horSpeed})";
                 Position.Y += fallSpeed;
 
                 positiveChange = SavePosition.Y < Position.Y;
-                collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, false, out newPosition);
+                collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, false, out newPosition, out collisionType);
 
                 if (!collision)
                 {
@@ -140,13 +141,14 @@ namespace Giest_ario_platformer.GameObjects
                     if (fallSpeed > 1f)
                         isJumping = true;
 
-
                 }
                 else
                 {
+                   
                     Position.Y = newPosition;
                     fallSpeed = Gravity;
                     isJumping = false;
+                   
                 }
 
                 if (isJumping)
@@ -159,22 +161,17 @@ namespace Giest_ario_platformer.GameObjects
 
                 if (KeyboardManager.Instance.IsKeyActivity(Keys.A.ToString(), KeyActivity.Pressed))
                 {
-                    action = "Death";
-                    isJumping = false;
-                    moving = Direction.None;
-                    isDead = true;
-                    fallSpeed = deadUpSpeed;
+                    setDeath();
+                }
+
+                if (collisionType == TileType.Death)
+                {
+                    setDeath();
                 }
 
                 if (Position.Y > _map.MapHeight)
                 {
-                    action = "Death";
-                    isJumping = false;
-                    moving = Direction.None;
-                    isDead = true;
-                    fallSpeed = deadUpSpeed;
-                    Position.Y += fallSpeed;
-
+                    setDeath();
                 }
             }
             if (Position.Y > _map.MapHeight)
@@ -197,6 +194,17 @@ namespace Giest_ario_platformer.GameObjects
                 changeLevel = newLevel.Data;
             }
             
+        }
+
+        private void setDeath()
+        {
+            horSpeed = 0;
+            action = "Death";
+            isJumping = false;
+            moving = Direction.None;
+            isDead = true;
+            fallSpeed = deadUpSpeed;
+            Position.Y += fallSpeed;
         }
 
         public void PlayDeathUpdate(GameTime _gameTime,Map _map)
@@ -256,7 +264,8 @@ namespace Giest_ario_platformer.GameObjects
                 horSpeed = Math.Min(horSpeed, 10f);
                 moving = Direction.Right;
             }
-            else if (KeyboardManager.Instance.IsKeyActivity(Keys.Right.ToString(), KeyActivity.Down)){
+            else if (KeyboardManager.Instance.IsKeyActivity(Keys.Right.ToString(), KeyActivity.Down))
+            {
                 if (horSpeed < 0f)
                     horSpeed += .3f;
                 else if (horSpeed < 4f)
@@ -265,7 +274,6 @@ namespace Giest_ario_platformer.GameObjects
                     horSpeed -= .2f;
                 moving = Direction.Right;
             }
-
           
             Position.X += horSpeed;
 
@@ -325,10 +333,11 @@ namespace Giest_ario_platformer.GameObjects
 
         public override void Draw(SpriteBatch _spriteBatch)
         {
-            
-            
-            _spriteBatch.Draw(debugtexture, CollisionBox, Color.White * Constants.DEBUG_OPACITY);
-            _spriteBatch.DrawString(GameManager.Instance.Fonts["Debug"], debugStr, Position - new Vector2(100, 20), Color.Turquoise);
+            if (GameManager.Instance.IsDebug)
+            {
+                _spriteBatch.Draw(debugtexture, CollisionBox, Color.White * Constants.DEBUG_OPACITY);
+                _spriteBatch.DrawString(GameManager.Instance.Fonts["Debug"], debugStr, Position - new Vector2(100, 20), Color.Turquoise);
+            }
             currentAnimation.Draw(_spriteBatch, CollisionBox);
 
         }

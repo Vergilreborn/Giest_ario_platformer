@@ -10,6 +10,8 @@ using Giest_ario_platformer.Abstract;
 using Giest_ario_platformer.Screens;
 using Microsoft.Xna.Framework.Content;
 using Giest_ario_platformer.Handlers;
+using Microsoft.Xna.Framework.Input;
+using Giest_ario_platformer.Enums;
 
 namespace Giest_ario_platformer.Managers
 {
@@ -33,7 +35,8 @@ namespace Giest_ario_platformer.Managers
         public ContentManager Content;
         public Viewport ViewPort;
         public GraphicsDevice Graphics;
-      //  public SpriteFont DebugFont;
+        //  public SpriteFont DebugFont;
+        
         public Camera Cam;
         public Dictionary<String, SpriteFont> Fonts
         {
@@ -52,8 +55,14 @@ namespace Giest_ario_platformer.Managers
             }
         }
 
+        public bool IsDebug
+        {
+            get { return isDebug; }
+        }
+
         private Dictionary<String, SpriteFont> fonts;
 
+        private bool isDebug;
         private bool exitGame;
         private AGameScreen currentScreen;
         
@@ -89,6 +98,11 @@ namespace Giest_ario_platformer.Managers
 
         public void Update(GameTime _gameTime)
         {
+            if (KeyboardManager.Instance.IsKeyActivity(Keys.Tab.ToString(), KeyActivity.Pressed))
+            {
+                isDebug = !isDebug;
+            }
+
             currentScreen.Update(_gameTime);
         }
 

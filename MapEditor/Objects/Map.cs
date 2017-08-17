@@ -28,9 +28,8 @@ namespace MapEditor.Objects
         private Cursor cursor;
         private bool inScreen;
 
-        //private Tile[,] tiles;
         private MapInformation mapInfo;
-        private DropDownDialog mapSelected;
+       
         
         private String debugString;
         
@@ -42,7 +41,7 @@ namespace MapEditor.Objects
 
         public void Init()
         {
-            mapSelected = new DropDownDialog(".gmap","Map", "Selected Map:");
+           
             mapInfo = new MapInformation();
             mapInfo.Init();
 
@@ -61,7 +60,6 @@ namespace MapEditor.Objects
             try
             {
                 mapInfo = FileManager<MapInformation>.LoadFileGameObject(".gmap", "Map");
-                    //FileManager<MapInformation>.LoadFile("gmap", "Giestario Map");
             }catch(NoFileSelectedException e)
             {
 
@@ -110,7 +108,6 @@ namespace MapEditor.Objects
         {
             if (inScreen)
             {
-                cursor.Selected.SetTileType(_selected.Type);
                 cursor.Selected.SetSource(_selected.Source);
             }
         }
@@ -127,32 +124,42 @@ namespace MapEditor.Objects
         {
             if (inScreen)
             {
-
-                MapObject mObject = mapInfo.MapObjects.AsQueryable().Where(x => x.DestinationBox.Contains(_position - Position)).FirstOrDefault();
-
-                mapSelected.ShowDialog();
-                DialogResult result = mapSelected.DialogResult;
-                String results = mapSelected.GetCleanText();
-                if (result == DialogResult.OK && results != "")
+                using (DropDownDialog mapSelected = new DropDownDialog(".gmap", "Map", "Selected Map:"))
                 {
-                    
-                    
-                    Tile t = cursor.Selected;
-                    if (mObject == null)
+                    MapObject mObject = mapInfo.MapObjects.AsQueryable().Where(x => x.DestinationBox.Contains(_position - Position)).FirstOrDefault();
+
+                    mapSelected.ShowDialog();
+                    DialogResult result = mapSelected.DialogResult;
+                    String results = mapSelected.GetCleanText();
+                    if (result == DialogResult.OK && results != "")
                     {
-                        MapObject obj = new MapObject();
-                        obj.AddTile(t);
-                        obj.SetType(MapTypeObject.Transition);
-                        obj.Data = results;
-                        mapInfo.MapObjects.Add(obj);
-                    }
-                    else if(mObject.Type == MapTypeObject.Transition)
-                    {
-                        mObject.AddTile(t);
-                        mObject.SetType(MapTypeObject.Transition);
-                        mObject.Data = results;
+
+
+                        Tile t = cursor.Selected;
+                        if (mObject == null)
+                        {
+                            MapObject obj = new MapObject();
+                            obj.AddTile(t);
+                            obj.SetType(MapTypeObject.Transition);
+                            obj.Data = results;
+                            mapInfo.MapObjects.Add(obj);
+                        }
+                        else if (mObject.Type == MapTypeObject.Transition)
+                        {
+                            mObject.AddTile(t);
+                            mObject.SetType(MapTypeObject.Transition);
+                            mObject.Data = results;
+                        }
                     }
                 }
+            }
+        }
+
+        public void SetCollisionType(TileType _type)
+        {
+            if (inScreen)
+            {
+                cursor.Selected.SetTileType(_type);
             }
         }
 
@@ -170,21 +177,21 @@ namespace MapEditor.Objects
                 {
                     //Initializing an empty array of screen width and height
                     Rectangle drawDestination = new Rectangle();
+                    Tile tile= mapInfo.Tiles[x, y];
                     drawDestination.X = mapInfo.Tiles[x, y].Destination.X + (int)Position.X;
                     drawDestination.Y = mapInfo.Tiles[x, y].Destination.Y + (int)Position.Y;
                     drawDestination.Width = mapInfo.Tiles[x, y].Destination.Width;
                     drawDestination.Height = mapInfo.Tiles[x, y].Destination.Height;
 
-
-
-                    if (mapInfo.Tiles[x, y].Type != TileType.None)
+                    if(tile.Source != Rectangle.Empty)
                     {
-                        _spriteBatch.Draw(texture,drawDestination, mapInfo.Tiles[x, y].Source, Color.White);
+                        _spriteBatch.Draw(texture, drawDestination, tile.Source, 
+                                Color.White *(MapManager.Instance.ShowTypes != DrawType.Collision? 1f : .66f ));
                     }
-                    else
-                    {
-                        SpriteBatchAssist.DrawBox(_spriteBatch, emptyBlockTexture, drawDestination,.33f);
-                    }
+
+                    SpriteBatchAssist.DrawBox(_spriteBatch, emptyBlockTexture, drawDestination, .33f);
+                    _spriteBatch.Draw(emptyBlockTexture, drawDestination, Constant.GetCollisionColor(tile.Type) * (MapManager.Instance.ShowTypes != DrawType.Tile ? 1f : .33f));
+                                      
                 }
             }
 

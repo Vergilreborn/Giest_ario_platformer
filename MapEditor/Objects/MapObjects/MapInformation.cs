@@ -162,6 +162,8 @@ namespace MapEditor.Objects.MapObjects
                     tiles[x, y] = new Tile(destination, tileWidth, tileHeight);
                 }
             }
+            mapObjects.Clear();
+            playerPosition = tiles[0, 0].Position;
         }
     }
 }
