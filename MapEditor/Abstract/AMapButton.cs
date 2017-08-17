@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MapEditor.Manager;
+using MapEditor.Enums;
 
 namespace MapEditor.Abstract
 {
@@ -51,15 +52,21 @@ namespace MapEditor.Abstract
             _spriteBatch.DrawString(font, text, center - textPosition, Color.Black);
         }
 
-        public bool Intersects(Point position)
+        public bool Intersects(Point _position)
         {
-            return collisionBox.Contains(position);
+            return collisionBox.Contains(_position);
         }
 
         internal void Draw(SpriteBatch _spriteBatch, bool _setPlayerPosition = false)
         {
             _spriteBatch.Draw(texture, position, _setPlayerPosition ? Color.LightSalmon : Color.White);
             _spriteBatch.DrawString(font, text, center - textPosition, Color.Black);
+        }
+
+        internal void setText(String _newText)
+        {
+            this.text = _newText;
+            this.textPosition = new Vector2(font.MeasureString(this.text).X / 2, font.MeasureString(this.text).Y / 2);
         }
     }
 }
