@@ -1,6 +1,7 @@
 ﻿using MapEditor.Abstract;
 using MapEditor.Enums;
 using MapEditor.Handlers;
+using MapEditor.Helpers;
 using MapEditor.Interfaces;
 using MapEditor.Objects;
 using Microsoft.Xna.Framework;
@@ -160,7 +161,9 @@ namespace MapEditor.Manager
             }
 
             map.Update(_gameTime);
+            
             objectSourceManager.Update(_gameTime);
+            typeManager.Update(_gameTime);
         }
 
         public void SetActive(bool _isActive)
@@ -183,10 +186,17 @@ namespace MapEditor.Manager
 
 
             Texture2D texture = objectSourceManager.getTexture();
+            Texture2D texture2 = typeManager.getTexture();
             Rectangle selectedSource = objectSourceManager.Cursor.Selected.Source;
 
-            _spriteBatch.DrawString(debugFont, "Selected", new Vector2(20, 480), Color.Pink);
-            _spriteBatch.Draw(texture, new Vector2(34, 500), selectedSource, Color.White);
+            
+
+            _spriteBatch.DrawString(debugFont, "Selected", new Vector2(20, 380), Color.Pink);
+            _spriteBatch.Draw(texture, new Rectangle(34, 400,64,64), selectedSource, Color.White);
+            _spriteBatch.Draw(texture2, new Rectangle(34, 400, 64, 64), Constant.GetCollisionColor(typeManager.Cursor.Selected.Type));
+
+            _spriteBatch.Draw(texture, new Vector2(34, 497), selectedSource, Color.White);
+            _spriteBatch.Draw(texture2, new Rectangle(67, 497, 32, 32), Constant.GetCollisionColor(typeManager.Cursor.Selected.Type));
 
         }
 
