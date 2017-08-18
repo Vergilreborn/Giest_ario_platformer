@@ -115,6 +115,10 @@ namespace Giest_ario_platformer.Handlers
                        (Matrix.CreateTranslation(new Vector3(focusPoint.X / scale.M11, focusPoint.Y / scale.M22, 0)))) * scale;
 
             }
+
+            this.position.X = transformation.M41 / scale.M11;
+            this.position.Y = transformation.M42 / scale.M22 ;
+
             return transformation;
         }
 

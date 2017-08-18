@@ -23,8 +23,8 @@ namespace Giest_ario_platformer
             // Somewhere in initialisation
 
 
-            graphics.PreferredBackBufferHeight = 480*3;
-            graphics.PreferredBackBufferWidth= 600*3;
+            graphics.PreferredBackBufferHeight = 480*2;
+            graphics.PreferredBackBufferWidth= 600*2;
 
             //graphics.PreferredBackBufferHeight= 960;
             //graphics.PreferredBackBufferWidth = 1200;
@@ -51,6 +51,7 @@ namespace Giest_ario_platformer
         {
             GameManager.Instance.Init();
             GameManager.Instance.SetContentManager(Content);
+            GameManager.Instance.SetWidthHeight(new Vector2(600, 480));
             KeyboardManager.Instance.Init();
             base.Initialize();
         }

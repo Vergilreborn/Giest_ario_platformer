@@ -35,6 +35,15 @@ namespace Giest_ario_platformer.Managers
         public ContentManager Content;
         public Viewport ViewPort;
         public GraphicsDevice Graphics;
+        public Vector2 WidthHeight
+        {
+            get
+            {
+                return widthHeight;
+            }
+        }
+
+        private Vector2 widthHeight;
         //  public SpriteFont DebugFont;
         
         public Camera Cam;
@@ -60,11 +69,20 @@ namespace Giest_ario_platformer.Managers
             get { return isDebug; }
         }
 
+        public Texture2D EmptyTexture
+        {
+            get
+            {
+                return emptyTexture;
+            }
+        }
+
         private Dictionary<String, SpriteFont> fonts;
 
         private bool isDebug;
         private bool exitGame;
         private AGameScreen currentScreen;
+        private Texture2D emptyTexture;
         
       
 
@@ -92,10 +110,12 @@ namespace Giest_ario_platformer.Managers
             fonts.Add("Medium", Content.Load<SpriteFont>("Fonts/GameFont_m"));
             fonts.Add("Large", Content.Load<SpriteFont>("Fonts/GameFont_l"));
             fonts.Add("XLarge", Content.Load<SpriteFont>("Fonts/GameFont_xl"));
+            emptyTexture = CreateColorTexture(255, 255, 255, 255);
             Cam.Load();
             currentScreen.Load();
         }
 
+        
         public void Update(GameTime _gameTime)
         {
             if (KeyboardManager.Instance.IsKeyActivity(Keys.Tab.ToString(), KeyActivity.Pressed))
@@ -111,9 +131,14 @@ namespace Giest_ario_platformer.Managers
             this.Content = _content;
         }
 
-        public void SetGraphics(GraphicsDevice Graphics)
+        public void SetGraphics(GraphicsDevice _Graphics)
         {
-            this.Graphics = Graphics;
+            this.Graphics = _Graphics;
+        }
+
+        public void SetWidthHeight(Vector2 _widthHeight)
+        {
+            this.widthHeight = _widthHeight;
         }
 
         public void SetViewport(Viewport _view)

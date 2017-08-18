@@ -17,7 +17,7 @@ namespace Giest_ario_platformer.Screens
     class MainGameScreen : AGameScreen
     {
 
-        private Map map;
+        
         public Player Player
         {
             get
@@ -25,8 +25,13 @@ namespace Giest_ario_platformer.Screens
                 return player;
             }
         }
+        private Map map;
         private Player player;
         private bool isPause;
+        private String pauseString = "Paused!";
+        private Vector2 pausePosition;
+        private SpriteFont font;
+
 
         public MainGameScreen()
         {
@@ -49,6 +54,13 @@ namespace Giest_ario_platformer.Screens
             map.Load();
             player.Load();
             player.SetPosition(map.PlayerPosition);
+            font = GameManager.Instance.Fonts["Large"];
+            pausePosition= font.MeasureString(pauseString);
+         
+
+          
+
+
         }
 
         public void LoadMap(String mapName)
@@ -86,8 +98,20 @@ namespace Giest_ario_platformer.Screens
 
         public override void Draw(SpriteBatch _spriteBatch)
         {
+
             map.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
+
+            if (isPause)
+            {
+                Vector2 camPosition = GameManager.Instance.Cam.position;
+                Vector2 drawStringPosition= new Vector2(-camPosition.X + (GameManager.Instance.WidthHeight.X / 2), -camPosition.Y + (GameManager.Instance.WidthHeight.Y / 2));
+                _spriteBatch.Draw(GameManager.Instance.EmptyTexture, new Rectangle((int)-camPosition.X, (int)-camPosition.Y, (int)GameManager.Instance.WidthHeight.X, (int)GameManager.Instance.WidthHeight.Y), Color.Black * .75f);
+                _spriteBatch.DrawString(font, pauseString, drawStringPosition, Color.White);
+                
+            }
+
+        
         }
 
         public override void UnLoad()
