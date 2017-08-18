@@ -86,6 +86,7 @@
     <Content Include="Content\Player\Mario_Still_Right.png" />
     <Content Include="Content\Player\Mario_Walk_Left.png" />
     <Content Include="Content\Player\Mario_Walk_Right.png" />
+    <Content Include="Content\StartScreen.png" />
     <Content Include="Content\test.png" />
     <Content Include="Content\testTiles.png" />
     <Content Include="Icon.ico" />
