@@ -47,6 +47,13 @@
     <Compile Include="Enums\KeyActivity.cs" />
     <Compile Include="Enums\MapTypeObject.cs" />
     <Compile Include="Enums\TileType.cs" />
+    <Compile Include="Forms\Ext\ComboBoxItem.cs" />
+    <Compile Include="Forms\MapSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MapSelection.Designer.cs">
+      <DependentUpon>MapSelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Game1.cs" />
     <Compile Include="GameObjects\Map.cs" />
     <Compile Include="GameObjects\MapObjects\MapInformation.cs" />
@@ -78,6 +85,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +130,11 @@
   <ItemGroup>
     <Folder Include="Content\Music\" />
     <Folder Include="Content\Sound\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\MapSelection.resx">
+      <DependentUpon>MapSelection.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

@@ -11,6 +11,7 @@ using Giest_ario_platformer.GameObjects;
 using Giest_ario_platformer.Handlers;
 using Microsoft.Xna.Framework.Input;
 using Giest_ario_platformer.Enums;
+using Giest_ario_platformer.Forms;
 
 namespace Giest_ario_platformer.Screens
 {
@@ -57,10 +58,6 @@ namespace Giest_ario_platformer.Screens
             font = GameManager.Instance.Fonts["Large"];
             pausePosition= font.MeasureString(pauseString);
          
-
-          
-
-
         }
 
         public void LoadMap(String mapName)
@@ -72,7 +69,19 @@ namespace Giest_ario_platformer.Screens
 
         public override void Update(GameTime _gameTime)
         {
-            if(KeyboardManager.Instance.IsKeyActivity(Keys.Enter.ToString(), KeyActivity.Pressed))
+            if (KeyboardManager.Instance.IsKeyActivity(Keys.OemTilde.ToString(), KeyActivity.Pressed))
+            {
+                using (MapSelection se = new MapSelection())
+                {
+                    System.Windows.Forms.DialogResult res = se.ShowDialog();
+                    if(res == System.Windows.Forms.DialogResult.OK)
+                    {
+                        LoadMap(se.GetCleanText());
+                    }
+                }
+            }
+
+            if (KeyboardManager.Instance.IsKeyActivity(Keys.Enter.ToString(), KeyActivity.Pressed))
             {
                 isPause = !isPause;
                 MusicManager.Instance.Pause();
