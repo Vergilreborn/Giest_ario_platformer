@@ -64,5 +64,10 @@ namespace Giest_ario_platformer.Handlers
         {
             _spriteBatch.Draw(texture, _collisionBox, Source, Color.White);
         }
+
+        internal void Draw(SpriteBatch _spriteBatch, Vector2 _animationPosition)
+        {
+            _spriteBatch.Draw(texture, _animationPosition, Source, Color.White);
+        }
     }
 }
