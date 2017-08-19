@@ -8,12 +8,13 @@ namespace MapEditor.Enums
 {
     enum MapTypeObject
     {
-        Transition,
-        Enemy,
-        Item,
-        MoveableWall,
-        Checkpoint,
-        EndLocation,
-        Empty
+        Empty = 0,
+        Transition = 1,
+        Enemy = 2,
+        Item = 3,
+        MoveableWall = 4,
+        Checkpoint= 5,
+        EndLocation = 6
+        
     }
 }

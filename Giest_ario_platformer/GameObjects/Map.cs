@@ -21,6 +21,7 @@ namespace Giest_ario_platformer.GameObjects
 
         private Texture2D emptyBlockTexture;
         private Vector2 widthHeight;
+        private Rectangle boundary;
 
         public Vector2 PlayerPosition
         {
@@ -57,9 +58,17 @@ namespace Giest_ario_platformer.GameObjects
             emptyBlockTexture = GameManager.Instance.CreateColorTexture(255, 255, 255, 255);
             this.tileSize = 32;
             widthHeight = new Vector2(mapInfo.Tiles.GetLength(0), mapInfo.Tiles.GetLength(1));
+            boundary = new Rectangle(0, 0, (int)(widthHeight.X * tileSize), (int)(widthHeight.Y * tileSize));
+
+            MusicManager.Instance.PlaySong(mapInfo.Music);
         }
 
-        internal void Dispose()
+        public Rectangle GetBoundary()
+        {
+            return boundary;
+        }
+
+        public void Dispose()
         {
             texture.Dispose();
             emptyBlockTexture.Dispose();
@@ -96,8 +105,13 @@ namespace Giest_ario_platformer.GameObjects
             {
                 for (int y = 0; y < widthHeight.Y; y++)
                 {
-                    if (mapInfo.Tiles[x, y].Type != TileType.None)
+                    if (mapInfo.Tiles[x, y].Source != new Rectangle() || mapInfo.Tiles[x,y].Type != TileType.None) {
                         _spriteBatch.Draw(texture, mapInfo.Tiles[x, y].Destination, mapInfo.Tiles[x, y].Source, Color.White);
+                        if (GameManager.Instance.IsDebug)
+                        {
+                            _spriteBatch.Draw(emptyBlockTexture, mapInfo.Tiles[x, y].Destination, Constants.GetCollisionColor(mapInfo.Tiles[x, y].Type));
+                        }
+                    }
                 }
             }
 

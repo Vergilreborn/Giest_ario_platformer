@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using Giest_ario_platformer.Managers;
 
 namespace Giest_ario_platformer.Handlers
 {
@@ -19,74 +19,148 @@ namespace Giest_ario_platformer.Handlers
         public float positionShakeAmount;
         public float maxShakeTime;
         public float zoom;
-        public Vector2 source;
+        public Rectangle source;
         TimeSpan shaketimer;
         Random random;
+        Texture2D texture;
+        private Matrix transformation;
+        private Matrix scale;
+        private bool isFollowing = false;
+        private Rectangle mapBoundary;
 
-        public Camera(Viewport view, Vector2 position)
+        private Rectangle boundingBox;
+
+        public Camera(Viewport _view, Vector2 _position)
         {
-            this.view = view;
-            this.position = position;
+            this.view = _view;
+            this.position = _position;
             this.zoom = 2;
             random = new Random();
-            focusPoint = new Vector2(view.Width / 2, view.Height / 2);
+            focusPoint = new Vector2(_view.Width / 2, _view.Height / 2);
+            boundingBox = new Rectangle(0, 0, _view.Width / 6, _view.Height / 8);
 
+        }
+
+        public void Load()
+        {
+            texture = GameManager.Instance.CreateColorTexture(255,255,255 , 255);
+        }
+
+        public void SetScale(Matrix _Scale)
+        {
+            scale = _Scale;
         }
 
         public void SetObjectCenter()
         {
-            source = new Vector2(focusPoint.X/2, focusPoint.Y/2);
+            isFollowing = false;
+            source = new Rectangle(0,0,(int)(view.Width/ scale.M22),(int)( view.Height/ scale.M11));
+        }
+        
+        public void SetMapBoundary(Rectangle _mapBoundary)
+        {
+            this.mapBoundary = _mapBoundary;
         }
 
-        public void Update(GameTime gametime, Vector2 source)
+        public Matrix GetTransform(bool hasMap = false)
         {
-            if (shaketimer.TotalSeconds > 0)
+            if (isFollowing)
             {
-                focusPoint = savedPosition;
-              
-                shaketimer = shaketimer.Subtract(gametime.ElapsedGameTime);
-                if (shaketimer.TotalSeconds > 0)
+                if(source.Left < boundingBox.Left)
                 {
-                    focusPoint += new Vector2((float)((random.NextDouble() * 2) - 1) * positionShakeAmount,
-                        (float)((random.NextDouble() * 2) - 1) * positionShakeAmount);
-                    ;
+                    boundingBox.X = source.X;
                 }
+                if (source.Right > boundingBox.Right)
+                {
+                    boundingBox.X =source.Right - boundingBox.Width;
+                }
+                if (source.Top < boundingBox.Top)
+                {
+                    boundingBox.Y = source.Y;
+                }
+                if (source.Bottom> boundingBox.Bottom)
+                {
+                    boundingBox.Y =  source.Bottom - boundingBox.Height;
+                }
+
+                transformation = (Matrix.CreateTranslation(new Vector3(-boundingBox.Center.ToVector2(), 0)) *
+                    (Matrix.CreateTranslation(new Vector3(focusPoint.X / scale.M11, focusPoint.Y / scale.M22, 0)))) * scale;
+
+                if (mapBoundary != Rectangle.Empty)
+                {
+                    if (-transformation.M41/scale.M11 < mapBoundary.Left)
+                    {
+                        transformation.M41 = -(mapBoundary.X/  scale.M11);
+                    }
+                    if (((-transformation.M41 + view.Width) / scale.M11) > mapBoundary.Right)
+                    {
+                        transformation.M41 = -((mapBoundary.Right * scale.M22) - view.Width );
+                    }
+                    if (-transformation.M42 / scale.M22 < mapBoundary.Top)
+                    {
+                        transformation.M42 = -(mapBoundary.Y) / scale.M22;
+                    }
+                    if (((-transformation.M42 + view.Height)/scale.M22) > mapBoundary.Bottom)
+                    {
+                        transformation.M42 = -((mapBoundary.Bottom * scale.M22) - view.Height) ;
+                    }
+                }
+
+
+             
+            }
+            else
+            {
+                transformation = (Matrix.CreateTranslation(new Vector3(-source.Center.ToVector2(), 0)) *
+                       (Matrix.CreateTranslation(new Vector3(focusPoint.X / scale.M11, focusPoint.Y / scale.M22, 0)))) * scale;
+
             }
 
-            this.source = source;
+            this.position.X = transformation.M41 / scale.M11;
+            this.position.Y = transformation.M42 / scale.M22 ;
 
-            //transform = Matrix.CreateTranslation(new Vector3(-objectPosition, 0)) *
-            //         Matrix.CreateTranslation(new Vector3(focusPoint.X/xScale, focusPoint.Y/yScale, 0));
+            return transformation;
+        }
+
+        //public Matrix GetTransform()
+        //{
             
+        //    transformation =  (Matrix.CreateTranslation(new Vector3(-source.Center.ToVector2(), 0)) *
+        //                 (Matrix.CreateTranslation(new Vector3(focusPoint.X / scale.M11, focusPoint.Y / scale.M22, 0)))) * scale;
 
-        }
+        //    return transformation;
+        //}
 
-        public Matrix GetTransform(Matrix Scale)
-        {
-            focusPoint.X = view.Width / Scale.M11;
-            focusPoint.Y = view.Height / Scale.M22;
-
-            return (Matrix.CreateTranslation(new Vector3(-source, 0)) *
-                     (Matrix.CreateTranslation(new Vector3(focusPoint.X/ Scale.M11, focusPoint.Y/Scale.M22, 0)))) * Scale;
-        }
-
-        public void Shake(float shakeTime, float positionAmount)
+        public void Shake(float _shakeTime, float _positionAmount)
         {
             //We only want to perform one shake.  If one is going on currently, we have to
             //wait for that shake to be over before we can do another one.
             if (shaketimer.TotalSeconds <= 0)
             {
-                maxShakeTime = shakeTime;
+                maxShakeTime = _shakeTime;
                 shaketimer = TimeSpan.FromSeconds(maxShakeTime);
-                positionShakeAmount = positionAmount;
+                positionShakeAmount = _positionAmount;
                 savedPosition = focusPoint;
 
             }
         }
-        public void Follow(Vector2 center)
+        public void Follow(Rectangle _center)
         {
-            this.source = center;
+            isFollowing = true;
+            this.source = _center;
 
+        }
+
+        public void Draw(SpriteBatch _spriteBatch)
+        {
+            if (GameManager.Instance.IsDebug)
+            {
+                if (isFollowing)
+                    _spriteBatch.Draw(texture, boundingBox, Color.White * .20f);
+
+                if (isFollowing)
+                    _spriteBatch.Draw(texture, new Rectangle((int)(-transformation.M41 / scale.M11), (int)(-transformation.M42 / scale.M22), (int)(view.Width / scale.M11), (int)(view.Height / scale.M22)), Color.Red * .20f);
+            }
         }
     }
 }

@@ -23,8 +23,13 @@ namespace Giest_ario_platformer
             // Somewhere in initialisation
 
 
-            graphics.PreferredBackBufferHeight= 960;
-            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 480*2;
+            graphics.PreferredBackBufferWidth= 600*2;
+
+            //graphics.PreferredBackBufferHeight= 960;
+            //graphics.PreferredBackBufferWidth = 1200;
+            //graphics.PreferredBackBufferHeight = 480;
+            //graphics.PreferredBackBufferWidth= 600;
 
             float scaleX = graphics.PreferredBackBufferWidth / TargetWidth;
             float scaleY = graphics.PreferredBackBufferHeight / TargetHeight;
@@ -46,6 +51,7 @@ namespace Giest_ario_platformer
         {
             GameManager.Instance.Init();
             GameManager.Instance.SetContentManager(Content);
+            GameManager.Instance.SetWidthHeight(new Vector2(600, 480));
             KeyboardManager.Instance.Init();
             base.Initialize();
         }
@@ -61,6 +67,8 @@ namespace Giest_ario_platformer
 
             GameManager.Instance.SetViewport(GraphicsDevice.Viewport);
             GameManager.Instance.SetGraphics(GraphicsDevice);
+            GameManager.Instance.Cam.SetScale(Scale);
+
             GameManager.Instance.Load();
 
         }
@@ -99,7 +107,7 @@ namespace Giest_ario_platformer
 
             //spriteBatch.Begin();
             //Scale
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, GameManager.Instance.Cam.GetTransform(Scale));
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, new SamplerState() { Filter = TextureFilter.Point }, null, null, null, GameManager.Instance.Cam.GetTransform());
             
 
             GameManager.Instance.Draw(spriteBatch);

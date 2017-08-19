@@ -97,8 +97,21 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
                 mapObjects = value;
             }
         }
+
+        public String Music
+        {
+            get
+            {
+                return music;
+            }
+            set
+            {
+                music = value;
+            }
+        }
         #endregion
 
+        private String music;
         private int defaultWidth;
         private int defaultHeight;
         private int tileWidth;
@@ -111,6 +124,7 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
         {
             tiles = new Tile[0, 0];
             mapObjects = new List<MapObject>();
+            music = "";
         }
 
         public void Init()

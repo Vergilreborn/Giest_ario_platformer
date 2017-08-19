@@ -12,8 +12,9 @@ namespace Giest_ario_platformer.Helpers
 {
     class CollisionDetection
     {
-        public static bool IsColliding(Map _map, Rectangle _collisionBox, bool _isPositive ,bool _isHor, out float _newValue)
+        public static bool IsColliding(Map _map, Rectangle _collisionBox, bool _isPositive ,bool _isHor, out float _newValue, out TileType type)
         {
+            type = TileType.None;
             _newValue = 0f;
             int tileSize = _map.GetTileSizes();
             
@@ -30,13 +31,18 @@ namespace Giest_ario_platformer.Helpers
                     Tile tile = _map.GetTile(x, y);
                     if (tile != null && tile.Type != TileType.None)
                     {
-                        if (tile.Destination.Intersects(_collisionBox))
+                        if(tile.Destination.Intersects(_collisionBox) &&tile.Type== TileType.Water)
                         {
-                            _newValue = _isPositive ? (_isHor ? tile.Destination.X - _collisionBox.Width : tile.Destination.Y - _collisionBox.Height) : 
-                                                     (_isHor ? (tile.Destination.X + tile.Destination.Width) : 
-                                                                (tile.Destination.Y + tile.Destination.Height ));
+                            type = tile.Type;
+                        }else if (tile.Destination.Intersects(_collisionBox))
+                        {
+                            type= tile.Type;
+                                _newValue = _isPositive ? (_isHor ? tile.Destination.X - _collisionBox.Width : tile.Destination.Y - _collisionBox.Height) :
+                                                     (_isHor ? (tile.Destination.X + tile.Destination.Width) :
+                                                                (tile.Destination.Y + tile.Destination.Height));
                             return true;
                         }
+                        
                     }
                 }
             }

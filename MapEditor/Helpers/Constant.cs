@@ -1,4 +1,4 @@
-﻿using Giest_ario_platformer.Enums;
+﻿using MapEditor.Enums;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,12 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Giest_ario_platformer.Helpers
+namespace MapEditor.Helpers
 {
-    class Constants
+    class Constant
     {
-        public const float DEBUG_OPACITY = 0.33f;
-
         public static Color GetCollisionColor(TileType type)
         {
             switch (type)
@@ -19,7 +17,7 @@ namespace Giest_ario_platformer.Helpers
                 case TileType.Block:
                     return Color.White * .50f;
                 case TileType.Damage:
-                    return Color.LightPink * .50f;
+                    return Color.LightPink* .50f;
                 case TileType.Death:
                     return Color.Red * .50f;
                 case TileType.Water:
@@ -29,6 +27,6 @@ namespace Giest_ario_platformer.Helpers
                 default:
                     return Color.White * .25f;
             }
-        }
+        } 
     }
 }

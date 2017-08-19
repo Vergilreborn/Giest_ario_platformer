@@ -22,7 +22,8 @@ namespace Giest_ario_platformer.Screens
         private int maxOptionWidth;
         private int maxOptionHeight;
         private SpriteFont font;
-        private Vector2 position;        
+        private Vector2 position;
+        private Texture2D texture;
     
         public StartScreen()
         {
@@ -32,9 +33,10 @@ namespace Giest_ario_platformer.Screens
         {
             //TODO: Dynamicall load the options and change screen depending on them
 
-            screenOptions = new List<string> { "Start", "Exit" };
+            screenOptions = new List<string> { "START", "EXIT" };
             currentOptionPos = 0;
-            position = new Vector2(0, 0);
+            position = new Vector2(270, 200);
+            
         }
 
         public override void Load()
@@ -44,7 +46,8 @@ namespace Giest_ario_platformer.Screens
             String longestString = screenOptions.Aggregate("", (max, cur) => max.Length > cur.Length ? max : cur);
             maxOptionHeight = (int)font.MeasureString(longestString).Y;
             maxOptionWidth = (int)font.MeasureString(longestString).X;
-
+            texture = GameManager.Instance.Content.Load<Texture2D>("StartScreen");
+            MusicManager.Instance.PlaySong("Select");
            
 
         }
@@ -70,8 +73,8 @@ namespace Giest_ario_platformer.Screens
             {
                 switch (screenOptions[currentOptionPos])
                 {
-                    case "Start" : GameManager.Instance.ChangeScreen("MainGameScreen"); break;
-                    case "Exit": GameManager.Instance.ChangeScreen("Exit"); break;
+                    case "START" : GameManager.Instance.ChangeScreen("MainGameScreen"); break;
+                    case "EXIT": GameManager.Instance.ChangeScreen("Exit"); break;
                 }
             }
 
@@ -79,11 +82,15 @@ namespace Giest_ario_platformer.Screens
 
         public override void Draw(SpriteBatch _spriteBatch)
         {
-            for(int i = 0; i < screenOptions.Count; i++)
+
+            _spriteBatch.Draw(texture, Vector2.Zero, Color.White);
+            for (int i = 0; i < screenOptions.Count; i++)
             {
                 Vector2 textPosition = position + new Vector2(0, i * (maxOptionHeight + 2));
+                
                 //TODO : Make Color configurable and then change font type
-                _spriteBatch.DrawString(font, screenOptions[i], textPosition, i == currentOptionPos ? Color.Yellow : Color.White);   
+                
+                _spriteBatch.DrawString(font, screenOptions[i], textPosition, i == currentOptionPos ? Color.Yellow : Color.Black);   
             }
         }
 

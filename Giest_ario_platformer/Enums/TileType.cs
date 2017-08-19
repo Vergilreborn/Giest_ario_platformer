@@ -8,7 +8,13 @@ namespace Giest_ario_platformer.Enums
 {
     enum TileType
     {
-        Block,
-        None
+
+        None = 0,
+        Block = 1,  //No collision (Allowed for hidden secrets!)
+        Death = 2,
+        Damage = 3,//Damages the player
+        Water = 4, //Different animation and physics
+        Ice = 5   //less friction
+        
     }
 }
