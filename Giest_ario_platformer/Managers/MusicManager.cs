@@ -70,7 +70,5 @@ namespace Giest_ario_platformer.Managers
             }
             
         }
-        
-
     }
 }

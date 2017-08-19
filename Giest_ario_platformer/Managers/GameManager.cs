@@ -165,12 +165,29 @@ namespace Giest_ario_platformer.Managers
             Cam.Draw(_spriteBatch);
             currentScreen.Draw(_spriteBatch);
         }
+        
+        private void UnLoad()
+        {
+            Content.Unload();
+            fonts.Clear();
+            fonts.Add("Debug", Content.Load<SpriteFont>("Fonts/Debug"));
+            fonts.Add("XSmall", Content.Load<SpriteFont>("Fonts/GameFont_xs"));
+            fonts.Add("Small", Content.Load<SpriteFont>("Fonts/GameFont_s"));
+            fonts.Add("Medium", Content.Load<SpriteFont>("Fonts/GameFont_m"));
+            fonts.Add("Large", Content.Load<SpriteFont>("Fonts/GameFont_l"));
+            fonts.Add("XLarge", Content.Load<SpriteFont>("Fonts/GameFont_xl"));
+            emptyTexture = CreateColorTexture(255, 255, 255, 255);
+
+        }
 
         public void ChangeScreen(string screenName)
         {
-            currentScreen.UnLoad();
+            UnLoad();
             switch (screenName)
             {
+                case "StartScreen":
+                    currentScreen = new StartScreen();
+                    break;
                 case "MainGameScreen":
                     currentScreen = new MainGameScreen();
                     break;

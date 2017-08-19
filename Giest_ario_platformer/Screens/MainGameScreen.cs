@@ -101,8 +101,8 @@ namespace Giest_ario_platformer.Screens
                 if (player.ChangeLevel != null){
                     LoadMap(player.ChangeLevel);
                 }
-                GameManager.Instance.Cam.Follow(player.CollisionBox);
             }
+            GameManager.Instance.Cam.Follow(player.CollisionBox);
         }
 
         public override void Draw(SpriteBatch _spriteBatch)
@@ -125,9 +125,7 @@ namespace Giest_ario_platformer.Screens
 
         public override void UnLoad()
         {
-            map.Dispose();
-            player.Dispose();
+            
         }
-
     }
 }

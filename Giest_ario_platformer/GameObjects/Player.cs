@@ -93,11 +93,6 @@ namespace Giest_ario_platformer.GameObjects
             this.Height = 36;
         }
 
-        internal void Dispose()
-        {
-            animations.Dispose();
-        }
-
         //handle collision
         internal void Update(GameTime _gameTime, Map _map)
         {
@@ -240,6 +235,7 @@ namespace Giest_ario_platformer.GameObjects
                 Position.Y = _map.PlayerPosition.Y;
                 fallSpeed = 0f;
                 moving = Direction.None;
+                GameManager.Instance.ChangeScreen("StartScreen");
             }
             else
             {
