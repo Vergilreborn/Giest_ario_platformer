@@ -75,6 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\StartScreen.cs" />
     <Compile Include="Screens\MainGameScreen.cs" />
+    <Compile Include="Screens\TransitionScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -99,6 +100,7 @@
     <Content Include="Content\StartScreen.png" />
     <Content Include="Content\test.png" />
     <Content Include="Content\testTiles.png" />
+    <Content Include="Content\Transition\LoadingText.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

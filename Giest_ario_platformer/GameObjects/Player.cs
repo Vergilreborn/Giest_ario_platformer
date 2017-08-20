@@ -63,6 +63,8 @@ namespace Giest_ario_platformer.GameObjects
 
         public void SetPosition(Vector2 _startPosition)
         {
+            horSpeed = 0f;
+            fallSpeed = 0;
             this.Position.X = _startPosition.X;
             this.Position.Y = _startPosition.Y;
         }

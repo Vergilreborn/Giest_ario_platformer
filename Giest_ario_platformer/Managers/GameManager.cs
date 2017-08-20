@@ -180,10 +180,10 @@ namespace Giest_ario_platformer.Managers
 
         }
 
-        public void ChangeScreen(string screenName)
+        public void ChangeScreen(string newScreen)
         {
             UnLoad();
-            switch (screenName)
+            switch (newScreen)
             {
                 case "StartScreen":
                     currentScreen = new StartScreen();

@@ -12,6 +12,7 @@ using Giest_ario_platformer.Handlers;
 using Microsoft.Xna.Framework.Input;
 using Giest_ario_platformer.Enums;
 using Giest_ario_platformer.Forms;
+using System.Threading;
 
 namespace Giest_ario_platformer.Screens
 {
@@ -32,7 +33,9 @@ namespace Giest_ario_platformer.Screens
         private String pauseString = "Paused!";
         private Vector2 pausePosition;
         private SpriteFont font;
-
+        private TransitionScreen transitionScreen;
+        private bool transition;
+        private String mapToLoad;
 
         public MainGameScreen()
         {
@@ -41,85 +44,120 @@ namespace Giest_ario_platformer.Screens
 
         public override void Init()
         {
-            isPause = false;
             map = new Map();
             map.Init();
-            player.Init();
-            GameManager.Instance.Cam.SetMapBoundary(map.GetBoundary());
+            player.Init();            
+            transitionScreen = new TransitionScreen();
+            transition = false;
+            isPause = true;
 
+        }
+        
+        private void loadMap()
+        {
+            map.LoadMap(mapToLoad);
+            player.SetPosition(map.PlayerPosition);
+            GameManager.Instance.Cam.SetMapBoundary(map.GetBoundary());
+            map.StartMusic();
+            transition = false;
 
         }
 
         public override void Load()
         {
+            
             map.Load();
             player.Load();
-            player.SetPosition(map.PlayerPosition);
+            LoadMap("Testing1.gmap");
             font = GameManager.Instance.Fonts["Large"];
             pausePosition= font.MeasureString(pauseString);
-         
+            transitionScreen.Load();
+
+
         }
 
-        public void LoadMap(String mapName)
+        public void LoadMap(String _mapName)
         {
-
-            map.LoadTestMap(mapName);
-            player.SetPosition(map.PlayerPosition);
+            transition = true;
+            mapToLoad = _mapName;
+            MusicManager.Instance.Stop();
+            transitionScreen.StartTransition();
+            
+            Thread th = new Thread(loadMap);
+            th.Start();
+            isPause = false;
+          
         }
 
         public override void Update(GameTime _gameTime)
         {
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.OemTilde.ToString(), KeyActivity.Pressed))
+            if (!transition && !transitionScreen.isTransition)
             {
-                using (MapSelection se = new MapSelection())
+                if (KeyboardManager.Instance.IsKeyActivity(Keys.OemTilde.ToString(), KeyActivity.Pressed))
                 {
-                    System.Windows.Forms.DialogResult res = se.ShowDialog();
-                    if(res == System.Windows.Forms.DialogResult.OK)
+                    using (MapSelection se = new MapSelection())
                     {
-                        LoadMap(se.GetCleanText());
+                        System.Windows.Forms.DialogResult res = se.ShowDialog();
+                        if (res == System.Windows.Forms.DialogResult.OK)
+                        {
+                            LoadMap(se.GetCleanText());
+                        }
                     }
                 }
-            }
 
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.Enter.ToString(), KeyActivity.Pressed))
-            {
-                isPause = !isPause;
-                MusicManager.Instance.Pause();
-            }
-
-            if (isPause)
-            {
-
-            }
-            else if (player.IsDead)
-            {
-                player.PlayDeathUpdate(_gameTime, map);
-            }
-            else { 
-                map.Update(_gameTime);
-                player.Update(_gameTime, map);
-                if (player.ChangeLevel != null){
-                    LoadMap(player.ChangeLevel);
+                if (KeyboardManager.Instance.IsKeyActivity(Keys.Enter.ToString(), KeyActivity.Pressed))
+                {
+                    isPause = !isPause;
+                    MusicManager.Instance.Pause();
                 }
+
+                if (isPause)
+                {
+
+                }
+                else if (player.IsDead)
+                {
+                    player.PlayDeathUpdate(_gameTime, map);
+                }
+                else
+                {
+                    map.Update(_gameTime);
+                    player.Update(_gameTime, map);
+                    if (player.ChangeLevel != null)
+                    {
+                        LoadMap(player.ChangeLevel);
+                    }
+                }
+                GameManager.Instance.Cam.Follow(player.CollisionBox);
             }
-            GameManager.Instance.Cam.Follow(player.CollisionBox);
+            else
+            {
+                GameManager.Instance.Cam.SetObjectCenter();
+                transitionScreen.Update(_gameTime);
+            }
         }
 
         public override void Draw(SpriteBatch _spriteBatch)
         {
 
-            map.Draw(_spriteBatch);
-            player.Draw(_spriteBatch);
-
-            if (isPause)
+             if (!transition && !transitionScreen.isTransition)
             {
-                Vector2 camPosition = GameManager.Instance.Cam.position;
-                Vector2 drawStringPosition= new Vector2(-camPosition.X + (GameManager.Instance.WidthHeight.X / 2), -camPosition.Y + (GameManager.Instance.WidthHeight.Y / 2));
-                _spriteBatch.Draw(GameManager.Instance.EmptyTexture, new Rectangle((int)-camPosition.X, (int)-camPosition.Y, (int)GameManager.Instance.WidthHeight.X, (int)GameManager.Instance.WidthHeight.Y), Color.Black * .75f);
-                _spriteBatch.DrawString(font, pauseString, drawStringPosition, Color.White);
-                
-            }
+                map.Draw(_spriteBatch);
+                player.Draw(_spriteBatch);
 
+                if (isPause)
+                {
+                    Vector2 camPosition = GameManager.Instance.Cam.position;
+                    Vector2 drawStringPosition = new Vector2(-camPosition.X + (GameManager.Instance.WidthHeight.X / 2), -camPosition.Y + (GameManager.Instance.WidthHeight.Y / 2));
+                    _spriteBatch.Draw(GameManager.Instance.EmptyTexture, new Rectangle((int)-camPosition.X, (int)-camPosition.Y, (int)GameManager.Instance.WidthHeight.X, (int)GameManager.Instance.WidthHeight.Y), Color.Black * .75f);
+                    _spriteBatch.DrawString(font, pauseString, drawStringPosition, Color.White);
+
+                }
+            }
+            else
+            {
+                transitionScreen.Draw(_spriteBatch);
+            }
         
         }
 

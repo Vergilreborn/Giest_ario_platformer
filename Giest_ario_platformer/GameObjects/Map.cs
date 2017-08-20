@@ -10,6 +10,7 @@ using Giest_ario_platformer.Managers;
 using Giest_ario_platformer.Helpers;
 using Giest_ario_platformer.Enums;
 using Giest_ario_platformer.GameObjects.MapObjects;
+using System.Threading;
 
 namespace Giest_ario_platformer.GameObjects
 {
@@ -22,6 +23,7 @@ namespace Giest_ario_platformer.GameObjects
         private Texture2D emptyBlockTexture;
         private Vector2 widthHeight;
         private Rectangle boundary;
+        private bool loading;
 
         public Vector2 PlayerPosition
         {
@@ -51,15 +53,21 @@ namespace Giest_ario_platformer.GameObjects
 
         }
 
-        public void LoadTestMap(String _file)
+        public void LoadMap(String _file)
         {
-            
+            loading = true;
+
             mapInfo = FileManager<MapInformation>.LoadFile(@"Content\Map\" + _file);
             emptyBlockTexture = GameManager.Instance.CreateColorTexture(255, 255, 255, 255);
             this.tileSize = 32;
             widthHeight = new Vector2(mapInfo.Tiles.GetLength(0), mapInfo.Tiles.GetLength(1));
             boundary = new Rectangle(0, 0, (int)(widthHeight.X * tileSize), (int)(widthHeight.Y * tileSize));
+            Thread.Sleep(2000);
+            loading = false;
+        }
 
+        public void StartMusic()
+        {
             MusicManager.Instance.PlaySong(mapInfo.Music);
         }
 
@@ -76,7 +84,7 @@ namespace Giest_ario_platformer.GameObjects
 
         public void Init()
         {
-            LoadTestMap("Testing1.gmap");
+        
         }
 
         internal int GetTileSizes()
