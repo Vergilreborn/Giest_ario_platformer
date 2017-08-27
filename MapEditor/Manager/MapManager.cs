@@ -92,6 +92,11 @@ namespace MapEditor.Manager
         private AMapButton setMusicFile;
         private AMapButton setDrawType;
 
+        private AMapButton increaseX;
+        private AMapButton decreaseX;
+        private AMapButton increaseY;
+        private AMapButton decreaseY;
+
         private DrawType drawTypeSelected;
         private MapButtonType buttonSelected;
 
@@ -121,6 +126,11 @@ namespace MapEditor.Manager
             setMusicFile = new AMapButton(new Vector2(750, 920), "Set Music");
             mapTransitionStart = new AMapButton(new Vector2(750, 880), "Map Transition");
             setDrawType = new AMapButton(new Vector2(25, 800), "Draw: Both");
+            decreaseX = new AMapButton(new Vector2(450, 880), " X -");
+            increaseX = new AMapButton(new Vector2(450, 920), " X +");
+            decreaseY = new AMapButton(new Vector2(600, 880), " Y -");
+            increaseY = new AMapButton(new Vector2(600, 920), " Y +");
+
         }
 
         public void SetScale(Vector2 _scale)
@@ -142,6 +152,10 @@ namespace MapEditor.Manager
             playerStart.Load();
             setMusicFile.Load();
             mapTransitionStart.Load();
+            decreaseX.Load();
+            increaseX.Load();
+            decreaseY.Load();
+            increaseY.Load();
         }
 
         public void Update(GameTime _gameTime)
@@ -200,6 +214,10 @@ namespace MapEditor.Manager
             saveFile.Draw(_spriteBatch);
             loadFile.Draw(_spriteBatch);
             clearMap.Draw(_spriteBatch);
+            increaseY.Draw(_spriteBatch);
+            decreaseY.Draw(_spriteBatch);
+            increaseX.Draw(_spriteBatch);
+            decreaseX.Draw(_spriteBatch);
             setDrawType.Draw(_spriteBatch);
             typeManager.Draw(_spriteBatch);
             setMusicFile.Draw(_spriteBatch);
@@ -292,6 +310,25 @@ namespace MapEditor.Manager
                 map.Reset();
             }
 
+            if (increaseX.Intersects(MouseManager.Instance.Position))
+            {
+                map.XSizeChange(1);
+            }
+
+            if (decreaseX.Intersects(MouseManager.Instance.Position))
+            {
+                map.XSizeChange(-1);
+            }
+
+           if (increaseY.Intersects(MouseManager.Instance.Position))
+            {
+                map.YSizeChange(1);
+            }
+
+            if (decreaseY.Intersects(MouseManager.Instance.Position))
+            {
+                map.YSizeChange(1);
+            }
             if (setMusicFile.Intersects(MouseManager.Instance.Position))
             {
                 map.SetMusic();

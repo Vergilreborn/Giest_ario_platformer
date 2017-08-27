@@ -52,7 +52,7 @@ namespace Giest_ario_platformer.Screens
             maxOptionWidth = (int)font.MeasureString(longestString).X;
             texture = GameManager.Instance.Content.Load<Texture2D>("StartScreen");
             MusicManager.Instance.PlaySong("Select");
-            animation = new Animation("Player/Mario_Walk_Right", 2, 75, true);
+            animation = new Animation("Player/Player_Walk_Right", 4, 175, true);
             
 
 

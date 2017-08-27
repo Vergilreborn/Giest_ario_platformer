@@ -116,6 +116,10 @@ namespace MapEditor.Objects.MapObjects
         private int defaultHeight;
         private int tileWidth;
         private int tileHeight;
+        private int viewSizeStartX;
+        private int viewSizeStartY;
+        private int viewSizeX;
+        private int viewSizeY;
         private Tile[,] tiles;
         private List<MapObject> mapObjects;
         private Vector2 playerPosition;
@@ -129,7 +133,13 @@ namespace MapEditor.Objects.MapObjects
 
         public void Init()
         {
-            defaultWidth = 30;
+            //The viewing window sizes
+            viewSizeStartX = 0;
+            viewSizeStartY = 0;
+            viewSizeX = 10;
+            viewSizeY = 10;
+            //mapWidth and height
+            defaultWidth = 30; 
             defaultHeight = 26;
             tileWidth = 32;
             tileHeight = 32;
@@ -164,6 +174,42 @@ namespace MapEditor.Objects.MapObjects
             }
             mapObjects.Clear();
             playerPosition = tiles[0, 0].Position;
+        }
+
+        internal void YSizeChange(int amt)
+        {
+            int newHeight = defaultHeight + amt;
+            if (newHeight > 1)
+            {
+                tiles = copyArray(tiles, defaultWidth, defaultHeight, defaultWidth, defaultHeight + amt);
+                defaultHeight += amt;
+            }
+        }
+
+        internal void XSizeChange(int amt)
+        {
+            int newWidth = defaultWidth + amt;
+            if (newWidth > 1)
+            {
+                tiles = copyArray(tiles, defaultWidth, defaultHeight, defaultWidth + amt, defaultHeight);
+                defaultWidth += amt;
+            }
+        }
+
+        private Tile[,] copyArray(Tile[,] source, int currWidth, int currHeigh, int newWidth, int newHeight)
+        {
+            Tile[,] newArray = new Tile[newWidth, newHeight];
+            for(int x = 0; x < currWidth; x++)
+            {
+                for(int y = 0; y < currHeigh; y++)
+                {
+                    if (x < newWidth && y < newHeight)
+                    {
+                        newArray[x, y] = source[x, y];
+                    }
+                }
+            }
+            return newArray;
         }
     }
 }
