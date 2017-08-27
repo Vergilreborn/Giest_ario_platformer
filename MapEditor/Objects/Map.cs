@@ -221,5 +221,15 @@ namespace MapEditor.Objects
                 }
             }
         }
+
+        internal void YSizeChange(int amt)
+        {
+            mapInfo.YSizeChange(amt);
+        }
+
+        internal void XSizeChange(int amt)
+        {
+            mapInfo.XSizeChange(amt);
+        }
     }
 }
