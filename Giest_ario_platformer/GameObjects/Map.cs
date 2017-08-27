@@ -62,7 +62,7 @@ namespace Giest_ario_platformer.GameObjects
             this.tileSize = 32;
             widthHeight = new Vector2(mapInfo.Tiles.GetLength(0), mapInfo.Tiles.GetLength(1));
             boundary = new Rectangle(0, 0, (int)(widthHeight.X * tileSize), (int)(widthHeight.Y * tileSize));
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
             loading = false;
         }
 
