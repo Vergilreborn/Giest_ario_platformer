@@ -79,8 +79,8 @@ namespace Giest_ario_platformer.GameObjects
             animations.AddAnimation("Jump_Left", "Player/Mario_Jump_Left", 1, 100, false);
             animations.AddAnimation("Jump_Right", "Player/Mario_Jump_Right", 1, 100, false);
             animations.AddAnimation("Death", "Player/Mario_Death", 1, 100, false);
-            animations.AddAnimation("Turn_Left", "Player/Mario_Turn_Left", 1, 100, false);
-            animations.AddAnimation("Turn_Right", "Player/Mario_Turn_Right", 1, 100, false);
+            animations.AddAnimation("Turn_Left", "Player/Player_Turn_Left", 1, 100, false);
+            animations.AddAnimation("Turn_Right", "Player/Player_Turn_Right", 1, 100, false);
             animations.AddAnimation("Walk_Left", "Player/Player_Walk_Left", 4, 175, true);
             animations.AddAnimation("Walk_Right", "Player/Player_Walk_Right", 4, 175, true);
             animations.AddAnimation("Run_Left", "Player/Mario_Run_Left", 2, 35, true);
