@@ -28,6 +28,15 @@ namespace MapEditor.Objects
         private Cursor cursor;
         private bool inScreen;
 
+
+        private int viewSizeStartX;
+        private int viewSizeStartY;
+        private int viewSizeX;
+        private int viewSizeY;
+        private float keyboardHoldTimer = 0f;
+        private float changeTimer = 20f;
+
+
         private MapInformation mapInfo;
        
         
@@ -41,7 +50,12 @@ namespace MapEditor.Objects
 
         public void Init()
         {
-           
+            //The viewing window sizes
+            viewSizeStartX = 0;
+            viewSizeStartY = 0;
+            viewSizeX = 30;
+            viewSizeY = 26;
+
             mapInfo = new MapInformation();
             mapInfo.Init();
 
@@ -84,13 +98,52 @@ namespace MapEditor.Objects
             int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / mapInfo.TileHeight);
 
             inScreen = true;
-            if (tileX >= mapInfo.DefaultWidth || tileX < 0)
+
+            keyboardHoldTimer += _gameTime.ElapsedGameTime.Milliseconds;
+            bool checkDown= false;
+            if (keyboardHoldTimer > changeTimer)
+            {
+                keyboardHoldTimer %= changeTimer;
+                checkDown = true;
+            }
+
+            if (checkDown)
+            {
+                if (KeyboardManager.Instance.IsKeyActivity(Keys.A.ToString(), KeyActivity.Down))
+                {
+                    viewSizeStartX = Math.Max(viewSizeStartX - 1, 0);
+                }
+                if (KeyboardManager.Instance.IsKeyActivity(Keys.D.ToString(), KeyActivity.Down))
+                {
+                    viewSizeStartX = Math.Min(viewSizeStartX + 1, mapInfo.DefaultWidth - viewSizeX);
+                    viewSizeStartX = Math.Max(viewSizeStartX , 0);
+                }
+                if (KeyboardManager.Instance.IsKeyActivity(Keys.W.ToString(), KeyActivity.Down))
+                {
+                    viewSizeStartY = Math.Max(viewSizeStartY - 1, 0);
+                }
+                if (KeyboardManager.Instance.IsKeyActivity(Keys.S.ToString(), KeyActivity.Down))
+                {
+                    viewSizeStartY = Math.Min(viewSizeStartY + 1, mapInfo.DefaultHeight - viewSizeY);
+                    viewSizeStartY = Math.Max(viewSizeStartY, 0);
+                }
+            }
+
+
+
+            //int showX = Math.Min(mapInfo.DefaultWidth, viewSizeStartX + viewSizeX);
+            //int showY = Math.Min(mapInfo.DefaultHeight, viewSizeStartY + viewSizeY);
+
+
+            //bool inTileX = tileX >= (mapInfo.DefaultWi)
+
+            if (tileX >= viewSizeX || tileX >= mapInfo.DefaultWidth || tileX < 0)
                 inScreen = false;
-            if (tileY >= mapInfo.DefaultHeight || tileY < 0)
+            if (tileY >= viewSizeY || tileY >= mapInfo.DefaultHeight || tileY < 0)
                 inScreen = false;
 
-            if(inScreen)
-                cursor.SetPosition(mapInfo.Tiles[tileX, tileY], Position);
+            if (inScreen)
+                cursor.SetPosition(mapInfo.Tiles[viewSizeStartX +  tileX, viewSizeStartY + tileY],new Vector2(tileX * 32, tileY * 32), Position);
             debugString =$"X:{mousePosition.X} Y:{mousePosition.Y}{Environment.NewLine}Tpx:{tilePositionCursor.X} Tpy:{tilePositionCursor.Y}{Environment.NewLine}Tx:{tileX} Ty:{tileY}";
 
         }
@@ -171,15 +224,23 @@ namespace MapEditor.Objects
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            for (int x = 0; x < mapInfo.DefaultWidth; x++)
+            //mapInfo.DefaultWidth
+            //mapInfo.DefaultHeight
+
+            int showX = Math.Min(mapInfo.DefaultWidth, viewSizeStartX + viewSizeX);
+            int showY = Math.Min(mapInfo.DefaultHeight, viewSizeStartY + viewSizeY);
+
+            for (int x = viewSizeStartX; x < showX; x++)
             {
-                for (int y = 0; y < mapInfo.DefaultHeight; y++)
+                for (int y = viewSizeStartY; y < showY; y++)
                 {
                     //Initializing an empty array of screen width and height
                     Rectangle drawDestination = new Rectangle();
                     Tile tile= mapInfo.Tiles[x, y];
-                    drawDestination.X = mapInfo.Tiles[x, y].Destination.X + (int)Position.X;
-                    drawDestination.Y = mapInfo.Tiles[x, y].Destination.Y + (int)Position.Y;
+                    //drawDestination.X = mapInfo.Tiles[x, y].Destination.X + (int)Position.X;
+                    //drawDestination.Y = mapInfo.Tiles[x, y].Destination.Y + (int)Position.Y;
+                    drawDestination.X = ((x-viewSizeStartX) * 32) + (int)Position.X;
+                    drawDestination.Y = ((y - viewSizeStartY) * 32) + (int)Position.Y;
                     drawDestination.Width = mapInfo.Tiles[x, y].Destination.Width;
                     drawDestination.Height = mapInfo.Tiles[x, y].Destination.Height;
 
@@ -201,10 +262,18 @@ namespace MapEditor.Objects
                 _spriteBatch.Draw(emptyBlockTexture, drawRect, mapObj.GetDrawColor());
             }
 
+            _spriteBatch.DrawString(MapManager.Instance.DebugFont, $"Tiles(x,y):{showX},{showY} out of (x,y):{mapInfo.DefaultWidth},{mapInfo.DefaultHeight}", new Vector2(750, 2), Color.Yellow);
+
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, "Song:" + mapInfo.Music, Position - new Vector2(0, 20), Color.LightSkyBlue);
 
 
-            _spriteBatch.Draw(texturePlayerPosition, Position + mapInfo.PlayerPosition, Color.White);
+            Rectangle startPosition = mapInfo.Tiles[viewSizeStartX, viewSizeStartY].Destination;
+            Rectangle endPosition = mapInfo.Tiles[showX-1, showY-1].Destination;
+            if (new Rectangle(startPosition.X, startPosition.Y, endPosition.X + endPosition.Width, endPosition.Y + endPosition.Height).Contains(mapInfo.PlayerPosition))
+            {
+
+                _spriteBatch.Draw(texturePlayerPosition, Position + mapInfo.PlayerPosition - new Vector2(viewSizeStartX * 32, viewSizeStartY * 32), Color.White);
+            }
 
             cursor.Draw(_spriteBatch);
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, debugString, new Vector2(0, 0), Color.AliceBlue);

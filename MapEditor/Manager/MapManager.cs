@@ -232,7 +232,7 @@ namespace MapEditor.Manager
             Rectangle tileBox = new Rectangle(34, 497, 32, 32);
 
 
-
+            
 
             _spriteBatch.DrawString(debugFont, "Selected", new Vector2(35, 380), Color.Pink);
             if (drawTypeSelected != DrawType.Collision)
@@ -327,7 +327,7 @@ namespace MapEditor.Manager
 
             if (decreaseY.Intersects(MouseManager.Instance.Position))
             {
-                map.YSizeChange(1);
+                map.YSizeChange(-1);
             }
             if (setMusicFile.Intersects(MouseManager.Instance.Position))
             {

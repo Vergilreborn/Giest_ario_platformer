@@ -115,6 +115,9 @@
     <None Include="Content\Fonts\lunchds.ttf" />
     <None Include="Content\Fonts\manaspc.ttf" />
     <None Include="Content\Fonts\SuperMarioBros3.ttf" />
+    <None Include="Content\Map\LongLevel.gmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Map\Testing.gmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

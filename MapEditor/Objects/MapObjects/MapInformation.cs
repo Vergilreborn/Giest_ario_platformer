@@ -116,10 +116,7 @@ namespace MapEditor.Objects.MapObjects
         private int defaultHeight;
         private int tileWidth;
         private int tileHeight;
-        private int viewSizeStartX;
-        private int viewSizeStartY;
-        private int viewSizeX;
-        private int viewSizeY;
+
         private Tile[,] tiles;
         private List<MapObject> mapObjects;
         private Vector2 playerPosition;
@@ -133,11 +130,7 @@ namespace MapEditor.Objects.MapObjects
 
         public void Init()
         {
-            //The viewing window sizes
-            viewSizeStartX = 0;
-            viewSizeStartY = 0;
-            viewSizeX = 10;
-            viewSizeY = 10;
+            
             //mapWidth and height
             defaultWidth = 30; 
             defaultHeight = 26;
@@ -176,36 +169,41 @@ namespace MapEditor.Objects.MapObjects
             playerPosition = tiles[0, 0].Position;
         }
 
-        internal void YSizeChange(int amt)
+        internal void YSizeChange(int _amt)
         {
-            int newHeight = defaultHeight + amt;
+            int newHeight = defaultHeight + _amt;
             if (newHeight > 1)
             {
-                tiles = copyArray(tiles, defaultWidth, defaultHeight, defaultWidth, defaultHeight + amt);
-                defaultHeight += amt;
+                tiles = copyArray(tiles, defaultWidth, defaultHeight, defaultWidth, defaultHeight + _amt);
+                defaultHeight += _amt;
             }
         }
 
-        internal void XSizeChange(int amt)
+        internal void XSizeChange(int _amt)
         {
-            int newWidth = defaultWidth + amt;
+            int newWidth = defaultWidth + _amt;
             if (newWidth > 1)
             {
-                tiles = copyArray(tiles, defaultWidth, defaultHeight, defaultWidth + amt, defaultHeight);
-                defaultWidth += amt;
+                tiles = copyArray(tiles, defaultWidth, defaultHeight, defaultWidth + _amt, defaultHeight);
+                defaultWidth += _amt;
             }
         }
 
-        private Tile[,] copyArray(Tile[,] source, int currWidth, int currHeigh, int newWidth, int newHeight)
+        private Tile[,] copyArray(Tile[,] _source, int _currWidth, int _currHeigh, int _newWidth, int _newHeight)
         {
-            Tile[,] newArray = new Tile[newWidth, newHeight];
-            for(int x = 0; x < currWidth; x++)
+            Tile[,] newArray = new Tile[_newWidth, _newHeight];
+            for(int x = 0; x < _newWidth; x++)
             {
-                for(int y = 0; y < currHeigh; y++)
+                for(int y = 0; y < _newHeight; y++)
                 {
-                    if (x < newWidth && y < newHeight)
+                    if (x < _currWidth && y < _currHeigh)
                     {
-                        newArray[x, y] = source[x, y];
+                        newArray[x, y] = _source[x, y];
+                    }
+                    else
+                    {
+                        Rectangle destination = new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+                        newArray[x, y] = new Tile(destination, tileWidth, tileHeight);
                     }
                 }
             }
