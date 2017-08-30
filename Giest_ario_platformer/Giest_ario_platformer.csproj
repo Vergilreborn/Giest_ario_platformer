@@ -44,6 +44,7 @@
     <Compile Include="Abstract\AGameObject.cs" />
     <Compile Include="Abstract\AGameScreen.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Enums\EnemyType.cs" />
     <Compile Include="Enums\KeyActivity.cs" />
     <Compile Include="Enums\MapTypeObject.cs" />
     <Compile Include="Enums\TileType.cs" />
@@ -55,6 +56,8 @@
       <DependentUpon>MapSelection.cs</DependentUpon>
     </Compile>
     <Compile Include="Game1.cs" />
+    <Compile Include="Abstract\AEnemy.cs" />
+    <Compile Include="GameObjects\EnemyObjects\BlockEnemy.cs" />
     <Compile Include="GameObjects\Map.cs" />
     <Compile Include="GameObjects\MapObjects\MapInformation.cs" />
     <Compile Include="GameObjects\MapObjects\MapObject.cs" />

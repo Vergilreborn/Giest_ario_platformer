@@ -11,6 +11,8 @@ using Giest_ario_platformer.Helpers;
 using Giest_ario_platformer.Enums;
 using Giest_ario_platformer.GameObjects.MapObjects;
 using System.Threading;
+using Giest_ario_platformer.Abstract;
+using Giest_ario_platformer.GameObjects.EnemyObjects;
 
 namespace Giest_ario_platformer.GameObjects
 {
@@ -23,8 +25,7 @@ namespace Giest_ario_platformer.GameObjects
         private Texture2D emptyBlockTexture;
         private Vector2 widthHeight;
         private Rectangle boundary;
-        private bool loading;
-
+      
         public Vector2 PlayerPosition
         {
             get
@@ -50,20 +51,28 @@ namespace Giest_ario_platformer.GameObjects
 
         public Map()
         {
-
         }
 
         public void LoadMap(String _file)
         {
-            loading = true;
-
+            
             mapInfo = FileManager<MapInformation>.LoadFile(@"Content\Map\" + _file);
             emptyBlockTexture = GameManager.Instance.CreateColorTexture(255, 255, 255, 255);
             this.tileSize = 32;
             widthHeight = new Vector2(mapInfo.Tiles.GetLength(0), mapInfo.Tiles.GetLength(1));
             boundary = new Rectangle(0, 0, (int)(widthHeight.X * tileSize), (int)(widthHeight.Y * tileSize));
             Thread.Sleep(500);
-            loading = false;
+        }
+
+        public List<AEnemy> GetEnemies()
+        {
+            List<AEnemy> enemies = new List<AEnemy>();
+            BlockEnemy enemy = new BlockEnemy();
+            enemy.Init();
+            enemy.Load();
+            enemies.Add(enemy);
+
+            return enemies;
         }
 
         public void StartMusic()

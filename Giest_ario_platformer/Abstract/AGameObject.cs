@@ -17,7 +17,7 @@ namespace Giest_ario_platformer.Abstract
         //public Rectangle SourceBox;
         //public Rectangle DestinationBox;
        // public Texture2D Texture;
-        public float Gravity = 0f;
+        public float Gravity = 1f;
 
         private int width;
         private int height;

@@ -55,7 +55,6 @@ namespace Giest_ario_platformer.GameObjects
         public override void Init()
         {
             fallSpeed = 0;
-            Gravity = 1f;
             horSpeed = 0f;
             SavePosition = new Vector2();
             debugStr = "";

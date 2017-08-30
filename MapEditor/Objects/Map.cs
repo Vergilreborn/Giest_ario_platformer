@@ -129,14 +129,6 @@ namespace MapEditor.Objects
                 }
             }
 
-
-
-            //int showX = Math.Min(mapInfo.DefaultWidth, viewSizeStartX + viewSizeX);
-            //int showY = Math.Min(mapInfo.DefaultHeight, viewSizeStartY + viewSizeY);
-
-
-            //bool inTileX = tileX >= (mapInfo.DefaultWi)
-
             if (tileX >= viewSizeX || tileX >= mapInfo.DefaultWidth || tileX < 0)
                 inScreen = false;
             if (tileY >= viewSizeY || tileY >= mapInfo.DefaultHeight || tileY < 0)
@@ -181,13 +173,13 @@ namespace MapEditor.Objects
                 {
                     MapObject mObject = mapInfo.MapObjects.AsQueryable().Where(x => x.DestinationBox.Contains(_position - Position)).FirstOrDefault();
 
+
                     mapSelected.ShowDialog();
                     DialogResult result = mapSelected.DialogResult;
                     String results = mapSelected.GetCleanText();
+
                     if (result == DialogResult.OK && results != "")
                     {
-
-
                         Tile t = cursor.Selected;
                         if (mObject == null)
                         {
@@ -218,14 +210,11 @@ namespace MapEditor.Objects
 
         public void Reset()
         {
-            mapInfo.Reset();
-           
+            mapInfo.Reset();  
         }
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            //mapInfo.DefaultWidth
-            //mapInfo.DefaultHeight
 
             int showX = Math.Min(mapInfo.DefaultWidth, viewSizeStartX + viewSizeX);
             int showY = Math.Min(mapInfo.DefaultHeight, viewSizeStartY + viewSizeY);
@@ -237,8 +226,7 @@ namespace MapEditor.Objects
                     //Initializing an empty array of screen width and height
                     Rectangle drawDestination = new Rectangle();
                     Tile tile= mapInfo.Tiles[x, y];
-                    //drawDestination.X = mapInfo.Tiles[x, y].Destination.X + (int)Position.X;
-                    //drawDestination.Y = mapInfo.Tiles[x, y].Destination.Y + (int)Position.Y;
+
                     drawDestination.X = ((x-viewSizeStartX) * 32) + (int)Position.X;
                     drawDestination.Y = ((y - viewSizeStartY) * 32) + (int)Position.Y;
                     drawDestination.Width = mapInfo.Tiles[x, y].Destination.Width;
@@ -263,15 +251,13 @@ namespace MapEditor.Objects
             }
 
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, $"Tiles(x,y):{showX},{showY} out of (x,y):{mapInfo.DefaultWidth},{mapInfo.DefaultHeight}", new Vector2(750, 2), Color.Yellow);
-
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, "Song:" + mapInfo.Music, Position - new Vector2(0, 20), Color.LightSkyBlue);
-
 
             Rectangle startPosition = mapInfo.Tiles[viewSizeStartX, viewSizeStartY].Destination;
             Rectangle endPosition = mapInfo.Tiles[showX-1, showY-1].Destination;
+
             if (new Rectangle(startPosition.X, startPosition.Y, endPosition.X + endPosition.Width, endPosition.Y + endPosition.Height).Contains(mapInfo.PlayerPosition))
             {
-
                 _spriteBatch.Draw(texturePlayerPosition, Position + mapInfo.PlayerPosition - new Vector2(viewSizeStartX * 32, viewSizeStartY * 32), Color.White);
             }
 

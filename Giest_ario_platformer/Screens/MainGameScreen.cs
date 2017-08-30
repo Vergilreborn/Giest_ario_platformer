@@ -29,6 +29,8 @@ namespace Giest_ario_platformer.Screens
         }
         private Map map;
         private Player player;
+        private List<AEnemy> enemies;
+
         private bool isPause;
         private String pauseString = "Paused!";
         private Vector2 pausePosition;
@@ -44,6 +46,7 @@ namespace Giest_ario_platformer.Screens
 
         public override void Init()
         {
+            enemies = new List<AEnemy>();
             map = new Map();
             map.Init();
             player.Init();            
@@ -56,6 +59,7 @@ namespace Giest_ario_platformer.Screens
         private void loadMap()
         {
             map.LoadMap(mapToLoad);
+            enemies = map.GetEnemies();
             player.SetPosition(map.PlayerPosition);
             GameManager.Instance.Cam.SetMapBoundary(map.GetBoundary());
             map.StartMusic();
@@ -123,6 +127,11 @@ namespace Giest_ario_platformer.Screens
                 {
                     map.Update(_gameTime);
                     player.Update(_gameTime, map);
+
+                    foreach (AEnemy enemy in enemies)
+                    {
+                        enemy.Update(_gameTime, map, player);
+                    }
                     if (player.ChangeLevel != null)
                     {
                         LoadMap(player.ChangeLevel);
@@ -143,6 +152,12 @@ namespace Giest_ario_platformer.Screens
              if (!transition && !transitionScreen.isTransition)
             {
                 map.Draw(_spriteBatch);
+
+                foreach(AEnemy enemy in enemies)
+                {
+                    enemy.Draw(_spriteBatch);
+                }
+
                 player.Draw(_spriteBatch);
 
                 if (isPause)
