@@ -77,7 +77,7 @@ namespace Giest_ario_platformer.Screens
 
             animation.Update(_gameTime);
 
-            if(animationPosition.X +  32 > GameManager.Instance.WidthHeight.X)
+            if(animationPosition.X  > GameManager.Instance.WidthHeight.X)
             {
                 animationPosition.X = -32;
             }
