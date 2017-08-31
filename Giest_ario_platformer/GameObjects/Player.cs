@@ -216,6 +216,11 @@ namespace Giest_ario_platformer.GameObjects
             
         }
 
+        internal void TakeDamage()
+        {
+            setDeath();
+        }
+
         private void setDeath()
         {
             horSpeed = 0;

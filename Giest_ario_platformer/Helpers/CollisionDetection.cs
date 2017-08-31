@@ -63,5 +63,15 @@ namespace Giest_ario_platformer.Helpers
             }
             return null;
         }
+
+        internal static bool IsAbove(Rectangle _box1, Rectangle _box2)
+        {
+            float differenceX = _box1.Center.X - _box2.Center.X;
+            float differenceY = _box1.Center.Y - _box2.Center.Y;
+            if (Math.Abs(differenceX) > Math.Abs(differenceY))
+                return false;
+
+            return differenceY < 0;
+        }
     }
 }

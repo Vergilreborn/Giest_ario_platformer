@@ -23,6 +23,7 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
         private Animation current;
         private Direction direction;
         private bool isFalling = false;
+
         public BlockEnemy()
         {
         }
@@ -102,7 +103,6 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
                 else
                 {
                     fallSpeed = Math.Min(fallSpeed + Gravity, 10f);
-                    ;
                 }
             }
             else
@@ -144,6 +144,19 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
                 current = animations.GetAnimation($"{direction}");
             }
 
+
+
+            if (CollisionBox.Intersects(_player.CollisionBox) )
+            {
+                if (CollisionDetection.IsAbove(_player.CollisionBox, CollisionBox))
+                {
+                    IsDead = true;
+                }
+                else {
+                    _player.TakeDamage();
+                }
+            }
+            
             Update(_gameTime);            
         }
 

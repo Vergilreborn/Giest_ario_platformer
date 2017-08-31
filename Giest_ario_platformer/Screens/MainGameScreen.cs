@@ -128,9 +128,14 @@ namespace Giest_ario_platformer.Screens
                     map.Update(_gameTime);
                     player.Update(_gameTime, map);
 
-                    foreach (AEnemy enemy in enemies)
+                    for(int i = enemies.Count - 1; i >= 0; i--)
                     {
+                        AEnemy enemy = enemies[i];
                         enemy.Update(_gameTime, map, player);
+                        if (enemy.IsDead)
+                        {
+                            enemies.Remove(enemy);
+                        }
                     }
                     if (player.ChangeLevel != null)
                     {

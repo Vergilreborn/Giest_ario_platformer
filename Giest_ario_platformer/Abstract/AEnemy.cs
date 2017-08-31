@@ -21,11 +21,25 @@ namespace Giest_ario_platformer.Abstract
                 return type;
             }
         }
+
+        public bool IsDead
+        {
+            get
+            {
+                return isDead;
+            }
+            set
+            {
+                isDead = value;
+            }
+        }
+
+        private bool isDead;
         private EnemyType type;
         
         public AEnemy()
         {
-
+            isDead = false;
         }
 
         public abstract void Update(GameTime _gameTime, Map _map, Player _player);
