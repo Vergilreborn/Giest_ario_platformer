@@ -21,7 +21,8 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
         private float fallSpeed;
         private AnimationSet animations;
         private Animation current;
-
+        private Direction direction;
+        private bool isFalling = false;
         public BlockEnemy()
         {
         }
@@ -29,7 +30,8 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
         //initialize this enemy
         public override void Init()
         {
-            this.Position = new Vector2(0, 0);
+            direction = Direction.Right;
+            this.Position = new Vector2(100, 0);
             this.Width = 32;
             this.Height = 32;
             fallSpeed = 0f;
@@ -51,26 +53,7 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
         //normal updates without the player
         public override void Update(GameTime _gameTime)
         {
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.U.ToString(), KeyActivity.Pressed))
-            {
-                current = animations.GetAnimation("Left");
-            }
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.I.ToString(), KeyActivity.Pressed))
-            {
-
-                current = animations.GetAnimation("Right");
-            }
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.O.ToString(), KeyActivity.Pressed))
-            {
-
-                current = animations.GetAnimation("Left_Walk");
-            }
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.P.ToString(), KeyActivity.Pressed))
-            {
-
-                current = animations.GetAnimation("Right_Walk");
-            }
-
+        
             current.Update(_gameTime);
         }
 
@@ -79,14 +62,23 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
         {
             SavePosition.X = Position.X;
             SavePosition.Y = Position.Y;
-            
 
+            if(direction == Direction.Right)
+            {
+                Position.X += 1;
+            }
+
+            if(direction == Direction.Left)
+            {
+                Position.X -= 1;
+            }
+            
             bool positiveChange = SavePosition.X < Position.X;
             float newPosition;
             TileType collisionType;
-            bool collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, true, out newPosition, out collisionType);
+            bool collisionH = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, true, out newPosition, out collisionType);
 
-            if (collision)
+            if (collisionH)
             {
                 Position.X = newPosition;
             }
@@ -95,12 +87,13 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
 
             positiveChange = SavePosition.Y < Position.Y;
             TileType collisionTypeVer;
-            collision = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, false, out newPosition, out collisionTypeVer);
+            bool collisionV = CollisionDetection.IsColliding(_map, CollisionBox, positiveChange, false, out newPosition, out collisionTypeVer);
 
             collisionType = (collisionType == TileType.Water ? TileType.Water : collisionTypeVer);
 
-            if (!collision)
+            if (!collisionV)
             {
+                isFalling = true;
                 if (collisionType == TileType.Water)
                 {
                     fallSpeed = Math.Max(fallSpeed + (Gravity / 3f), -6f);
@@ -109,11 +102,12 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
                 else
                 {
                     fallSpeed = Math.Min(fallSpeed + Gravity, 10f);
+                    ;
                 }
             }
             else
             {
-
+               
                 Position.Y = newPosition;
                 if (collisionType == TileType.Water)
                 {
@@ -123,16 +117,44 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
                 else
                 {
                     fallSpeed = Gravity;
-           
-                 }
+                    isFalling = false;
+
+                }
            
             }
+
+            float positionXAhead = Position.X + (direction == Direction.Right ? Width/2 : -Width/2);
+            TileType type = TileType.None;
+            float newValue = 0f;
+
+            if (!isFalling)
+            {
+                if (collisionH || !CollisionDetection.IsColliding(_map, new Rectangle((int)positionXAhead, (int)Position.Y + 1, CollisionBox.Width, CollisionBox.Height), true, false, out newValue, out type))
+                {
+                    //if(collisionH)
+                    // {
+                    direction = direction == Direction.Right ? Direction.Left : Direction.Right;
+                    //}
+                    current = animations.GetAnimation($"{direction}_Walk");
+                }
+                current = animations.GetAnimation($"{direction}_Walk");
+            }
+            else
+            {
+                current = animations.GetAnimation($"{direction}");
+            }
+
             Update(_gameTime);            
         }
 
         //Draw this enemy
         public override void Draw(SpriteBatch _spriteBatch)
         {
+            float positionXAhead = Position.X + (direction == Direction.Right ? Width/2 : -Width/2);
+            Rectangle rect = new Rectangle((int)positionXAhead, (int)Position.Y + 1, CollisionBox.Width, CollisionBox.Height);
+
+            _spriteBatch.Draw(GameManager.Instance.EmptyTexture, rect, Color.Red * .33f);
+
             current.Draw(_spriteBatch, CollisionBox);
         }
     }
