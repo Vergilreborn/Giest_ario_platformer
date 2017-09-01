@@ -77,13 +77,13 @@ namespace Giest_ario_platformer.GameObjects
             animations.AddAnimation("Right", "Player/Player_Still_Right", 2, 250, true);
             animations.AddAnimation("Jump_Left", "Player/Mario_Jump_Left", 1, 100, false);
             animations.AddAnimation("Jump_Right", "Player/Mario_Jump_Right", 1, 100, false);
-            animations.AddAnimation("Death", "Player/Mario_Death", 1, 100, false);
+            animations.AddAnimation("Death", "Player/Player_Death", 1, 100, false);
             animations.AddAnimation("Turn_Left", "Player/Player_Turn_Left", 1, 100, false);
             animations.AddAnimation("Turn_Right", "Player/Player_Turn_Right", 1, 100, false);
             animations.AddAnimation("Walk_Left", "Player/Player_Walk_Left", 4, 175, true);
             animations.AddAnimation("Walk_Right", "Player/Player_Walk_Right", 4, 175, true);
-            animations.AddAnimation("Run_Left", "Player/Mario_Run_Left", 2, 35, true);
-            animations.AddAnimation("Run_Right", "Player/Mario_Run_Right", 2, 35, true);
+            animations.AddAnimation("Run_Left", "Player/Player_Run_Left", 4, 50, true);
+            animations.AddAnimation("Run_Right", "Player/Player_Run_Right", 4, 50, true);
             animations.AddAnimation("RunJump_Left", "Player/Mario_RunJump_Left", 1, 100, false);
             animations.AddAnimation("RunJump_Right", "Player/Mario_RunJump_Right", 1, 100, false);
             currentAnimation = animations.GetAnimation("Left");
@@ -216,7 +216,15 @@ namespace Giest_ario_platformer.GameObjects
             
         }
 
-        internal void TakeDamage()
+        public void Bounce()
+        {
+
+            SoundManager.Instance.PlaySound("Mario_Jump");
+            isJumping = true;
+            fallSpeed = -10f;
+        }
+
+        public void TakeDamage()
         {
             setDeath();
         }

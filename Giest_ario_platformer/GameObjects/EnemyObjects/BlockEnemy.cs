@@ -148,9 +148,10 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
 
             if (CollisionBox.Intersects(_player.CollisionBox) )
             {
-                if (CollisionDetection.IsAbove(_player.CollisionBox, CollisionBox))
+                 if (CollisionDetection.IsAbove(_player.CollisionBox, CollisionBox))
                 {
                     IsDead = true;
+                    _player.Bounce();
                 }
                 else {
                     _player.TakeDamage();
