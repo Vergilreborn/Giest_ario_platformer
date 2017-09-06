@@ -35,6 +35,10 @@ namespace Giest_ario_platformer.Managers
         public ContentManager Content;
         public Viewport ViewPort;
         public GraphicsDevice Graphics;
+        public GameServiceContainer Services;
+        public StartScreen startScreen;
+        public MainGameScreen gameScreen;
+
         public Vector2 WidthHeight
         {
             get
@@ -91,7 +95,8 @@ namespace Giest_ario_platformer.Managers
             //GameScreen
             //currentScreen = new MainGameScreen();
             //StartScreen
-            currentScreen = new StartScreen();
+            startScreen = new StartScreen();
+            currentScreen = startScreen;
         }
        
         public void Init()
@@ -99,6 +104,11 @@ namespace Giest_ario_platformer.Managers
             fonts = new Dictionary<string, SpriteFont>();
             exitGame = false;
             currentScreen.Init();
+        }
+
+        public void SetServices(GameServiceContainer _services)
+        {
+            this.Services = _services;
         }
 
         public void Load()
@@ -168,7 +178,10 @@ namespace Giest_ario_platformer.Managers
         
         private void UnLoad()
         {
-            Content.Unload();
+            //IServiceProvider provider = Content.ServiceProvider;
+            //Content.Unload();
+            //Content = new ContentManager(provider);
+            resetContent();
             fonts.Clear();
             fonts.Add("Debug", Content.Load<SpriteFont>("Fonts/Debug"));
             fonts.Add("XSmall", Content.Load<SpriteFont>("Fonts/GameFont_xs"));
@@ -180,21 +193,35 @@ namespace Giest_ario_platformer.Managers
 
         }
 
+        private void resetContent()
+        {
+            Content.Dispose();
+            Content = new ContentManager(Services, "Content");
+
+        }
+
         public void ChangeScreen(string newScreen)
         {
-            UnLoad();
+           // UnLoad();
+            currentScreen = null;
             switch (newScreen)
             {
                 case "StartScreen":
-                    currentScreen = new StartScreen();
+                    currentScreen = startScreen; //new StartScreen();
                     break;
                 case "MainGameScreen":
-                    currentScreen = new MainGameScreen();
+                    if(gameScreen == null)
+                    {
+                        gameScreen = new MainGameScreen();
+                     
+                    }
+                    currentScreen = gameScreen;//new MainGameScreen();
+                    
                     break;
                 case "Exit": exitGame = true;
                     return;
             }
-
+            GC.Collect();
             currentScreen.Init();
             currentScreen.Load();
         }

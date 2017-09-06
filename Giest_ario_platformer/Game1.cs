@@ -23,8 +23,8 @@ namespace Giest_ario_platformer
             // Somewhere in initialisation
 
 
-            graphics.PreferredBackBufferHeight = 480*2;
-            graphics.PreferredBackBufferWidth= 600*2;
+            graphics.PreferredBackBufferHeight = 480*3;
+            graphics.PreferredBackBufferWidth= 600*3;
 
             //graphics.PreferredBackBufferHeight= 960;
             //graphics.PreferredBackBufferWidth = 1200;
@@ -63,6 +63,7 @@ namespace Giest_ario_platformer
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
+            GameManager.Instance.SetServices(Services);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             GameManager.Instance.SetViewport(GraphicsDevice.Viewport);

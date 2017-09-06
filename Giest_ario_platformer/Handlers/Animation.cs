@@ -64,5 +64,10 @@ namespace Giest_ario_platformer.Handlers
         {
             _spriteBatch.Draw(texture, _animationPosition, Source, Color.White);
         }
+
+        internal void UnLoad()
+        {
+            texture.Dispose();
+        }
     }
 }
