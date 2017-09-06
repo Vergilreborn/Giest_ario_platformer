@@ -35,7 +35,7 @@ namespace MapEditor.Objects
         private int viewSizeY;
         private float keyboardHoldTimer = 0f;
         private float changeTimer = 20f;
-
+        private Rectangle mapBorder;
 
         private MapInformation mapInfo;
        
@@ -55,11 +55,12 @@ namespace MapEditor.Objects
             viewSizeStartY = 0;
             viewSizeX = 30;
             viewSizeY = 26;
-
+            
             mapInfo = new MapInformation();
             mapInfo.Init();
 
-            Position = new Vector2(200, 25);
+            Position = new Vector2(240, 25);
+            mapBorder = new Rectangle((int)Position.X, (int)Position.Y, viewSizeX * 32, viewSizeY * 32);
             cursor = new Cursor();
             cursor.SetCursor("MapCursor");
         }
@@ -76,7 +77,7 @@ namespace MapEditor.Objects
                 mapInfo = FileManager<MapInformation>.LoadFileGameObject(".gmap", "Map");
             }catch(NoFileSelectedException e)
             {
-
+                MessageBox.Show("Alert:" + e.Message);
             }
         }
 
@@ -216,8 +217,12 @@ namespace MapEditor.Objects
         public void Draw(SpriteBatch _spriteBatch)
         {
 
+            _spriteBatch.Draw(emptyBlockTexture, mapBorder, Color.AliceBlue * .2f);
+            SpriteBatchAssist.DrawBox(_spriteBatch, emptyBlockTexture, mapBorder,Color.Yellow);
+
             int showX = Math.Min(mapInfo.DefaultWidth, viewSizeStartX + viewSizeX);
             int showY = Math.Min(mapInfo.DefaultHeight, viewSizeStartY + viewSizeY);
+
 
             for (int x = viewSizeStartX; x < showX; x++)
             {
@@ -279,12 +284,35 @@ namespace MapEditor.Objects
 
         internal void YSizeChange(int amt)
         {
+
             mapInfo.YSizeChange(amt);
+            FixMapAdjustment();
         }
 
         internal void XSizeChange(int amt)
         {
             mapInfo.XSizeChange(amt);
+            FixMapAdjustment();
+        }
+
+        private void FixMapAdjustment()
+        {
+            //viewSizeStartX = Math.Min(mapInfo.DefaultWidth - viewSizeX, viewSizeStartX );
+            //viewSizeStartY = Math.Min(mapInfo.DefaultHeight - viewSizeY, viewSizeStartY );
+
+            if(viewSizeStartX + viewSizeX > mapInfo.DefaultWidth)
+            {
+                viewSizeStartX = mapInfo.DefaultWidth - viewSizeX;
+            }
+            viewSizeStartX = Math.Max(0, viewSizeStartX);
+
+
+            if (viewSizeStartY + viewSizeY > mapInfo.DefaultHeight)
+            {
+                viewSizeStartY = mapInfo.DefaultHeight - viewSizeY;
+            }
+
+            viewSizeStartY = Math.Max(0, viewSizeStartY);
         }
     }
 }

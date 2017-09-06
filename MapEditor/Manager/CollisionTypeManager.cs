@@ -45,7 +45,7 @@ namespace MapEditor.Manager
             colButtons = new List<CollisionTypeButton>();
             tileSizeX = 32;
             tileSizeY = 32;
-            position = new Vector2(25, 600);
+            position = new Vector2(1225, 225);
             enumArray = (TileType[])Enum.GetValues(typeof(TileType));
             for(int i = 0;i< enumArray.Length; i++)
             {
