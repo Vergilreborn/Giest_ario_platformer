@@ -20,8 +20,12 @@ namespace MapEditor
         {
             graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferHeight = (int)(960 *1.7);
-            graphics.PreferredBackBufferWidth = (int)(1400 * 1.7);
+
+            float multiplierX = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * .9f / TargetWidth;
+            float multiplierY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height* .9f / TargetHeight;
+            float multiplier = MathHelper.Min(multiplierX, multiplierY);
+            graphics.PreferredBackBufferHeight = (int)(960 * multiplier);
+            graphics.PreferredBackBufferWidth = (int)(1400 * multiplier);
             IsMouseVisible = true;
 
             float scaleX = (float)graphics.PreferredBackBufferWidth / (float)TargetWidth;

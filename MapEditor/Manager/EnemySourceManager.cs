@@ -15,6 +15,14 @@ namespace MapEditor.Manager
     class EnemySourceManager : IGameObject
     {
 
+        public bool InScreen
+        {
+            get
+            {
+                return inScreen;
+            }
+        }
+
         private Texture2D texture;
         private Texture2D emptyTexture;
         private Vector2 position;
@@ -29,6 +37,9 @@ namespace MapEditor.Manager
         private int tileSizeX;
         private int tileSizeY;
         private Dictionary<string, List<EnemyObjectInfo>> objectInformation;
+        private EnemyObjectInfo hover;
+        private EnemyObjectInfo selected;
+        private bool inScreen = false;
 
         public EnemySourceManager()
         {
@@ -50,7 +61,7 @@ namespace MapEditor.Manager
             objectInformation["Default"].Add(new EnemyObjectInfo() { Type = EnemyType.Basic, Source = new Rectangle(0, 0, 32, 32), Destination = new Rectangle(0, 0, 32, 32) });
 
             position = new Vector2(15, 400);
-            sourceWindow = new Rectangle((int)position.X, (int)position.Y, tileSizePaddingX* viewSizeX, tileSizePaddingY* viewSizeY);
+            sourceWindow = new Rectangle((int)position.X, (int)position.Y, tileSizePaddingX * viewSizeX, tileSizePaddingY * viewSizeY);
 
         }
 
@@ -62,8 +73,38 @@ namespace MapEditor.Manager
 
         public void Update(GameTime _gameTime)
         {
-           
+
+            Point mousePosition = MouseManager.Instance.Position;
+            Point relativePosition = mousePosition - position.ToPoint();
+            bool isClicked = MouseManager.Instance.IsKeyActivity(true, KeyActivity.Pressed);
+            bool isRightClicked = MouseManager.Instance.IsKeyActivity(false, KeyActivity.Pressed);
+            inScreen = sourceWindow.Contains(mousePosition);
+            if (inScreen)
+            {
+                foreach (EnemyObjectInfo enm in objectInformation["Default"])
+                {
+                    if (enm.Destination.Contains(relativePosition))
+                    {
+                        if (isClicked)
+                        {
+                            selected = enm;
+                        }
+
+                        hover = enm;
+
+                    }
+                }
+                if (isRightClicked)
+                {
+                    selected = null;
+                }
+            }
+            else
+            {
+                hover = null;
+            }
         }
+
         public void Draw(SpriteBatch _spriteBatch)
         {
             foreach(EnemyObjectInfo enm in objectInformation["Default"])
@@ -74,7 +115,22 @@ namespace MapEditor.Manager
 
             _spriteBatch.Draw(emptyTexture, sourceWindow, Color.AliceBlue * .10f);
             SpriteBatchAssist.DrawBox(_spriteBatch, emptyTexture, sourceWindow, Color.Red, 2);
-            
+
+            if (hover != null) {
+                Rectangle drawPosition = new Rectangle((int)position.X + hover.Source.X, (int)position.Y + hover.Source.Y, hover.Source.Width, hover.Source.Height);
+                SpriteBatchAssist.DrawBox(_spriteBatch, emptyTexture, drawPosition,Color.LightGoldenrodYellow);
+            }
+            if (selected!= null)
+            {
+                Rectangle drawPosition = new Rectangle((int)position.X + selected.Source.X, (int)position.Y + selected.Source.Y, selected.Source.Width, selected.Source.Height);
+                SpriteBatchAssist.DrawBox(_spriteBatch, emptyTexture, drawPosition, Color.Red);
+            }
+
+        }
+
+        internal EnemyObjectInfo GetSelected()
+        {
+            return selected;
         }
     }
 }

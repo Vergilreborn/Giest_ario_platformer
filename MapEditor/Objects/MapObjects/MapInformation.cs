@@ -94,7 +94,7 @@ namespace MapEditor.Objects.MapObjects
             {
                 if (value == null)
                     mapObjects = new List<MapObject>();
-                mapObjects = value;
+                
             }
         }
 
@@ -110,6 +110,20 @@ namespace MapEditor.Objects.MapObjects
             }
         }
 
+        public List<EnemyObjectInfo> EnemyObjects
+        {
+            get
+            {
+                return enemyObjects;
+            }
+            set
+            {
+                if(value == null)
+                
+                    enemyObjects = new List<EnemyObjectInfo>();
+            }
+        }
+
         #endregion
         private String music;
         private int defaultWidth;
@@ -119,6 +133,8 @@ namespace MapEditor.Objects.MapObjects
 
         private Tile[,] tiles;
         private List<MapObject> mapObjects;
+        private List<EnemyObjectInfo> enemyObjects;
+
         private Vector2 playerPosition;
 
         public MapInformation()
@@ -126,6 +142,7 @@ namespace MapEditor.Objects.MapObjects
             tiles = new Tile[0, 0];
             music = "";
             mapObjects = new List<MapObject>();
+            enemyObjects = new List<EnemyObjectInfo>();
         }
 
         public void Init()
@@ -138,6 +155,7 @@ namespace MapEditor.Objects.MapObjects
             tileHeight = 32;
             playerPosition = Vector2.Zero;
             mapObjects = new List<MapObject>();
+            enemyObjects = new List<EnemyObjectInfo>();
             tiles = new Tile[defaultWidth, defaultHeight];
 
             for (int x = 0; x < defaultWidth; x++)
@@ -208,6 +226,11 @@ namespace MapEditor.Objects.MapObjects
                 }
             }
             return newArray;
+        }
+
+        internal void AddEnemy(EnemyObjectInfo _enemyObjectInfo)
+        {
+            enemyObjects.Add(_enemyObjectInfo);
         }
     }
 }

@@ -54,5 +54,13 @@ namespace MapEditor.Objects
         {
 
         }
+
+        internal EnemyObjectInfo Clone()
+        {
+            EnemyObjectInfo newObject = new EnemyObjectInfo();
+            newObject.source = new Rectangle(this.source.X, this.source.Y, this.source.Width, this.Source.Height);
+            newObject.Type = type;
+            return newObject;
+        }
     }
 }

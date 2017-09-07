@@ -100,6 +100,7 @@ namespace MapEditor.Manager
 
         private DrawType drawTypeSelected;
         private MapButtonType buttonSelected;
+        private bool enemySelected = false;
 
 
 
@@ -169,8 +170,12 @@ namespace MapEditor.Manager
             {
                 debugMode = !debugMode;
             }
+            if (KeyboardManager.Instance.IsKeyActivity(Keys.Q.ToString(), KeyActivity.Pressed))
+            {
+                enemySelected = !enemySelected;
+            }
 
-            if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Hold))
+            if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Hold) && !enemySelected)
             {
                 switch (buttonSelected)
                 {
@@ -200,7 +205,9 @@ namespace MapEditor.Manager
             }
 
             map.Update(_gameTime);
+
             
+
             objectSourceManager.Update(_gameTime);
             typeManager.Update(_gameTime);
             enemyManager.Update(_gameTime);
@@ -335,6 +342,17 @@ namespace MapEditor.Manager
             if (setMusicFile.Intersects(MouseManager.Instance.Position))
             {
                 map.SetMusic();
+            }
+
+
+            if (enemySelected)
+            {
+                EnemyObjectInfo enemyData = enemyManager.GetSelected();
+                if (enemyData != null)
+                {
+                    
+                    map.SetEnemy(enemyData.Clone());
+                }
             }
 
             if (setDrawType.Intersects(MouseManager.Instance.Position))

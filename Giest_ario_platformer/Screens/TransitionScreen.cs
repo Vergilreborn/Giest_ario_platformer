@@ -31,7 +31,6 @@ namespace Giest_ario_platformer.Screens
         {
 
         }
-        
 
         public override void Init()
         {
@@ -72,15 +71,13 @@ namespace Giest_ario_platformer.Screens
         {
             if (increase && opacity < 1f)
             {
-                opacity += .05f;
-             
+                opacity += .05f; 
             }
+
             if(opacity >= 1f)
             {
                 transition = false;
-            }
-
-            
+            }   
         }
 
         public override void Draw(SpriteBatch _spriteBatch)

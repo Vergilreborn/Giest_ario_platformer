@@ -23,6 +23,7 @@ namespace MapEditor.Objects
         private Texture2D texturePlayerPosition;
 
         private Texture2D texture;
+        private Texture2D enemyTexture;
         private Texture2D emptyBlockTexture;
         private Vector2 Position;
         private Cursor cursor;
@@ -85,6 +86,7 @@ namespace MapEditor.Objects
         {
             cursor.Load();
             texture = MapManager.Instance.Content.Load<Texture2D>("testTiles");
+            enemyTexture = MapManager.Instance.Content.Load<Texture2D>("enemySpriteSheet");
             texturePlayerPosition = MapManager.Instance.Content.Load<Texture2D>("StartPosition");
 
             emptyBlockTexture = MapManager.Instance.CreateColorTexture(150,150,150,255);
@@ -255,6 +257,12 @@ namespace MapEditor.Objects
                 _spriteBatch.Draw(emptyBlockTexture, drawRect, mapObj.GetDrawColor());
             }
 
+            foreach(EnemyObjectInfo enm in mapInfo.EnemyObjects)
+            {
+                Rectangle drawRect = new Rectangle(enm.Destination.X + (int)Position.X, enm.Destination.Y + (int)Position.Y, enm.Destination.Width, enm.Destination.Height);
+                _spriteBatch.Draw(enemyTexture, drawRect,enm.Source, Color.White);
+            }
+
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, $"Tiles(x,y):{showX},{showY} out of (x,y):{mapInfo.DefaultWidth},{mapInfo.DefaultHeight}", new Vector2(750, 2), Color.Yellow);
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, "Song:" + mapInfo.Music, Position - new Vector2(0, 20), Color.LightSkyBlue);
 
@@ -282,16 +290,29 @@ namespace MapEditor.Objects
             }
         }
 
-        internal void YSizeChange(int amt)
+        internal void SetEnemy(EnemyObjectInfo _enemyObjectInfo)
+        {
+            Point mousePosition = MouseManager.Instance.Position;
+            Vector2 tilePositionCursor = mousePosition.ToVector2() - this.Position;
+            int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / mapInfo.TileWidth);
+            int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / mapInfo.TileHeight);
+
+            Rectangle destination = new Rectangle((int)(tileX * mapInfo.TileWidth), (int)(tileY * mapInfo.TileHeight), _enemyObjectInfo.Source.Width, _enemyObjectInfo.Source.Height);
+            _enemyObjectInfo.Destination = destination;
+            mapInfo.AddEnemy(_enemyObjectInfo);
+
+        }
+
+        internal void YSizeChange(int _amt)
         {
 
-            mapInfo.YSizeChange(amt);
+            mapInfo.YSizeChange(_amt);
             FixMapAdjustment();
         }
 
-        internal void XSizeChange(int amt)
+        internal void XSizeChange(int _amt)
         {
-            mapInfo.XSizeChange(amt);
+            mapInfo.XSizeChange(_amt);
             FixMapAdjustment();
         }
 

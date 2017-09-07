@@ -20,22 +20,18 @@ namespace Giest_ario_platformer
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            // Somewhere in initialisation
 
+            float multiplierX = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * .9f / TargetWidth;
+            float multiplierY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height * .9f / TargetHeight;
+            float multiplier = MathHelper.Min(multiplierX, multiplierY);
+            graphics.PreferredBackBufferHeight = (int)(480 * multiplier);
+            graphics.PreferredBackBufferWidth = (int)(600 * multiplier);
+            IsMouseVisible = true;
 
-            graphics.PreferredBackBufferHeight = 480*3;
-            graphics.PreferredBackBufferWidth= 600*3;
-
-            //graphics.PreferredBackBufferHeight= 960;
-            //graphics.PreferredBackBufferWidth = 1200;
-            //graphics.PreferredBackBufferHeight = 480;
-            //graphics.PreferredBackBufferWidth= 600;
-
-            float scaleX = graphics.PreferredBackBufferWidth / TargetWidth;
-            float scaleY = graphics.PreferredBackBufferHeight / TargetHeight;
+            float scaleX = (float)graphics.PreferredBackBufferWidth / (float)TargetWidth;
+            float scaleY = (float)graphics.PreferredBackBufferHeight / (float)TargetHeight;
             Scale = Matrix.CreateScale(new Vector3(scaleX, scaleY, 1));
 
-            
             Content.RootDirectory = "Content";
             
          
