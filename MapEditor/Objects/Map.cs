@@ -311,8 +311,8 @@ namespace MapEditor.Objects
                 Point mousePosition = MouseManager.Instance.Position;
 
                 Vector2 tilePositionCursor = mousePosition.ToVector2() - this.Position;
-                int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / mapInfo.TileWidth);
-                int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / mapInfo.TileHeight);
+                int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / mapInfo.TileWidth) + viewSizeStartX;
+                int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / mapInfo.TileHeight) + viewSizeStartY;
 
                 Rectangle destination = new Rectangle((int)(tileX * mapInfo.TileWidth), (int)(tileY * mapInfo.TileHeight), _enemyObjectInfo.Source.Width, _enemyObjectInfo.Source.Height);
                 _enemyObjectInfo.Destination = destination;
