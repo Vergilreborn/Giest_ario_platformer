@@ -253,14 +253,28 @@ namespace MapEditor.Objects
             }
 
             foreach(MapObject mapObj in mapInfo.MapObjects){
-                Rectangle drawRect = new Rectangle(mapObj.DestinationBox.X + (int)Position.X, mapObj.DestinationBox.Y + (int)Position.Y, mapObj.DestinationBox.Width, mapObj.DestinationBox.Height);
-                _spriteBatch.Draw(emptyBlockTexture, drawRect, mapObj.GetDrawColor());
+                int calcTileX = mapObj.DestinationBox.X / 32;
+                int calcTileY = mapObj.DestinationBox.Y / 32;
+                bool withinX = calcTileX > viewSizeStartX && calcTileX < showX;
+                bool withinY = calcTileY > viewSizeStartY && calcTileY < showY;
+                if (withinX && withinY)
+                {
+                    Rectangle drawRect = new Rectangle(mapObj.DestinationBox.X + (int)Position.X - (viewSizeStartX * 32), mapObj.DestinationBox.Y + (int)Position.Y - (viewSizeStartY * 32), mapObj.DestinationBox.Width, mapObj.DestinationBox.Height);
+                    _spriteBatch.Draw(emptyBlockTexture, drawRect, mapObj.GetDrawColor());
+                }
             }
 
             foreach(EnemyObjectInfo enm in mapInfo.EnemyObjects)
             {
-                Rectangle drawRect = new Rectangle(enm.Destination.X + (int)Position.X, enm.Destination.Y + (int)Position.Y, enm.Destination.Width, enm.Destination.Height);
-                _spriteBatch.Draw(enemyTexture, drawRect,enm.Source, Color.White);
+                int calcTileX = enm.Destination.X / 32;
+                int calcTileY = enm.Destination.Y / 32;
+                bool withinX = calcTileX >= viewSizeStartX && calcTileX < showX;
+                bool withinY = calcTileY >= viewSizeStartY && calcTileY < showY;
+                if (withinX && withinY)
+                {
+                    Rectangle drawRect = new Rectangle(enm.Destination.X + (int)Position.X - (viewSizeStartX * 32), enm.Destination.Y + (int)Position.Y - (viewSizeStartY * 32), enm.Destination.Width, enm.Destination.Height);
+                    _spriteBatch.Draw(enemyTexture, drawRect, enm.Source, Color.White);
+                }
             }
 
             _spriteBatch.DrawString(MapManager.Instance.DebugFont, $"Tiles(x,y):{showX},{showY} out of (x,y):{mapInfo.DefaultWidth},{mapInfo.DefaultHeight}", new Vector2(750, 2), Color.Yellow);
@@ -292,15 +306,18 @@ namespace MapEditor.Objects
 
         internal void SetEnemy(EnemyObjectInfo _enemyObjectInfo)
         {
-            Point mousePosition = MouseManager.Instance.Position;
-            Vector2 tilePositionCursor = mousePosition.ToVector2() - this.Position;
-            int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / mapInfo.TileWidth);
-            int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / mapInfo.TileHeight);
+            if (inScreen)
+            {
+                Point mousePosition = MouseManager.Instance.Position;
 
-            Rectangle destination = new Rectangle((int)(tileX * mapInfo.TileWidth), (int)(tileY * mapInfo.TileHeight), _enemyObjectInfo.Source.Width, _enemyObjectInfo.Source.Height);
-            _enemyObjectInfo.Destination = destination;
-            mapInfo.AddEnemy(_enemyObjectInfo);
+                Vector2 tilePositionCursor = mousePosition.ToVector2() - this.Position;
+                int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / mapInfo.TileWidth);
+                int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / mapInfo.TileHeight);
 
+                Rectangle destination = new Rectangle((int)(tileX * mapInfo.TileWidth), (int)(tileY * mapInfo.TileHeight), _enemyObjectInfo.Source.Width, _enemyObjectInfo.Source.Height);
+                _enemyObjectInfo.Destination = destination;
+                mapInfo.AddEnemy(_enemyObjectInfo);
+            }
         }
 
         internal void YSizeChange(int _amt)

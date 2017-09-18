@@ -33,6 +33,14 @@ namespace MapEditor.Manager
             }
         }
 
+        public bool InScreen
+        {
+            get
+            {
+                return inScreen;
+            }
+        }
+
 
         private Texture2D emptyTexture;
         private Texture2D texture;
@@ -53,7 +61,7 @@ namespace MapEditor.Manager
         private int viewStartY;
         private int viewSizeX;
         private int viewSizeY;
-
+        private bool inScreen;
         private Texture2D debugTexture;
         private Rectangle sourceManagerWindow;
         
@@ -127,7 +135,8 @@ namespace MapEditor.Manager
                     cursor.SetPosition(tiles[tileX, tileY], Position);
                 }
             }
-            if (sourceManagerWindow.Contains(mousePosition))
+            inScreen = sourceManagerWindow.Contains(mousePosition);
+            if (inScreen)
             {
                 if (KeyboardManager.Instance.IsKeyActivity(Keys.W.ToString(),KeyActivity.Pressed))
                 {

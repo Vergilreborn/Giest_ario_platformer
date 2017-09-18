@@ -132,5 +132,17 @@ namespace MapEditor.Manager
         {
             return selected;
         }
+
+        internal void Draw(Vector2 _vector2, SpriteBatch _spriteBatch)
+        {
+            SpriteBatchAssist.DrawBox(_spriteBatch, emptyTexture, sourceWindow, Color.Red, 2);
+            if (selected != null)
+            {
+                Rectangle drawPosition = new Rectangle((int)_vector2.X , (int)_vector2.Y , selected.Source.Width*2, selected.Source.Height*2);
+                SpriteBatchAssist.DrawBox(_spriteBatch, emptyTexture, drawPosition, Color.Red);
+                _spriteBatch.Draw(texture, drawPosition, selected.Source, Color.White);
+            }
+
+        }
     }
 }

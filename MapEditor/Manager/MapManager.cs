@@ -170,10 +170,7 @@ namespace MapEditor.Manager
             {
                 debugMode = !debugMode;
             }
-            if (KeyboardManager.Instance.IsKeyActivity(Keys.Q.ToString(), KeyActivity.Pressed))
-            {
-                enemySelected = !enemySelected;
-            }
+           
 
             if (MouseManager.Instance.IsKeyActivity(true, KeyActivity.Hold) && !enemySelected)
             {
@@ -248,23 +245,32 @@ namespace MapEditor.Manager
             
 
             _spriteBatch.DrawString(debugFont, "Selected", new Vector2(1250, 5), Color.Pink);
-            if (drawTypeSelected != DrawType.Collision)
+            if (!enemySelected)
             {
-              
-                _spriteBatch.Draw(texture, new Rectangle(1250, 25, 64, 64), selectedSource, Color.White);
-                SpriteBatchAssist.DrawBox(_spriteBatch, texture2, tileBox);
+                if (drawTypeSelected != DrawType.Collision)
+                {
+
+                    _spriteBatch.Draw(texture, new Rectangle(1250, 25, 64, 64), selectedSource, Color.White);
+                    SpriteBatchAssist.DrawBox(_spriteBatch, texture2, tileBox);
+
+                }
+                if (drawTypeSelected != DrawType.Tile)
+                {
+
+                    _spriteBatch.Draw(texture2, new Rectangle(1250, 25, 64, 64), Constant.GetCollisionColor(typeManager.Cursor.Selected.Type));
+                    SpriteBatchAssist.DrawBox(_spriteBatch, texture2, collisionSection);
+
+                }
+                _spriteBatch.Draw(texture, new Vector2(1250, 100), selectedSource, Color.White * (drawTypeSelected != DrawType.Collision ? 1f : .33f));
+                _spriteBatch.Draw(texture2, collisionSection, Constant.GetCollisionColor(typeManager.Cursor.Selected.Type) * (drawTypeSelected != DrawType.Tile ? 1f : .66f));
 
             }
-            if (drawTypeSelected != DrawType.Tile)
+            else
             {
-              
-                _spriteBatch.Draw(texture2, new Rectangle(1250, 25 ,64, 64), Constant.GetCollisionColor(typeManager.Cursor.Selected.Type));
-                SpriteBatchAssist.DrawBox(_spriteBatch, texture2, collisionSection);
-
+                enemyManager.Draw(new Vector2(1250, 25), _spriteBatch);
+               
             }
-            
-            _spriteBatch.Draw(texture, new Vector2(1250, 100), selectedSource, Color.White * (drawTypeSelected != DrawType.Collision? 1f: .33f));
-            _spriteBatch.Draw(texture2, collisionSection, Constant.GetCollisionColor(typeManager.Cursor.Selected.Type)*(drawTypeSelected != DrawType.Tile ? 1f : .66f));
+
 
         }
 
@@ -344,6 +350,15 @@ namespace MapEditor.Manager
                 map.SetMusic();
             }
 
+
+            if(enemyManager.InScreen)
+            {
+                enemySelected = true;
+            }
+            if (objectSourceManager.InScreen)
+            {
+                enemySelected = false;
+            }
 
             if (enemySelected)
             {
