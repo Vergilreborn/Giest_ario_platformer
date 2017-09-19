@@ -29,34 +29,28 @@ namespace MapEditor.Manager
         private Rectangle sourceWindow;
         private int viewSizeX;
         private int viewSizeY;
-        private int viewStartX;
-        private int viewStartY;
         private int tileSizePaddingX;
         private int tileSizePaddingY;
 
-        private int tileSizeX;
-        private int tileSizeY;
         private Dictionary<string, List<EnemyObjectInfo>> objectInformation;
         private EnemyObjectInfo hover;
         private EnemyObjectInfo selected;
         private bool inScreen = false;
-
+         
         public EnemySourceManager()
         {
+
         }
 
         public void Init()
         {
 
             objectInformation = new Dictionary<string, List<EnemyObjectInfo>>();
-            this.tileSizeY = 32;
-            this.tileSizeX = 32;
             this.tileSizePaddingX = 33;
             this.tileSizePaddingY = 33;
-            this.viewStartX = 0;
-            this.viewStartY = 0;
             this.viewSizeX = 6;
             this.viewSizeY = 10;
+
             objectInformation.Add("Default", new List<EnemyObjectInfo>());
             objectInformation["Default"].Add(new EnemyObjectInfo() { Type = EnemyType.BlockEnemy, Source = new Rectangle(0, 0, 32, 32), Destination = new Rectangle(0, 0, 32, 32) });
 
@@ -79,6 +73,7 @@ namespace MapEditor.Manager
             bool isClicked = MouseManager.Instance.IsKeyActivity(true, KeyActivity.Pressed);
             bool isRightClicked = MouseManager.Instance.IsKeyActivity(false, KeyActivity.Pressed);
             inScreen = sourceWindow.Contains(mousePosition);
+
             if (inScreen)
             {
                 foreach (EnemyObjectInfo enm in objectInformation["Default"])

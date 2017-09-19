@@ -149,6 +149,25 @@ namespace MapEditor.Objects
             {
                 cursor.Selected.SetTileType(TileType.None);
                 cursor.Selected.ClearSource();
+                Point mousePosition = MouseManager.Instance.Position;
+                for(int i = mapInfo.EnemyObjects.Count - 1; i >= 0; i--)
+                {
+                   EnemyObjectInfo enmObj = mapInfo.EnemyObjects[i];
+                    if (cursor.Selected.Destination.Intersects(enmObj.Destination))
+                    {
+                        mapInfo.EnemyObjects.Remove(enmObj);
+                    }                    
+                }
+
+                for(int i = mapInfo.MapObjects.Count - 1; i >= 0; i--)
+                {
+                    MapObject mapObj = mapInfo.MapObjects[i];
+                    if (cursor.Selected.Destination.Intersects(mapObj.DestinationBox))
+                    {
+                        mapInfo.MapObjects.Remove(mapObj);
+                    }
+                }
+
             }
         }
 

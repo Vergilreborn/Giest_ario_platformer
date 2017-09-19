@@ -184,6 +184,7 @@ namespace MapEditor.Objects.MapObjects
                 }
             }
             mapObjects.Clear();
+            enemyObjects.Clear();
             playerPosition = tiles[0, 0].Position;
         }
 
