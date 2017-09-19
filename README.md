@@ -1,8 +1,8 @@
-#Giest_ario_platformer
-###Description:
+# Giest_ario_platformer
+### Description:
 This is a simple platformer that is based off the old school Mario game. 
 
-###Tasks
+### Tasks
  - [x] Player Movement (walking, running, jumping)
  - [ ] Add Player crouch
  - [x] Loading/Saving Map
