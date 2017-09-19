@@ -58,6 +58,7 @@ namespace MapEditor.Manager
 
         public Boolean IsKeyActivity(bool _left, KeyActivity _activity)
         {
+            
             if (!MapManager.Instance.IsActive)
                 return false;
             switch (_activity)
@@ -68,10 +69,10 @@ namespace MapEditor.Manager
                     return _left ? curr.LeftButton == ButtonState.Released: curr.RightButton == ButtonState.Released;
                 case KeyActivity.Pressed:
                     return _left ? curr.LeftButton == ButtonState.Pressed && prev.LeftButton == ButtonState.Released: 
-                                   curr.RightButton == ButtonState.Pressed && curr.RightButton == ButtonState.Released;
+                                   curr.RightButton == ButtonState.Pressed && prev.RightButton == ButtonState.Released;
                 case KeyActivity.Hold:
                     return _left ? curr.LeftButton == ButtonState.Pressed && prev.LeftButton == ButtonState.Pressed :
-                                   curr.RightButton == ButtonState.Pressed && curr.RightButton == ButtonState.Pressed;
+                                   curr.RightButton == ButtonState.Pressed && prev.RightButton == ButtonState.Pressed;
                 default:
                     return false;
             }

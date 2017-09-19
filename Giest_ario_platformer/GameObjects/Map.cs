@@ -10,6 +10,9 @@ using Giest_ario_platformer.Managers;
 using Giest_ario_platformer.Helpers;
 using Giest_ario_platformer.Enums;
 using Giest_ario_platformer.GameObjects.MapObjects;
+using System.Threading;
+using Giest_ario_platformer.Abstract;
+using Giest_ario_platformer.GameObjects.EnemyObjects;
 
 namespace Giest_ario_platformer.GameObjects
 {
@@ -22,7 +25,7 @@ namespace Giest_ario_platformer.GameObjects
         private Texture2D emptyBlockTexture;
         private Vector2 widthHeight;
         private Rectangle boundary;
-
+      
         public Vector2 PlayerPosition
         {
             get
@@ -48,10 +51,9 @@ namespace Giest_ario_platformer.GameObjects
 
         public Map()
         {
-
         }
 
-        public void LoadTestMap(String _file)
+        public void LoadMap(String _file)
         {
             
             mapInfo = FileManager<MapInformation>.LoadFile(@"Content\Map\" + _file);
@@ -59,7 +61,29 @@ namespace Giest_ario_platformer.GameObjects
             this.tileSize = 32;
             widthHeight = new Vector2(mapInfo.Tiles.GetLength(0), mapInfo.Tiles.GetLength(1));
             boundary = new Rectangle(0, 0, (int)(widthHeight.X * tileSize), (int)(widthHeight.Y * tileSize));
+            Thread.Sleep(500);
+        }
 
+        public List<AEnemy> GetEnemies()
+        {
+            List<AEnemy> enemies = new List<AEnemy>();
+            foreach(EnemyObjectInfo eInfo in mapInfo.EnemyObjects)
+            {
+                AEnemy enemy = EnemyLoader.Create(eInfo.Type);
+                enemy.LoadEnemy(eInfo.Destination, eInfo.Source);
+                enemy.Load();
+                enemies.Add(enemy);
+            }
+            //BlockEnemy enemy = new BlockEnemy();
+            //enemy.Init();
+            //enemy.Load();
+            //enemies.Add(enemy);
+
+            return enemies;
+        }
+
+        public void StartMusic()
+        {
             MusicManager.Instance.PlaySong(mapInfo.Music);
         }
 
@@ -76,7 +100,7 @@ namespace Giest_ario_platformer.GameObjects
 
         public void Init()
         {
-            LoadTestMap("Testing1.gmap");
+        
         }
 
         internal int GetTileSizes()

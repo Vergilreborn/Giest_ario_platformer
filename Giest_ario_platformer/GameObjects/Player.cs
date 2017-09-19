@@ -55,7 +55,6 @@ namespace Giest_ario_platformer.GameObjects
         public override void Init()
         {
             fallSpeed = 0;
-            Gravity = 1f;
             horSpeed = 0f;
             SavePosition = new Vector2();
             debugStr = "";
@@ -63,6 +62,8 @@ namespace Giest_ario_platformer.GameObjects
 
         public void SetPosition(Vector2 _startPosition)
         {
+            horSpeed = 0f;
+            fallSpeed = 0;
             this.Position.X = _startPosition.X;
             this.Position.Y = _startPosition.Y;
         }
@@ -72,17 +73,17 @@ namespace Giest_ario_platformer.GameObjects
             //texture = GameManager.Instance.Content.Load<Texture2D>("Mario");
             //animation = new Animation("Mario", 2, 50f);
             animations = new AnimationSet();
-            animations.AddAnimation("Left", "Player/Mario_Still_Left", 1, 100, false);
-            animations.AddAnimation("Right", "Player/Mario_Still_Right", 1, 100, false);
+            animations.AddAnimation("Left", "Player/Player_Still_Left", 2, 250, true);
+            animations.AddAnimation("Right", "Player/Player_Still_Right", 2, 250, true);
             animations.AddAnimation("Jump_Left", "Player/Mario_Jump_Left", 1, 100, false);
             animations.AddAnimation("Jump_Right", "Player/Mario_Jump_Right", 1, 100, false);
-            animations.AddAnimation("Death", "Player/Mario_Death", 1, 100, false);
-            animations.AddAnimation("Turn_Left", "Player/Mario_Turn_Left", 1, 100, false);
-            animations.AddAnimation("Turn_Right", "Player/Mario_Turn_Right", 1, 100, false);
-            animations.AddAnimation("Walk_Left", "Player/Mario_Walk_Left", 2, 70, true);
-            animations.AddAnimation("Walk_Right", "Player/Mario_Walk_Right", 2, 70, true);
-            animations.AddAnimation("Run_Left", "Player/Mario_Run_Left", 2, 35, true);
-            animations.AddAnimation("Run_Right", "Player/Mario_Run_Right", 2, 35, true);
+            animations.AddAnimation("Death", "Player/Player_Death", 1, 100, false);
+            animations.AddAnimation("Turn_Left", "Player/Player_Turn_Left", 1, 100, false);
+            animations.AddAnimation("Turn_Right", "Player/Player_Turn_Right", 1, 100, false);
+            animations.AddAnimation("Walk_Left", "Player/Player_Walk_Left", 4, 175, true);
+            animations.AddAnimation("Walk_Right", "Player/Player_Walk_Right", 4, 175, true);
+            animations.AddAnimation("Run_Left", "Player/Player_Run_Left", 4, 50, true);
+            animations.AddAnimation("Run_Right", "Player/Player_Run_Right", 4, 50, true);
             animations.AddAnimation("RunJump_Left", "Player/Mario_RunJump_Left", 1, 100, false);
             animations.AddAnimation("RunJump_Right", "Player/Mario_RunJump_Right", 1, 100, false);
             currentAnimation = animations.GetAnimation("Left");
@@ -91,11 +92,6 @@ namespace Giest_ario_platformer.GameObjects
 
             this.Width = 32;
             this.Height = 36;
-        }
-
-        internal void Dispose()
-        {
-            animations.Dispose();
         }
 
         //handle collision
@@ -220,6 +216,19 @@ namespace Giest_ario_platformer.GameObjects
             
         }
 
+        public void Bounce()
+        {
+
+            SoundManager.Instance.PlaySound("Mario_Jump");
+            isJumping = true;
+            fallSpeed = -10f;
+        }
+
+        public void TakeDamage()
+        {
+            setDeath();
+        }
+
         private void setDeath()
         {
             horSpeed = 0;
@@ -240,6 +249,7 @@ namespace Giest_ario_platformer.GameObjects
                 Position.Y = _map.PlayerPosition.Y;
                 fallSpeed = 0f;
                 moving = Direction.None;
+                GameManager.Instance.ChangeScreen("StartScreen");
             }
             else
             {

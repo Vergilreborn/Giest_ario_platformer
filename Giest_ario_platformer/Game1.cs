@@ -20,22 +20,18 @@ namespace Giest_ario_platformer
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            // Somewhere in initialisation
 
+            float multiplierX = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * .9f / TargetWidth;
+            float multiplierY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height * .9f / TargetHeight;
+            float multiplier = MathHelper.Min(multiplierX, multiplierY);
+            graphics.PreferredBackBufferHeight = (int)(480 * multiplier);
+            graphics.PreferredBackBufferWidth = (int)(600 * multiplier);
+            IsMouseVisible = true;
 
-            graphics.PreferredBackBufferHeight = 480*2;
-            graphics.PreferredBackBufferWidth= 600*2;
-
-            //graphics.PreferredBackBufferHeight= 960;
-            //graphics.PreferredBackBufferWidth = 1200;
-            //graphics.PreferredBackBufferHeight = 480;
-            //graphics.PreferredBackBufferWidth= 600;
-
-            float scaleX = graphics.PreferredBackBufferWidth / TargetWidth;
-            float scaleY = graphics.PreferredBackBufferHeight / TargetHeight;
+            float scaleX = (float)graphics.PreferredBackBufferWidth / (float)TargetWidth;
+            float scaleY = (float)graphics.PreferredBackBufferHeight / (float)TargetHeight;
             Scale = Matrix.CreateScale(new Vector3(scaleX, scaleY, 1));
 
-            
             Content.RootDirectory = "Content";
             
          
@@ -63,6 +59,7 @@ namespace Giest_ario_platformer
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
+            GameManager.Instance.SetServices(Services);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             GameManager.Instance.SetViewport(GraphicsDevice.Viewport);
@@ -103,7 +100,7 @@ namespace Giest_ario_platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.White);
 
             //spriteBatch.Begin();
             //Scale

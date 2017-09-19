@@ -24,7 +24,9 @@ namespace Giest_ario_platformer.Screens
         private SpriteFont font;
         private Vector2 position;
         private Texture2D texture;
-    
+        private Vector2 animationPosition;
+        private Animation animation;
+
         public StartScreen()
         {
         }
@@ -36,7 +38,9 @@ namespace Giest_ario_platformer.Screens
             screenOptions = new List<string> { "START", "EXIT" };
             currentOptionPos = 0;
             position = new Vector2(270, 200);
-            
+            animationPosition = new Vector2(0, 382);
+
+
         }
 
         public override void Load()
@@ -48,7 +52,9 @@ namespace Giest_ario_platformer.Screens
             maxOptionWidth = (int)font.MeasureString(longestString).X;
             texture = GameManager.Instance.Content.Load<Texture2D>("StartScreen");
             MusicManager.Instance.PlaySong("Select");
-           
+            animation = new Animation("Player/Player_Walk_Right", 4, 175, true);
+            
+
 
         }
 
@@ -69,7 +75,18 @@ namespace Giest_ario_platformer.Screens
                 currentOptionPos = (currentOptionPos + 1) % screenOptions.Count;
             }
 
-            if(KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Pressed))
+            animation.Update(_gameTime);
+
+            if(animationPosition.X  > GameManager.Instance.WidthHeight.X)
+            {
+                animationPosition.X = -32;
+            }
+            else
+            {
+                animationPosition.X += 2;
+            }
+
+            if (KeyboardManager.Instance.IsKeyActivity(Keys.Space.ToString(), KeyActivity.Pressed))
             {
                 switch (screenOptions[currentOptionPos])
                 {
@@ -77,6 +94,8 @@ namespace Giest_ario_platformer.Screens
                     case "EXIT": GameManager.Instance.ChangeScreen("Exit"); break;
                 }
             }
+
+            
 
         }
 
@@ -87,16 +106,17 @@ namespace Giest_ario_platformer.Screens
             for (int i = 0; i < screenOptions.Count; i++)
             {
                 Vector2 textPosition = position + new Vector2(0, i * (maxOptionHeight + 2));
-                
+
                 //TODO : Make Color configurable and then change font type
-                
-                _spriteBatch.DrawString(font, screenOptions[i], textPosition, i == currentOptionPos ? Color.Yellow : Color.Black);   
+                animation.Draw(_spriteBatch, animationPosition);
+                _spriteBatch.DrawString(font, (i == currentOptionPos ? ">" : " ") + screenOptions[i], textPosition, Color.LightBlue);
+                //_spriteBatch.DrawString(font, screenOptions[i], textPosition, i == currentOptionPos ? Color.LightBlue : Color.DarkBlue);   
             }
         }
 
         public override void UnLoad()
         {
-            
+
         }
     }
 }

@@ -7,7 +7,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2D851FA2-4F27-4686-8280-E9AF9F6DB9C4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MapEditor</RootNamespace>
     <AssemblyName>MapEditor</AssemblyName>
@@ -40,8 +40,12 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\DrawType.cs" />
+    <Compile Include="Enums\EnemyType.cs" />
     <Compile Include="Enums\KeyActivity.cs" />
     <Compile Include="Enums\MapButtonType.cs" />
     <Compile Include="Enums\MapTypeObject.cs" />
@@ -67,12 +71,14 @@
     <Compile Include="Helpers\SpriteBatchAssist.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Manager\CollisionTypeManager.cs" />
+    <Compile Include="Manager\EnemySourceManager.cs" />
     <Compile Include="Manager\KeyboardManager.cs" />
     <Compile Include="Manager\MapManager.cs" />
     <Compile Include="Manager\MouseManager.cs" />
     <Compile Include="Manager\ObjectSourceManager.cs" />
     <Compile Include="Objects\CollisionCursor.cs" />
     <Compile Include="Objects\Cursor.cs" />
+    <Compile Include="Objects\EnemyObjectInfo.cs" />
     <Compile Include="Objects\Map.cs" />
     <Compile Include="Abstract\AMapButton.cs" />
     <Compile Include="Objects\MapObjects\CollisionTypeButton.cs" />
@@ -116,6 +122,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Map\Testing1.gmap">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Map\Testing2.gmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Map\WaterTest.gmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -127,6 +139,9 @@
     <EmbeddedResource Include="Forms\TextboxDialog.resx">
       <DependentUpon>TextboxDialog.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EnemyConfiguration\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

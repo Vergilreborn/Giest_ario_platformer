@@ -33,9 +33,9 @@ namespace Giest_ario_platformer.Managers
 
         public void PlaySong(string _song)
         {
-            if (currentSong != _song)
-            {
-                if (songPlaying != null)
+            //if (currentSong != _song)
+            //{
+                if (songPlaying != null && MediaPlayer.State == MediaState.Playing)
                 {
                     MediaPlayer.Stop();
                 }
@@ -54,7 +54,7 @@ namespace Giest_ario_platformer.Managers
                     currentSong = _song;
                 }
                 
-            }
+            //}
         }
 
         public void Pause()
@@ -70,7 +70,10 @@ namespace Giest_ario_platformer.Managers
             }
             
         }
-        
 
+        internal void Stop()
+        {
+            MediaPlayer.Stop();
+        }
     }
 }

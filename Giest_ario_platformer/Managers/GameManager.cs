@@ -35,6 +35,10 @@ namespace Giest_ario_platformer.Managers
         public ContentManager Content;
         public Viewport ViewPort;
         public GraphicsDevice Graphics;
+        public GameServiceContainer Services;
+        public StartScreen startScreen;
+        public MainGameScreen gameScreen;
+
         public Vector2 WidthHeight
         {
             get
@@ -91,7 +95,8 @@ namespace Giest_ario_platformer.Managers
             //GameScreen
             //currentScreen = new MainGameScreen();
             //StartScreen
-            currentScreen = new StartScreen();
+            startScreen = new StartScreen();
+            currentScreen = startScreen;
         }
        
         public void Init()
@@ -99,6 +104,11 @@ namespace Giest_ario_platformer.Managers
             fonts = new Dictionary<string, SpriteFont>();
             exitGame = false;
             currentScreen.Init();
+        }
+
+        public void SetServices(GameServiceContainer _services)
+        {
+            this.Services = _services;
         }
 
         public void Load()
@@ -122,8 +132,8 @@ namespace Giest_ario_platformer.Managers
             {
                 isDebug = !isDebug;
             }
-
-            currentScreen.Update(_gameTime);
+            if(currentScreen != null)
+                currentScreen.Update(_gameTime);
         }
 
         public void SetContentManager(ContentManager _content)
@@ -163,21 +173,56 @@ namespace Giest_ario_platformer.Managers
         public void Draw(SpriteBatch _spriteBatch)
         {
             Cam.Draw(_spriteBatch);
-            currentScreen.Draw(_spriteBatch);
+            if(currentScreen != null)
+              currentScreen.Draw(_spriteBatch);
+        }
+        
+        private void UnLoad()
+        {
+            //IServiceProvider provider = Content.ServiceProvider;
+            //Content.Unload();
+            //Content = new ContentManager(provider);
+            resetContent();
+            fonts.Clear();
+            fonts.Add("Debug", Content.Load<SpriteFont>("Fonts/Debug"));
+            fonts.Add("XSmall", Content.Load<SpriteFont>("Fonts/GameFont_xs"));
+            fonts.Add("Small", Content.Load<SpriteFont>("Fonts/GameFont_s"));
+            fonts.Add("Medium", Content.Load<SpriteFont>("Fonts/GameFont_m"));
+            fonts.Add("Large", Content.Load<SpriteFont>("Fonts/GameFont_l"));
+            fonts.Add("XLarge", Content.Load<SpriteFont>("Fonts/GameFont_xl"));
+            emptyTexture = CreateColorTexture(255, 255, 255, 255);
+
         }
 
-        public void ChangeScreen(string screenName)
+        private void resetContent()
         {
-            currentScreen.UnLoad();
-            switch (screenName)
+            Content.Dispose();
+            Content = new ContentManager(Services, "Content");
+
+        }
+
+        public void ChangeScreen(string newScreen)
+        {
+           // UnLoad();
+            currentScreen = null;
+            switch (newScreen)
             {
+                case "StartScreen":
+                    currentScreen = startScreen; //new StartScreen();
+                    break;
                 case "MainGameScreen":
-                    currentScreen = new MainGameScreen();
+                    if(gameScreen == null)
+                    {
+                        gameScreen = new MainGameScreen();
+                     
+                    }
+                    currentScreen = gameScreen;//new MainGameScreen();
+                    
                     break;
                 case "Exit": exitGame = true;
                     return;
             }
-
+            GC.Collect();
             currentScreen.Init();
             currentScreen.Load();
         }

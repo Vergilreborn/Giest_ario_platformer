@@ -144,6 +144,7 @@ namespace Giest_ario_platformer.Handlers
 
             }
         }
+
         public void Follow(Rectangle _center)
         {
             isFollowing = true;

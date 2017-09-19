@@ -64,5 +64,12 @@ namespace MapEditor.Objects
             this.Position = _tile.Position + _position;
             
         }
+
+        internal void SetPosition(Tile _tile, Vector2 _ScreenPosition, Vector2 _position)
+        {
+            selected = _tile;
+            this.Position = _position + _ScreenPosition;
+
+        }
     }
 }

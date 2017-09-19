@@ -94,7 +94,7 @@ namespace MapEditor.Objects.MapObjects
             {
                 if (value == null)
                     mapObjects = new List<MapObject>();
-                mapObjects = value;
+                
             }
         }
 
@@ -110,14 +110,31 @@ namespace MapEditor.Objects.MapObjects
             }
         }
 
+        public List<EnemyObjectInfo> EnemyObjects
+        {
+            get
+            {
+                return enemyObjects;
+            }
+            set
+            {
+                if(value == null)
+                
+                    enemyObjects = new List<EnemyObjectInfo>();
+            }
+        }
+
         #endregion
         private String music;
         private int defaultWidth;
         private int defaultHeight;
         private int tileWidth;
         private int tileHeight;
+
         private Tile[,] tiles;
         private List<MapObject> mapObjects;
+        private List<EnemyObjectInfo> enemyObjects;
+
         private Vector2 playerPosition;
 
         public MapInformation()
@@ -125,16 +142,20 @@ namespace MapEditor.Objects.MapObjects
             tiles = new Tile[0, 0];
             music = "";
             mapObjects = new List<MapObject>();
+            enemyObjects = new List<EnemyObjectInfo>();
         }
 
         public void Init()
         {
-            defaultWidth = 30;
+            
+            //mapWidth and height
+            defaultWidth = 30; 
             defaultHeight = 26;
             tileWidth = 32;
             tileHeight = 32;
             playerPosition = Vector2.Zero;
             mapObjects = new List<MapObject>();
+            enemyObjects = new List<EnemyObjectInfo>();
             tiles = new Tile[defaultWidth, defaultHeight];
 
             for (int x = 0; x < defaultWidth; x++)
@@ -163,7 +184,54 @@ namespace MapEditor.Objects.MapObjects
                 }
             }
             mapObjects.Clear();
+            enemyObjects.Clear();
             playerPosition = tiles[0, 0].Position;
+        }
+
+        internal void YSizeChange(int _amt)
+        {
+            int newHeight = defaultHeight + _amt;
+            if (newHeight > 1)
+            {
+                tiles = copyArray(tiles, defaultWidth, defaultHeight, defaultWidth, defaultHeight + _amt);
+                defaultHeight += _amt;
+            }
+        }
+
+        internal void XSizeChange(int _amt)
+        {
+            int newWidth = defaultWidth + _amt;
+            if (newWidth > 1)
+            {
+                tiles = copyArray(tiles, defaultWidth, defaultHeight, defaultWidth + _amt, defaultHeight);
+                defaultWidth += _amt;
+            }
+        }
+
+        private Tile[,] copyArray(Tile[,] _source, int _currWidth, int _currHeigh, int _newWidth, int _newHeight)
+        {
+            Tile[,] newArray = new Tile[_newWidth, _newHeight];
+            for(int x = 0; x < _newWidth; x++)
+            {
+                for(int y = 0; y < _newHeight; y++)
+                {
+                    if (x < _currWidth && y < _currHeigh)
+                    {
+                        newArray[x, y] = _source[x, y];
+                    }
+                    else
+                    {
+                        Rectangle destination = new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+                        newArray[x, y] = new Tile(destination, tileWidth, tileHeight);
+                    }
+                }
+            }
+            return newArray;
+        }
+
+        internal void AddEnemy(EnemyObjectInfo _enemyObjectInfo)
+        {
+            enemyObjects.Add(_enemyObjectInfo);
         }
     }
 }

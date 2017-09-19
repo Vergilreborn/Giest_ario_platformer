@@ -44,6 +44,7 @@
     <Compile Include="Abstract\AGameObject.cs" />
     <Compile Include="Abstract\AGameScreen.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Enums\EnemyType.cs" />
     <Compile Include="Enums\KeyActivity.cs" />
     <Compile Include="Enums\MapTypeObject.cs" />
     <Compile Include="Enums\TileType.cs" />
@@ -55,7 +56,10 @@
       <DependentUpon>MapSelection.cs</DependentUpon>
     </Compile>
     <Compile Include="Game1.cs" />
+    <Compile Include="Abstract\AEnemy.cs" />
+    <Compile Include="GameObjects\EnemyObjects\BlockEnemy.cs" />
     <Compile Include="GameObjects\Map.cs" />
+    <Compile Include="GameObjects\MapObjects\EnemyObjectInfo.cs" />
     <Compile Include="GameObjects\MapObjects\MapInformation.cs" />
     <Compile Include="GameObjects\MapObjects\MapObject.cs" />
     <Compile Include="GameObjects\MapObjects\Tile.cs" />
@@ -65,6 +69,7 @@
     <Compile Include="Handlers\Camera.cs" />
     <Compile Include="Helpers\CollisionDetection.cs" />
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\EnemyLoader.cs" />
     <Compile Include="Helpers\FileManager.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Managers\GameManager.cs" />
@@ -75,6 +80,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\StartScreen.cs" />
     <Compile Include="Screens\MainGameScreen.cs" />
+    <Compile Include="Screens\TransitionScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -99,6 +105,7 @@
     <Content Include="Content\StartScreen.png" />
     <Content Include="Content\test.png" />
     <Content Include="Content\testTiles.png" />
+    <Content Include="Content\Transition\LoadingText.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +120,12 @@
     <None Include="Content\Fonts\lunchds.ttf" />
     <None Include="Content\Fonts\manaspc.ttf" />
     <None Include="Content\Fonts\SuperMarioBros3.ttf" />
+    <None Include="Content\Map\EnemyTestMap.gmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Map\LongLevel.gmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Map\Testing.gmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

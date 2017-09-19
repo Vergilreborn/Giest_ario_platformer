@@ -13,19 +13,23 @@ namespace MapEditor
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         const int TargetHeight = 960;
-        const int TargetWidth =1200;
+        const int TargetWidth =1400;
         Matrix Scale;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferHeight = 960;
-            graphics.PreferredBackBufferWidth = 1200;
+
+            float multiplierX = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * .9f / TargetWidth;
+            float multiplierY = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height* .9f / TargetHeight;
+            float multiplier = MathHelper.Min(multiplierX, multiplierY);
+            graphics.PreferredBackBufferHeight = (int)(960 * multiplier);
+            graphics.PreferredBackBufferWidth = (int)(1400 * multiplier);
             IsMouseVisible = true;
 
-            float scaleX = graphics.PreferredBackBufferWidth / TargetWidth;
-            float scaleY = graphics.PreferredBackBufferHeight / TargetHeight;
+            float scaleX = (float)graphics.PreferredBackBufferWidth / (float)TargetWidth;
+            float scaleY = (float)graphics.PreferredBackBufferHeight / (float)TargetHeight;
             Scale = Matrix.CreateScale(new Vector3(scaleX, scaleY, 1));
 
             Content.RootDirectory = "Content";
