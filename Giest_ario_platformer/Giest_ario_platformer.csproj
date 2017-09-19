@@ -59,6 +59,7 @@
     <Compile Include="Abstract\AEnemy.cs" />
     <Compile Include="GameObjects\EnemyObjects\BlockEnemy.cs" />
     <Compile Include="GameObjects\Map.cs" />
+    <Compile Include="GameObjects\MapObjects\EnemyObjectInfo.cs" />
     <Compile Include="GameObjects\MapObjects\MapInformation.cs" />
     <Compile Include="GameObjects\MapObjects\MapObject.cs" />
     <Compile Include="GameObjects\MapObjects\Tile.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Handlers\Camera.cs" />
     <Compile Include="Helpers\CollisionDetection.cs" />
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\EnemyLoader.cs" />
     <Compile Include="Helpers\FileManager.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Managers\GameManager.cs" />
@@ -118,6 +120,9 @@
     <None Include="Content\Fonts\lunchds.ttf" />
     <None Include="Content\Fonts\manaspc.ttf" />
     <None Include="Content\Fonts\SuperMarioBros3.ttf" />
+    <None Include="Content\Map\EnemyTestMap.gmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Map\LongLevel.gmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

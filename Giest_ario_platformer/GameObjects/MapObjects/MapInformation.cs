@@ -94,7 +94,23 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
             {
                 if (value == null)
                     mapObjects = new List<MapObject>();
-                mapObjects = value;
+                else
+                    mapObjects = value;
+            }
+        }
+
+        public List<EnemyObjectInfo> EnemyObjects
+        {
+            get
+            {
+                return enemyObjects;
+            }
+            set
+            {
+                if (value == null)
+                    enemyObjects = new List<EnemyObjectInfo>();
+                else
+                    enemyObjects = value;
             }
         }
 
@@ -120,11 +136,14 @@ namespace Giest_ario_platformer.GameObjects.MapObjects
         private List<MapObject> mapObjects;
         private Vector2 playerPosition;
 
+        private List<EnemyObjectInfo> enemyObjects;
+
         public MapInformation()
         {
             tiles = new Tile[0, 0];
             mapObjects = new List<MapObject>();
             music = "";
+            enemyObjects = new List<EnemyObjectInfo>();
         }
 
         public void Init()

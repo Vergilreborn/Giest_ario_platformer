@@ -132,8 +132,8 @@ namespace Giest_ario_platformer.Managers
             {
                 isDebug = !isDebug;
             }
-
-            currentScreen.Update(_gameTime);
+            if(currentScreen != null)
+                currentScreen.Update(_gameTime);
         }
 
         public void SetContentManager(ContentManager _content)
@@ -173,7 +173,8 @@ namespace Giest_ario_platformer.Managers
         public void Draw(SpriteBatch _spriteBatch)
         {
             Cam.Draw(_spriteBatch);
-            currentScreen.Draw(_spriteBatch);
+            if(currentScreen != null)
+              currentScreen.Draw(_spriteBatch);
         }
         
         private void UnLoad()

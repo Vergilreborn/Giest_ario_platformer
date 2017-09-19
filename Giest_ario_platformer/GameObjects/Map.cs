@@ -67,10 +67,17 @@ namespace Giest_ario_platformer.GameObjects
         public List<AEnemy> GetEnemies()
         {
             List<AEnemy> enemies = new List<AEnemy>();
-            BlockEnemy enemy = new BlockEnemy();
-            enemy.Init();
-            enemy.Load();
-            enemies.Add(enemy);
+            foreach(EnemyObjectInfo eInfo in mapInfo.EnemyObjects)
+            {
+                AEnemy enemy = EnemyLoader.Create(eInfo.Type);
+                enemy.LoadEnemy(eInfo.Destination, eInfo.Source);
+                enemy.Load();
+                enemies.Add(enemy);
+            }
+            //BlockEnemy enemy = new BlockEnemy();
+            //enemy.Init();
+            //enemy.Load();
+            //enemies.Add(enemy);
 
             return enemies;
         }

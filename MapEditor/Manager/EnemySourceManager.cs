@@ -58,7 +58,7 @@ namespace MapEditor.Manager
             this.viewSizeX = 6;
             this.viewSizeY = 10;
             objectInformation.Add("Default", new List<EnemyObjectInfo>());
-            objectInformation["Default"].Add(new EnemyObjectInfo() { Type = EnemyType.Basic, Source = new Rectangle(0, 0, 32, 32), Destination = new Rectangle(0, 0, 32, 32) });
+            objectInformation["Default"].Add(new EnemyObjectInfo() { Type = EnemyType.BlockEnemy, Source = new Rectangle(0, 0, 32, 32), Destination = new Rectangle(0, 0, 32, 32) });
 
             position = new Vector2(15, 400);
             sourceWindow = new Rectangle((int)position.X, (int)position.Y, tileSizePaddingX * viewSizeX, tileSizePaddingY * viewSizeY);

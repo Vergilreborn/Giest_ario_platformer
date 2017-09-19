@@ -8,6 +8,6 @@ namespace MapEditor.Enums
 {
     enum EnemyType
     {
-        Basic
+        BlockEnemy
     }
 }

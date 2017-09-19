@@ -8,6 +8,6 @@ namespace Giest_ario_platformer.Enums
 {
     enum EnemyType
     {
-        Basic
+        BlockEnemy
     }
 }

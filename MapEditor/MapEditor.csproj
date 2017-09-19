@@ -122,7 +122,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Map\Testing1.gmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Content\Map\Testing2.gmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

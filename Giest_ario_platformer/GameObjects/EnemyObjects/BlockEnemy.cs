@@ -17,17 +17,12 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
     class BlockEnemy : AEnemy
     {
 
-        private Texture2D texture;
-        private float fallSpeed;
-        private AnimationSet animations;
-        private Animation current;
-        private Direction direction;
-        private bool isFalling = false;
+       
 
         public BlockEnemy()
         {
         }
-        
+       
         //initialize this enemy
         public override void Init()
         {
