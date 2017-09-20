@@ -46,6 +46,19 @@ namespace MapEditor.Objects
             }
         }
 
+        public string Attr {
+            get
+            {
+                return attr;
+            }
+            set
+            {
+                attr = value;
+            }
+        }
+
+
+        private String attr;
         private Rectangle source;
         private Rectangle dest;
         private EnemyType type;
@@ -60,6 +73,7 @@ namespace MapEditor.Objects
             EnemyObjectInfo newObject = new EnemyObjectInfo();
             newObject.source = new Rectangle(this.source.X, this.source.Y, this.source.Width, this.Source.Height);
             newObject.Type = type;
+            newObject.attr = attr;
             return newObject;
         }
     }

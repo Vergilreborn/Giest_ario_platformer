@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Giest_ario_platformer.Enums;
 using Giest_ario_platformer.GameObjects;
 using Giest_ario_platformer.Handlers;
+using Giest_ario_platformer.GameObjects.MapObjects;
 
 namespace Giest_ario_platformer.Abstract
 {
@@ -27,6 +28,7 @@ namespace Giest_ario_platformer.Abstract
             }
         }
 
+        protected String Attr;
         protected bool isDead;
         protected Texture2D texture;
         protected float fallSpeed;
@@ -41,11 +43,14 @@ namespace Giest_ario_platformer.Abstract
             isDead = false;
         }
 
-        public void LoadEnemy(Rectangle _destination, Rectangle _source)
+        public void LoadEnemy(EnemyObjectInfo _enemyInfo)
         {
-            this.Position = new Vector2(_destination.X, _destination.Y);
-            this.Width = _source.Width;
-            this.Height = _source.Height;
+            this.Position = new Vector2(_enemyInfo.Destination.X, _enemyInfo.Destination.Y);
+            this.Width = _enemyInfo.Source.Width;
+            this.Height = _enemyInfo.Source.Height;
+            this.Attr = _enemyInfo.Attr;
+            if (this.Attr == null)
+                Attr = "";
             fallSpeed = 0f;
             animations = new AnimationSet();
             direction = Direction.Right;

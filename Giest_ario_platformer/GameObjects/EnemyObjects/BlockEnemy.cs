@@ -38,11 +38,11 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
         public override void Load()
         {
             texture = GameManager.Instance.Content.Load<Texture2D>("test");
-            animations.AddAnimation("Left", "Enemy/BasicBlock_Left", 4, 200, true);
-            animations.AddAnimation("Right", "Enemy/BasicBlock_Right", 4, 200, true);
-            animations.AddAnimation("Left_Walk", "Enemy/BasicBlock_Left_Walk", 4, 200, true);
+            animations.AddAnimation("Left", $"Enemy/BasicBlock{Attr}_Left", 4, 200, true);
+            animations.AddAnimation("Right", $"Enemy/BasicBlock{Attr}_Right", 4, 200, true);
+            animations.AddAnimation("Left_Walk", $"Enemy/BasicBlock{Attr}_Left_Walk", 4, 200, true);
 
-            animations.AddAnimation("Right_Walk", "Enemy/BasicBlock_Right_Walk", 4, 200, true);
+            animations.AddAnimation("Right_Walk", $"Enemy/BasicBlock{Attr}_Right_Walk", 4, 200, true);
             current = animations.GetAnimation("Right");
         }
 

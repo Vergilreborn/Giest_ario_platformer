@@ -70,7 +70,7 @@ namespace Giest_ario_platformer.GameObjects
             foreach(EnemyObjectInfo eInfo in mapInfo.EnemyObjects)
             {
                 AEnemy enemy = EnemyLoader.Create(eInfo.Type);
-                enemy.LoadEnemy(eInfo.Destination, eInfo.Source);
+                enemy.LoadEnemy(eInfo);
                 enemy.Load();
                 enemies.Add(enemy);
             }
