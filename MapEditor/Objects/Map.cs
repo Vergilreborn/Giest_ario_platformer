@@ -333,6 +333,15 @@ namespace MapEditor.Objects
                 int tileX = tilePositionCursor.X < 0 ? -1 : (int)(tilePositionCursor.X / mapInfo.TileWidth) + viewSizeStartX;
                 int tileY = tilePositionCursor.Y < 0 ? -1 : (int)(tilePositionCursor.Y / mapInfo.TileHeight) + viewSizeStartY;
 
+                int tileXMax = tileX + _enemyObjectInfo.Source.Width / 32 - 1;
+                int tileYMax = tileY + _enemyObjectInfo.Source.Height/ 32 - 1;
+
+                if (tileXMax >= viewSizeStartX + viewSizeX
+                        ||
+                   tileYMax >= viewSizeStartY + viewSizeY
+                       )
+                    return;
+
                 Rectangle destination = new Rectangle((int)(tileX * mapInfo.TileWidth), (int)(tileY * mapInfo.TileHeight), _enemyObjectInfo.Source.Width, _enemyObjectInfo.Source.Height);
                 _enemyObjectInfo.Destination = destination;
                 mapInfo.AddEnemy(_enemyObjectInfo);

@@ -159,10 +159,14 @@ namespace Giest_ario_platformer.GameObjects.EnemyObjects
         //Draw this enemy
         public override void Draw(SpriteBatch _spriteBatch)
         {
-            float positionXAhead = Position.X + (direction == Direction.Right ? Width/2 : -Width/2);
-            Rectangle rect = new Rectangle((int)positionXAhead, (int)Position.Y + 1, CollisionBox.Width, CollisionBox.Height);
+            if (GameManager.Instance.IsDebug)
+            {
+                float positionXAhead = Position.X + (direction == Direction.Right ? Width / 2 : -Width / 2);
+                Rectangle rect = new Rectangle((int)positionXAhead, (int)Position.Y + 1, CollisionBox.Width, CollisionBox.Height);
 
-            _spriteBatch.Draw(GameManager.Instance.EmptyTexture, rect, Color.Red * .33f);
+                _spriteBatch.Draw(GameManager.Instance.EmptyTexture, rect, Color.Red * .33f);
+
+            }
 
             current.Draw(_spriteBatch, CollisionBox);
         }
